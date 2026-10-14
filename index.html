@@ -6,8 +6,30 @@
     <!-- FontAwesome Icons for App Feel -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
-        :root { --gold: #d4af37; --dark-bg: #111; --card-bg: #1a1a1a; --text-light: #f4f4f4; --text-muted: #aaa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; transition: background-color 0.3s, color 0.3s; }
+        
+        :root { 
+            --gold: #d4af37; 
+            --dark-bg: #111111; 
+            --card-bg: #1a1a1a; 
+            --text-light: #f4f4f4; 
+            --text-muted: #aaa; 
+            --header-bg: #0a0a0a;
+            --input-bg: #222222;
+            --border-color: #333333;
+        }
+
+        /* LIGHT MODE VARIABLES */
+        body.light-mode {
+            --dark-bg: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-light: #111111;
+            --text-muted: #666666;
+            --header-bg: #ffffff;
+            --input-bg: #f0f0f0;
+            --border-color: #e0e0e0;
+        }
+
         body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
 
         /* APP SPLASH / LOADING SCREEN */
@@ -21,14 +43,23 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+            text-align: center;
+            padding: 20px;
         }
         .splash-logo {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             color: var(--gold);
-            letter-spacing: 3px;
-            margin-bottom: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
             animation: pulse 1.5s infinite;
+        }
+        .splash-sub {
+            color: #ffffff;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-weight: 300;
         }
         .spinner {
             width: 40px;
@@ -41,17 +72,39 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
-        /* TOP BANNER */
-        .top-banner { background: var(--gold); color: #000; text-align: center; padding: 8px 10px; font-weight: bold; font-size: 13px; }
+        /* TOP BANNER WITH COUNTDOWN */
+        .top-banner { 
+            background: var(--gold); 
+            color: #000; 
+            text-align: center; 
+            padding: 8px 10px; 
+            font-weight: bold; 
+            font-size: 13px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .timer-box {
+            background: #000;
+            color: var(--gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
         
         /* HEADER */
-        header { background: #0a0a0a; border-bottom: 2px solid var(--gold); padding: 12px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: bold; color: var(--gold); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+        header { background: var(--header-bg); border-bottom: 2px solid var(--gold); padding: 12px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: bold; color: var(--gold); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .theme-toggle { background: none; border: none; color: var(--gold); font-size: 18px; cursor: pointer; }
 
         /* HERO */
         .hero { padding: 70px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200') center/cover no-repeat; }
         .hero h1 { font-size: 36px; color: var(--gold); margin-bottom: 10px; }
-        .hero p { font-size: 15px; color: var(--text-muted); margin-bottom: 25px; }
+        .hero p { font-size: 15px; color: #ddd; margin-bottom: 25px; }
         .btn-gold { background: var(--gold); color: #000; padding: 12px 28px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
         .btn-gold:hover { background: #fff; color: #000; }
 
@@ -61,43 +114,74 @@
 
         /* SERVICES */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-        .service-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; transition: 0.3s; text-align: left; }
+        .service-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); transition: 0.3s; text-align: left; }
         .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
         .service-card i { font-size: 24px; color: var(--gold); margin-bottom: 10px; display: block; }
         .service-card h3 { color: var(--gold); margin-bottom: 5px; font-size: 18px; }
         .duration { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block; }
 
         /* CALCULATOR */
-        .calc-box { max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 8px; border: 1px solid #333; text-align: left; }
+        .calc-box { max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 8px; border: 1px solid var(--border-color); text-align: left; }
         .calc-box label { display: block; margin: 10px 0 5px; color: var(--text-muted); font-size: 14px; }
-        .calc-box select, .calc-box input { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; }
+        .calc-box select, .calc-box input { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-light); border-radius: 4px; margin-bottom: 15px; }
         .total-price { font-size: 20px; color: var(--gold); font-weight: bold; text-align: center; margin-top: 10px; }
 
         /* TEAM */
         .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .team-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; text-align: center; }
+        .team-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
         .team-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 10px; }
         .team-card h4 { color: var(--gold); }
         .team-card p { font-size: 13px; color: var(--text-muted); }
 
         /* GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .gallery-item { background: #222; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
+        .gallery-item { background: var(--card-bg); border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); }
         .gallery-item img { width: 100%; height: 190px; object-fit: cover; display: block; }
         .gallery-item p { padding: 10px; font-size: 14px; color: var(--gold); font-weight: 500; }
 
+        /* GIFT CARD & DISCOUNTS */
+        .gift-box { max-width: 500px; margin: 0 auto; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); padding: 25px; border-radius: 12px; border: 2px dashed var(--gold); text-align: center; }
+        .gift-box i { font-size: 40px; color: var(--gold); margin-bottom: 10px; }
+
         /* REVIEWS */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .review-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; font-style: italic; text-align: left; }
+        .review-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-style: italic; text-align: left; }
         .review-card i { color: var(--gold); margin-bottom: 8px; display: block; }
         .review-card h4 { color: var(--gold); margin-top: 10px; font-style: normal; font-size: 14px; }
 
         /* BOOKING FORM */
         .booking-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .booking-form input, .booking-form select { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 5px; }
+        .booking-form input, .booking-form select { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-light); border-radius: 5px; }
 
         /* MAP */
-        .map-container { width: 100%; max-width: 800px; margin: 0 auto; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
+        .map-container { width: 100%; max-width: 800px; margin: 0 auto; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+
+        /* LIVE NOTIFICATION TOAST (FAKE RECENT BOOKING) */
+        .notification-toast {
+            position: fixed;
+            bottom: 85px;
+            left: 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--gold);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1900;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            max-width: 280px;
+        }
+        .notification-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toast-icon { color: var(--gold); font-size: 20px; }
+        .toast-text { font-size: 12px; color: var(--text-light); }
+        .toast-text strong { color: var(--gold); }
 
         /* APP-STYLE BOTTOM NAVIGATION BAR */
         .bottom-nav {
@@ -106,7 +190,7 @@
             left: 0;
             width: 100%;
             height: 65px;
-            background: #0a0a0a;
+            background: var(--header-bg);
             border-top: 2px solid var(--gold);
             display: flex;
             justify-content: space-around;
@@ -143,7 +227,7 @@
         }
 
         /* FOOTER */
-        footer { background: #080808; border-top: 1px solid #222; padding: 25px 5%; text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+        footer { background: var(--header-bg); border-top: 1px solid var(--border-color); padding: 25px 5%; text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -151,17 +235,22 @@
     <!-- APP LOADING / SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-logo"><i class="fa-solid fa-scissors"></i> H2 SALON</div>
+        <div class="splash-sub">Welcome to H2 Salon Gents & Ladies</div>
         <div class="spinner"></div>
     </div>
 
-    <!-- OFFERS BANNER -->
+    <!-- TOP BANNER WITH COUNTDOWN TIMER -->
     <div class="top-banner">
-        <i class="fa-solid fa-tags"></i> Special Offer: Get 20% OFF on Weekend VIP Grooming Packages!
+        <span><i class="fa-solid fa-bolt"></i> Weekend Offer (20% OFF) Ends In:</span>
+        <span class="timer-box" id="countdown">04:32:15</span>
     </div>
 
     <!-- HEADER -->
     <header>
         <div class="logo"><i class="fa-solid fa-crown"></i> H2 SALON</div>
+        <div class="header-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+        </div>
     </header>
 
     <!-- HERO SECTION -->
@@ -197,7 +286,7 @@
     </section>
 
     <!-- TEAM / SPECIALISTS -->
-    <section id="team" style="background: #161616;">
+    <section id="team" style="background: var(--card-bg);">
         <h2 class="section-title">Our Specialists</h2>
         <div class="team-grid">
             <div class="team-card">
@@ -236,8 +325,19 @@
         </div>
     </section>
 
+    <!-- GIFT CARD SECTION -->
+    <section id="gift">
+        <h2 class="section-title">Gift Vouchers</h2>
+        <div class="gift-box">
+            <i class="fa-solid fa-gift"></i>
+            <h3 style="color: var(--gold); margin-bottom: 10px;">H2 Salon VIP Gift Pass</h3>
+            <p style="font-size: 14px; margin-bottom: 15px;">Send a luxury pampering session to your friends or family!</p>
+            <a href="https://wa.me/923379827882?text=Hello%20H2%20Salon,%20I%20want%20to%20buy%20a%20Gift%20Voucher" class="btn-gold" target="_blank"><i class="fa-solid fa-paper-plane"></i> Claim Gift Voucher</a>
+        </div>
+    </section>
+
     <!-- TRANSFORMATIONS -->
-    <section id="transformations" style="background: #161616;">
+    <section id="transformations" style="background: var(--card-bg);">
         <h2 class="section-title">Work Transformations</h2>
         <div class="gallery-grid">
             <div class="gallery-item">
@@ -272,12 +372,17 @@
         </div>
     </section>
 
-    <!-- BOOKING FORM -->
-    <section id="booking" style="background: #161616;">
+    <!-- BOOKING FORM WITH BRANCH & SLOT SELECTOR -->
+    <section id="booking" style="background: var(--card-bg);">
         <h2 class="section-title">Book An Appointment</h2>
         <form class="booking-form" action="https://wa.me/923379827882" method="get" target="_blank">
             <input type="text" placeholder="Your Name" required>
             <input type="tel" placeholder="Phone Number" required>
+            <select required>
+                <option value="">Select Branch</option>
+                <option value="Main Branch">H2 Main Branch (Executive Street)</option>
+                <option value="City Center Branch">H2 City Center Branch</option>
+            </select>
             <select required>
                 <option value="">Select Service Category</option>
                 <option value="Gents">Gents Service</option>
@@ -309,6 +414,14 @@
         <br>
         <p style="font-size: 12px; color: #777;">Designed & Developed by <strong>Prime Solutions (Muhammad Nazim)</strong></p>
     </footer>
+
+    <!-- LIVE SOCIAL PROOF NOTIFICATION TOAST -->
+    <div class="notification-toast" id="toast">
+        <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="toast-text" id="toast-content">
+            <strong>Usman K.</strong> booked a <em>Hydra Facial</em> 2 mins ago!
+        </div>
+    </div>
 
     <!-- APP-STYLE BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
@@ -342,7 +455,7 @@
                 var splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
                 splash.style.visibility = 'hidden';
-            }, 1200);
+            }, 1400);
         });
 
         // Price Calculator Function
@@ -352,7 +465,63 @@
             var total = service + addon;
             document.getElementById("totalDisplay").innerText = "Estimated Total: PKR " + total.toLocaleString();
         }
+
+        // Theme Toggle (Dark / Light Mode)
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            var icon = document.querySelector('#themeBtn i');
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.addClass('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.addClass('fa-moon');
+            }
+        }
+
+        // Countdown Timer Logic
+        function startTimer() {
+            var time = 4 * 3600 + 32 * 60 + 15;
+            setInterval(function() {
+                var hours = Math.floor(time / 3600);
+                var minutes = Math.floor((time % 3600) / 60);
+                var seconds = time % 60;
+                document.getElementById('countdown').innerText = 
+                    (hours < 10 ? "0" : "") + hours + ":" + 
+                    (minutes < 10 ? "0" : "") + minutes + ":" + 
+                    (seconds < 10 ? "0" : "") + seconds;
+                if (time > 0) time--;
+            }, 1000);
+        }
+        startTimer();
+
+        // Fake Social Proof Notifications (Toast Notifications)
+        var notifications = [
+            "<strong>Usman K.</strong> booked a <em>Gents Haircut</em> 2 mins ago!",
+            "<strong>Sana M.</strong> reserved a <em>Hydra Facial</em> just now!",
+            "<strong>Hamza R.</strong> booked a <em>VIP Groom Package</em> 5 mins ago!",
+            "<strong>Zainab A.</strong> claimed a <em>20% Discount Pass</em>!"
+        ];
+        var notifIndex = 0;
+
+        function showNotification() {
+            var toast = document.getElementById('toast');
+            var content = document.getElementById('toast-content');
+            content.innerHTML = notifications[notifIndex];
+            toast.classList.add('show');
+
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3500);
+
+            notifIndex = (notifIndex + 1) % notifications.length;
+        }
+
+        // Show first notification after 3 seconds, then repeat every 8 seconds
+        setTimeout(function() {
+            showNotification();
+            setInterval(showNotification, 8000);
+        }, 3000);
     </script>
 </body>
-    </html>
-    
+</html>
