@@ -8,7 +8,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
         :root { --gold: #d4af37; --dark-bg: #111; --card-bg: #1a1a1a; --text-light: #f4f4f4; --text-muted: #aaa; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; padding-bottom: 70px; }
 
         /* APP SPLASH / LOADING SCREEN */
         #splash-screen {
@@ -23,7 +23,7 @@
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         .splash-logo {
-            font-size: 40px;
+            font-size: 36px;
             font-weight: bold;
             color: var(--gold);
             letter-spacing: 3px;
@@ -46,20 +46,18 @@
         
         /* HEADER */
         header { background: #0a0a0a; border-bottom: 2px solid var(--gold); padding: 12px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
-        nav a { color: var(--text-light); text-decoration: none; margin-left: 15px; font-weight: 500; font-size: 14px; transition: 0.3s; }
-        nav a:hover { color: var(--gold); }
+        .logo { font-size: 22px; font-weight: bold; color: var(--gold); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
 
         /* HERO */
-        .hero { padding: 80px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200') center/cover no-repeat; }
-        .hero h1 { font-size: 38px; color: var(--gold); margin-bottom: 10px; }
-        .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 25px; }
+        .hero { padding: 70px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200') center/cover no-repeat; }
+        .hero h1 { font-size: 36px; color: var(--gold); margin-bottom: 10px; }
+        .hero p { font-size: 15px; color: var(--text-muted); margin-bottom: 25px; }
         .btn-gold { background: var(--gold); color: #000; padding: 12px 28px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
         .btn-gold:hover { background: #fff; color: #000; }
 
         /* SECTIONS */
         section { padding: 45px 5%; text-align: center; }
-        .section-title { color: var(--gold); font-size: 26px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { color: var(--gold); font-size: 24px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
 
         /* SERVICES */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
@@ -101,14 +99,51 @@
         /* MAP */
         .map-container { width: 100%; max-width: 800px; margin: 0 auto; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
 
-        /* FLOATING BUTTONS */
-        .floating-buttons { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .float-btn { padding: 12px 18px; border-radius: 50px; text-decoration: none; font-weight: bold; color: #fff; box-shadow: 0px 4px 10px rgba(0,0,0,0.5); font-size: 14px; text-align: center; display: flex; align-items: center; gap: 8px; }
-        .btn-wa { background: #25d366; }
-        .btn-call { background: #007bff; }
+        /* APP-STYLE BOTTOM NAVIGATION BAR */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: #0a0a0a;
+            border-top: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2000;
+            box-shadow: 0px -4px 15px rgba(0,0,0,0.8);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            width: 20%;
+            height: 100%;
+            transition: 0.3s;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--gold);
+        }
+
+        .nav-item.wa-item i {
+            color: #25d366;
+        }
 
         /* FOOTER */
-        footer { background: #080808; border-top: 1px solid #222; padding: 25px 5%; text-align: center; color: var(--text-muted); font-size: 14px; }
+        footer { background: #080808; border-top: 1px solid #222; padding: 25px 5%; text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -124,18 +159,13 @@
         <i class="fa-solid fa-tags"></i> Special Offer: Get 20% OFF on Weekend VIP Grooming Packages!
     </div>
 
-    <!-- NAVBAR -->
+    <!-- HEADER -->
     <header>
         <div class="logo"><i class="fa-solid fa-crown"></i> H2 SALON</div>
-        <nav>
-            <a href="#services"><i class="fa-solid fa-concierge-bell"></i> Services</a>
-            <a href="#calculator"><i class="fa-solid fa-calculator"></i> Price</a>
-            <a href="#booking"><i class="fa-solid fa-calendar-check"></i> Book</a>
-        </nav>
     </header>
 
     <!-- HERO SECTION -->
-    <section class="hero">
+    <section class="hero" id="home">
         <h1>H2 SALON</h1>
         <p>Gents & Ladies Executive Beauty & Grooming Experience</p>
         <a href="#booking" class="btn-gold"><i class="fa-solid fa-calendar-plus"></i> Book Appointment Now</a>
@@ -272,12 +302,6 @@
         </div>
     </section>
 
-    <!-- FLOATING BUTTONS -->
-    <div class="floating-buttons">
-        <a href="tel:03379827882" class="float-btn btn-call"><i class="fa-solid fa-phone"></i> Call</a>
-        <a href="https://wa.me/923379827882?text=Hello%20H2%20Salon,%20I%20want%20to%20book%20an%20appointment" class="float-btn btn-wa" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-    </div>
-
     <!-- FOOTER -->
     <footer>
         <p><strong>H2 Salon - Gents & Ladies</strong></p>
@@ -285,6 +309,30 @@
         <br>
         <p style="font-size: 12px; color: #777;">Designed & Developed by <strong>Prime Solutions (Muhammad Nazim)</strong></p>
     </footer>
+
+    <!-- APP-STYLE BOTTOM NAVIGATION BAR -->
+    <div class="bottom-nav">
+        <a href="#home" class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#services" class="nav-item">
+            <i class="fa-solid fa-concierge-bell"></i>
+            <span>Services</span>
+        </a>
+        <a href="#calculator" class="nav-item">
+            <i class="fa-solid fa-calculator"></i>
+            <span>Price</span>
+        </a>
+        <a href="#booking" class="nav-item">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Book</span>
+        </a>
+        <a href="https://wa.me/923379827882?text=Hello%20H2%20Salon,%20I%20want%20to%20book%20an%20appointment" class="nav-item wa-item" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+    </div>
 
     <!-- APP SCRIPTS -->
     <script>
@@ -306,4 +354,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+    
