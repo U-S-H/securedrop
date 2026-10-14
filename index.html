@@ -2,38 +2,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H2 Salon - Gents & Ladies Executive Experience</title>
+    <title>H2 Salon - Gents & Ladies Executive App</title>
+    <!-- FontAwesome Icons for App Feel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
         :root { --gold: #d4af37; --dark-bg: #111; --card-bg: #1a1a1a; --text-light: #f4f4f4; --text-muted: #aaa; }
-        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; }
-        
-        /* BANNER */
-        .top-banner { background: var(--gold); color: #000; text-align: center; padding: 8px 10px; font-weight: bold; font-size: 14px; }
+        body { background-color: var(--dark-bg); color: var(--text-light); line-height: 1.6; overflow-x: hidden; }
+
+        /* APP SPLASH / LOADING SCREEN */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .splash-logo {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(212, 175, 55, 0.2);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        /* TOP BANNER */
+        .top-banner { background: var(--gold); color: #000; text-align: center; padding: 8px 10px; font-weight: bold; font-size: 13px; }
         
         /* HEADER */
-        header { background: #0a0a0a; border-bottom: 2px solid var(--gold); padding: 15px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 26px; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
+        header { background: #0a0a0a; border-bottom: 2px solid var(--gold); padding: 12px 5%; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--gold); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
         nav a { color: var(--text-light); text-decoration: none; margin-left: 15px; font-weight: 500; font-size: 14px; transition: 0.3s; }
         nav a:hover { color: var(--gold); }
 
         /* HERO */
-        .hero { padding: 90px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200') center/cover no-repeat; }
-        .hero h1 { font-size: 40px; color: var(--gold); margin-bottom: 10px; }
-        .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 25px; }
+        .hero { padding: 80px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200') center/cover no-repeat; }
+        .hero h1 { font-size: 38px; color: var(--gold); margin-bottom: 10px; }
+        .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 25px; }
         .btn-gold { background: var(--gold); color: #000; padding: 12px 28px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
         .btn-gold:hover { background: #fff; color: #000; }
 
         /* SECTIONS */
-        section { padding: 50px 5%; text-align: center; }
-        .section-title { color: var(--gold); font-size: 28px; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        section { padding: 45px 5%; text-align: center; }
+        .section-title { color: var(--gold); font-size: 26px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
 
         /* SERVICES */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-        .service-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; transition: 0.3s; }
+        .service-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; transition: 0.3s; text-align: left; }
         .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-        .service-card h3 { color: var(--gold); margin-bottom: 5px; }
-        .duration { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; display: block; }
+        .service-card i { font-size: 24px; color: var(--gold); margin-bottom: 10px; display: block; }
+        .service-card h3 { color: var(--gold); margin-bottom: 5px; font-size: 18px; }
+        .duration { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block; }
 
         /* CALCULATOR */
         .calc-box { max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 8px; border: 1px solid #333; text-align: left; }
@@ -41,23 +75,24 @@
         .calc-box select, .calc-box input { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; }
         .total-price { font-size: 20px; color: var(--gold); font-weight: bold; text-align: center; margin-top: 10px; }
 
-        /* TEAM / SPECIALISTS */
+        /* TEAM */
         .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .team-card { background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid #333; }
-        .team-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 10px; }
+        .team-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; text-align: center; }
+        .team-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 10px; }
         .team-card h4 { color: var(--gold); }
         .team-card p { font-size: 13px; color: var(--text-muted); }
 
         /* GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
         .gallery-item { background: #222; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .gallery-item img { width: 100%; height: 190px; object-fit: cover; display: block; }
         .gallery-item p { padding: 10px; font-size: 14px; color: var(--gold); font-weight: 500; }
 
         /* REVIEWS */
         .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .review-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; font-style: italic; }
-        .review-card h4 { color: var(--gold); margin-top: 10px; font-style: normal; }
+        .review-card { background: var(--card-bg); padding: 20px; border-radius: 8px; border: 1px solid #333; font-style: italic; text-align: left; }
+        .review-card i { color: var(--gold); margin-bottom: 8px; display: block; }
+        .review-card h4 { color: var(--gold); margin-top: 10px; font-style: normal; font-size: 14px; }
 
         /* BOOKING FORM */
         .booking-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
@@ -68,7 +103,7 @@
 
         /* FLOATING BUTTONS */
         .floating-buttons { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .float-btn { padding: 12px 18px; border-radius: 50px; text-decoration: none; font-weight: bold; color: #fff; box-shadow: 0px 4px 10px rgba(0,0,0,0.5); font-size: 14px; text-align: center; }
+        .float-btn { padding: 12px 18px; border-radius: 50px; text-decoration: none; font-weight: bold; color: #fff; box-shadow: 0px 4px 10px rgba(0,0,0,0.5); font-size: 14px; text-align: center; display: flex; align-items: center; gap: 8px; }
         .btn-wa { background: #25d366; }
         .btn-call { background: #007bff; }
 
@@ -78,21 +113,24 @@
 </head>
 <body>
 
+    <!-- APP LOADING / SPLASH SCREEN -->
+    <div id="splash-screen">
+        <div class="splash-logo"><i class="fa-solid fa-scissors"></i> H2 SALON</div>
+        <div class="spinner"></div>
+    </div>
+
     <!-- OFFERS BANNER -->
     <div class="top-banner">
-        🎉 Special Discount: Get 20% OFF on Weekend VIP Grooming Packages!
+        <i class="fa-solid fa-tags"></i> Special Offer: Get 20% OFF on Weekend VIP Grooming Packages!
     </div>
 
     <!-- NAVBAR -->
     <header>
-        <div class="logo">H2 SALON</div>
+        <div class="logo"><i class="fa-solid fa-crown"></i> H2 SALON</div>
         <nav>
-            <a href="#services">Services</a>
-            <a href="#team">Specialists</a>
-            <a href="#calculator">Estimate Price</a>
-            <a href="#transformations">Gallery</a>
-            <a href="#booking">Book Now</a>
-            <a href="#contact">Location</a>
+            <a href="#services"><i class="fa-solid fa-concierge-bell"></i> Services</a>
+            <a href="#calculator"><i class="fa-solid fa-calculator"></i> Price</a>
+            <a href="#booking"><i class="fa-solid fa-calendar-check"></i> Book</a>
         </nav>
     </header>
 
@@ -100,7 +138,7 @@
     <section class="hero">
         <h1>H2 SALON</h1>
         <p>Gents & Ladies Executive Beauty & Grooming Experience</p>
-        <a href="#booking" class="btn-gold">Book Appointment Now</a>
+        <a href="#booking" class="btn-gold"><i class="fa-solid fa-calendar-plus"></i> Book Appointment Now</a>
     </section>
 
     <!-- SERVICES -->
@@ -108,18 +146,21 @@
         <h2 class="section-title">Our Premium Services</h2>
         <div class="services-grid">
             <div class="service-card">
+                <i class="fa-solid fa-user-tie"></i>
                 <h3>Gents Styling</h3>
-                <span class="duration">⏱ Duration: 30 - 45 mins</span>
+                <span class="duration"><i class="fa-regular fa-clock"></i> 30 - 45 mins</span>
                 <p>Haircut, Beard Styling, Face Spa, Hair Color & Treatments.</p>
             </div>
             <div class="service-card">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <h3>Ladies Styling</h3>
-                <span class="duration">⏱ Duration: 45 - 60 mins</span>
+                <span class="duration"><i class="fa-regular fa-clock"></i> 45 - 60 mins</span>
                 <p>Hair Cut, Hydra Facial, Party & Bridal Makeup, Hair Care.</p>
             </div>
             <div class="service-card">
+                <i class="fa-solid fa-gem"></i>
                 <h3>VIP Grooming Packages</h3>
-                <span class="duration">⏱ Duration: 120 mins</span>
+                <span class="duration"><i class="fa-regular fa-clock"></i> 120 mins</span>
                 <p>Exclusive Groom & Bride Packages tailored for luxury events.</p>
             </div>
         </div>
@@ -146,7 +187,7 @@
     <section id="calculator">
         <h2 class="section-title">Estimate Your Bill</h2>
         <div class="calc-box">
-            <label for="serviceSelect">Select Main Service:</label>
+            <label for="serviceSelect"><i class="fa-solid fa-list-check"></i> Select Main Service:</label>
             <select id="serviceSelect" onchange="calculateTotal()">
                 <option value="0">-- Select Service --</option>
                 <option value="1500">Gents Executive Haircut - PKR 1,500</option>
@@ -155,7 +196,7 @@
                 <option value="5000">Hydra Glow Facial - PKR 5,000</option>
                 <option value="12000">VIP Bridal / Groom Package - PKR 12,000</option>
             </select>
-            <label for="addonSelect">Add-on Extra (Optional):</label>
+            <label for="addonSelect"><i class="fa-solid fa-plus"></i> Add-on Extra (Optional):</label>
             <select id="addonSelect" onchange="calculateTotal()">
                 <option value="0">-- None --</option>
                 <option value="500">Hair Wash & Conditioning (+PKR 500)</option>
@@ -165,7 +206,7 @@
         </div>
     </section>
 
-    <!-- BEFORE & AFTER / TRANSFORMATIONS -->
+    <!-- TRANSFORMATIONS -->
     <section id="transformations" style="background: #161616;">
         <h2 class="section-title">Work Transformations</h2>
         <div class="gallery-grid">
@@ -189,17 +230,19 @@
         <h2 class="section-title">Client Reviews</h2>
         <div class="reviews-grid">
             <div class="review-card">
+                <i class="fa-solid fa-quote-left"></i>
                 <p>"Best salon service! Professional staff and premium ambiance."</p>
                 <h4>- Ali Raza</h4>
             </div>
             <div class="review-card">
+                <i class="fa-solid fa-quote-left"></i>
                 <p>"Loved the hair treatment and facial! Extremely satisfied."</p>
                 <h4>- Ayesha Khan</h4>
             </div>
         </div>
     </section>
 
-    <!-- BOOKING FORM WITH TIME SLOTS -->
+    <!-- BOOKING FORM -->
     <section id="booking" style="background: #161616;">
         <h2 class="section-title">Book An Appointment</h2>
         <form class="booking-form" action="https://wa.me/923379827882" method="get" target="_blank">
@@ -217,11 +260,11 @@
                 <option value="Evening">Evening (06:00 PM - 09:00 PM)</option>
             </select>
             <input type="date" required>
-            <button type="submit" class="btn-gold">Confirm Booking via WhatsApp</button>
+            <button type="submit" class="btn-gold"><i class="fa-brands fa-whatsapp"></i> Confirm Booking via WhatsApp</button>
         </form>
     </section>
 
-    <!-- LOCATION / MAP -->
+    <!-- LOCATION -->
     <section id="contact">
         <h2 class="section-title">Visit Our Salon</h2>
         <div class="map-container">
@@ -231,8 +274,8 @@
 
     <!-- FLOATING BUTTONS -->
     <div class="floating-buttons">
-        <a href="tel:03379827882" class="float-btn btn-call">📞 Call Now</a>
-        <a href="https://wa.me/923379827882?text=Hello%20H2%20Salon,%20I%20want%20to%20book%20an%20appointment" class="float-btn btn-wa" target="_blank">💬 WhatsApp</a>
+        <a href="tel:03379827882" class="float-btn btn-call"><i class="fa-solid fa-phone"></i> Call</a>
+        <a href="https://wa.me/923379827882?text=Hello%20H2%20Salon,%20I%20want%20to%20book%20an%20appointment" class="float-btn btn-wa" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
     </div>
 
     <!-- FOOTER -->
@@ -243,8 +286,18 @@
         <p style="font-size: 12px; color: #777;">Designed & Developed by <strong>Prime Solutions (Muhammad Nazim)</strong></p>
     </footer>
 
-    <!-- JS SCRIPT -->
+    <!-- APP SCRIPTS -->
     <script>
+        // Splash Screen Loader Effect
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+            }, 1200);
+        });
+
+        // Price Calculator Function
         function calculateTotal() {
             var service = Number(document.getElementById("serviceSelect").value);
             var addon = Number(document.getElementById("addonSelect").value);
@@ -253,5 +306,4 @@
         }
     </script>
 </body>
-          </html>
-      
+</html>
