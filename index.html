@@ -1,82 +1,92 @@
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Lead Generation Landing Page</title>
+    <title>Futuristic Lead Generation Template</title>
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --subtext: #94a3b8;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --primary: #2563eb;
+            --secondary: #4f46e5;
+            --subtext: #64748b;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Animated Background Gradients */
-        .bg-glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, rgba(0,0,0,0) 70%);
-            top: -100px;
-            left: -100px;
-            z-index: -1;
-            animation: pulse 8s infinite alternate;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(147,51,234,0.2) 0%, rgba(0,0,0,0) 70%);
-            top: 300px;
-            right: -150px;
-            z-index: -1;
-            animation: pulse 10s infinite alternate-reverse;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1) translate(0, 0); }
-            100% { transform: scale(1.2) translate(30px, 30px); }
-        }
-
         /* Header */
         header {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
-            padding: 20px 8%;
+            padding: 18px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .phone-btn {
-            color: #38bdf8;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
             display: flex;
@@ -85,25 +95,19 @@
             background: rgba(56, 189, 248, 0.1);
             padding: 10px 18px;
             border-radius: 50px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            transition: 0.3s;
-        }
-
-        .phone-btn:hover {
-            background: rgba(56, 189, 248, 0.2);
-            transform: translateY(-2px);
+            border: 1px solid var(--border-color);
         }
 
         /* Hero Section */
         .container {
             max-width: 1200px;
-            margin: 60px auto;
+            margin: 50px auto;
             padding: 0 24px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 50px;
+            gap: 40px;
         }
 
         .hero-text {
@@ -112,218 +116,142 @@
         }
 
         .badge {
-            background: linear-gradient(90deg, rgba(56,189,248,0.15), rgba(129,140,248,0.15));
-            color: #38bdf8;
+            background: rgba(56,189,248,0.15);
+            color: var(--primary);
             padding: 8px 16px;
             border-radius: 50px;
             font-size: 14px;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            border: 1px solid var(--border-color);
         }
 
         .hero-text h1 {
-            font-size: 46px;
+            font-size: 42px;
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 20px;
-            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .hero-text p {
             font-size: 18px;
-            color: #94a3b8;
-            margin-bottom: 30px;
+            color: var(--subtext);
+            margin-bottom: 25px;
         }
 
-        /* Hero Image Container */
-        .hero-image-wrapper {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 30px;
-        }
-
-        .hero-image-wrapper img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .hero-image-wrapper:hover img {
-            transform: scale(1.05);
-        }
-
-        .features-list {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-
-        .features-list li {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #e2e8f0;
-        }
-
-        .features-list li i {
-            color: #38bdf8;
-            margin-right: 12px;
-            background: rgba(56, 189, 248, 0.1);
-            padding: 8px;
-            border-radius: 50%;
-        }
-
-        /* Glassmorphism Form Card */
+        /* Glass Form Card */
         .form-card {
-            background: rgba(30, 41, 59, 0.7);
+            background: var(--card-bg);
             backdrop-filter: blur(16px);
-            padding: 40px;
+            padding: 35px;
             border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
             flex: 1;
             min-width: 320px;
-            max-width: 460px;
-            animation: floatCard 6s ease-in-out infinite;
-        }
-
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            max-width: 450px;
         }
 
         .form-card h2 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: #fff;
         }
 
         .form-card p {
             font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 25px;
+            color: var(--subtext);
+            margin-bottom: 20px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
             font-size: 13px;
-            margin-bottom: 8px;
-            color: #cbd5e1;
+            margin-bottom: 6px;
+            color: var(--subtext);
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .form-group input, .form-group select {
             width: 100%;
-            padding: 14px 16px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             font-size: 15px;
-            color: #fff;
+            color: var(--text-color);
             outline: none;
-            transition: 0.3s;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-        }
-
-        .form-group select option {
-            background: #1e293b;
-            color: #fff;
         }
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
             color: white;
             border: none;
-            padding: 16px;
+            padding: 15px;
             font-size: 16px;
             font-weight: 700;
             border-radius: 10px;
             cursor: pointer;
-            transition: 0.3s;
             box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
             margin-top: 10px;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(37, 99, 235, 0.5);
-        }
-
-        /* Features Section */
-        .section-block {
+        /* Interactive Lead Calculator */
+        .calculator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 60px auto;
             max-width: 1200px;
-            margin: 100px auto;
-            padding: 0 24px;
-        }
-
-        .section-title {
             text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 50px;
-            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            font-size: 20px;
+        .calculator-card h2 {
+            font-size: 28px;
             margin-bottom: 10px;
-            color: #f1f5f9;
         }
 
-        .card p {
-            color: #94a3b8;
+        .calculator-card p {
+            color: var(--subtext);
+            margin-bottom: 30px;
+        }
+
+        .calc-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .calc-slider {
+            width: 100%;
+            accent-color: var(--primary);
+        }
+
+        .calc-result {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .result-box h3 {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .result-box p {
             font-size: 14px;
+            color: var(--subtext);
         }
 
         /* Floating WhatsApp Button */
@@ -334,7 +262,7 @@
             background: linear-gradient(135deg, #25d366, #128c7e);
             color: white;
             border-radius: 50px;
-            padding: 14px 24px;
+            padding: 14px 22px;
             font-weight: 700;
             text-decoration: none;
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
@@ -342,111 +270,100 @@
             align-items: center;
             gap: 10px;
             z-index: 1000;
-            transition: 0.3s;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5);
         }
 
         footer {
             text-align: center;
             padding: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            color: #64748b;
+            border-top: 1px solid var(--border-color);
+            color: var(--subtext);
             font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="bg-glow-2"></div>
-
     <header>
         <div class="logo">
             <i class="fa-solid fa-bolt"></i> Prime Solutions
         </div>
-        <a href="https://wa.me/923346824271" class="phone-btn">
-            <i class="fa-solid fa-phone"></i> +92 334 6824271
-        </a>
+        <div class="header-actions">
+            <button class="theme-toggle-btn" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i> Theme
+            </button>
+            <a href="https://wa.me/923346824271" class="phone-btn">
+                <i class="fa-solid fa-phone"></i> +92 334 6824271
+            </a>
+        </div>
     </header>
 
     <div class="container">
-        <!-- Hero Left Side -->
+        <!-- Hero Text Left -->
         <div class="hero-text">
-            <span class="badge"><i class="fa-solid fa-star"></i> High Converting Templates</span>
-            <h1>Supercharge Your Business Lead Generation</h1>
-            <p>Get a high-performance, ultra-fast website designed to capture potential clients and convert traffic into sales seamlessly.</p>
+            <span class="badge"><i class="fa-solid fa-rocket"></i> Next-Gen Lead Generation</span>
+            <h1>Turn Visitors Into High-Paying Clients</h1>
+            <p>Get a high-speed, fully interactive website engineered to boost inquiries and sales automatically.</p>
             
-            <!-- Hero Free Image Banner -->
-            <div class="hero-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Lead Generation Analytics Dashboard">
+            <div style="border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 25px;">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Dashboard" style="width:100%; display:block;">
             </div>
-
-            <ul class="features-list">
-                <li><i class="fa-solid fa-check"></i> Modern Glassmorphism UI Design</li>
-                <li><i class="fa-solid fa-check"></i> Ultra Fast Page Load & SEO Optimized</li>
-                <li><i class="fa-solid fa-check"></i> Direct WhatsApp & Email Lead Capture</li>
-            </ul>
         </div>
 
-        <!-- Form Right Side -->
+        <!-- Form Right -->
         <div class="form-card">
-            <h2>Get Started Today</h2>
-            <p>Fill out the form below to receive a custom demo and quote.</p>
+            <h2>Request Free Consultation</h2>
+            <p>Fill out the details to get an instant custom proposal.</p>
 
             <form action="#" method="POST">
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Doe" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    <label>Email Address</label>
+                    <input type="email" placeholder="john@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+92 300 1234567" required>
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="+92 300 1234567" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="service">Select Service</label>
-                    <select id="service" name="service">
-                        <option value="lead-gen">Lead Generation Website</option>
-                        <option value="web-dev">Custom Web Development</option>
-                        <option value="pwa">PWA & Business App</option>
+                    <label>Select Service</label>
+                    <select>
+                        <option>Lead Generation Website</option>
+                        <option>Custom Web Application</option>
+                        <option>SEO & Digital Growth</option>
                     </select>
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    Request Demo <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+                    Get Free Quote <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Free Unsplash Showcase Section -->
-    <div class="section-block">
-        <h2 class="section-title">Built For Results</h2>
-        <div class="grid-3">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=500&q=80" alt="Target Audience Analysis">
-                <h3>High Conversion Rates</h3>
-                <p>Designed with strategic call-to-action buttons that keep visitors engaged and prompt instant form submissions.</p>
+    <!-- Interactive ROI Calculator Section -->
+    <div class="calculator-card">
+        <h2><i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Estimated Lead Growth Calculator</h2>
+        <p>Drag the slider to see how many potential leads this theme can bring to your business monthly.</p>
+
+        <div class="calc-controls">
+            <label><strong>Monthly Website Visitors:</strong> <span id="visitor-count">5,000</span></label>
+            <input type="range" min="1000" max="50000" value="5000" step="1000" class="calc-slider" id="visitorSlider" oninput="updateCalc()">
+        </div>
+
+        <div class="calc-result">
+            <div class="result-box">
+                <h3 id="est-leads">250</h3>
+                <p>Estimated Monthly Leads</p>
             </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=500&q=80" alt="Mobile Responsive Layout">
-                <h3>100% Mobile Responsive</h3>
-                <p>Looks pixel-perfect on every screen size, from smartphones to tablets and wide desktop monitors.</p>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=500&q=80" alt="Fast Performance">
-                <h3>Lightning Fast Speed</h3>
-                <p>Optimized clean code guarantees rapid loading times to prevent bounce rate and retain high user interest.</p>
+            <div class="result-box">
+                <h3 id="est-conv">5.0%</h3>
+                <p>Avg. Conversion Rate</p>
             </div>
         </div>
     </div>
@@ -457,8 +374,30 @@
     </a>
 
     <footer>
-        &copy; 2026 Prime Solutions. Crafted for modern businesses.
+        &copy; 2026 Prime Solutions. Engineered for High Conversions.
     </footer>
+
+    <script>
+        // Theme Switcher Script
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Calculator Script
+        function updateCalc() {
+            const visitors = document.getElementById('visitorSlider').value;
+            document.getElementById('visitor-count').innerText = parseInt(visitors).toLocaleString();
+            
+            // 5% Conversion Estimation
+            const estimatedLeads = Math.round(visitors * 0.05);
+            document.getElementById('est-leads').innerText = estimatedLeads.toLocaleString();
+        }
+    </script>
 
 </body>
 </html>
