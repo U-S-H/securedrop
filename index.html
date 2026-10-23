@@ -1,771 +1,168 @@
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Solutions - Enterprise Digital Transformation & Lead Systems</title>
-    
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Secure Drop Travels - Pick & Drop Services</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(21, 32, 54, 0.7);
-            --text-color: #f8fafc;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --primary: #38bdf8;
-            --secondary: #6366f1;
-            --accent: #10b981;
-            --subtext: #94a3b8;
-            --header-bg: rgba(11, 15, 25, 0.85);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --text-color: #0f172a;
-            --border-color: rgba(0, 0, 0, 0.1);
-            --primary: #0284c7;
-            --secondary: #4f46e5;
-            --accent: #059669;
-            --subtext: #64748b;
-            --header-bg: rgba(248, 250, 252, 0.9);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Top Announcement Bar */
-        .top-bar {
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            color: #fff;
-            padding: 6px 8%;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 500;
-        }
-
-        .top-bar-info {
-            display: flex;
-            gap: 20px;
-        }
-
-        .top-bar-info span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Header Navigation */
-        header {
-            background: var(--header-bg);
-            backdrop-filter: blur(16px);
-            padding: 16px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
-
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        nav a:hover {
-            color: var(--primary);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .theme-toggle-btn {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .cta-header-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        /* Hero Section */
-        .container {
-            max-width: 1240px;
-            margin: 60px auto;
-            padding: 0 24px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-
-        .hero-text {
-            flex: 1;
-            min-width: 320px;
-        }
-
-        .badge {
-            background: rgba(56,189,248,0.12);
-            color: var(--primary);
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .hero-text h1 {
-            font-size: 46px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .hero-text p {
-            font-size: 18px;
-            color: var(--subtext);
-            margin-bottom: 25px;
-        }
-
-        .rating-badge {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .stars {
-            color: #f59e0b;
-        }
-
-        /* Form Card */
-        .form-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            padding: 35px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            border: 1px solid var(--border-color);
-            flex: 1;
-            min-width: 320px;
-            max-width: 450px;
-        }
-
-        .form-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-        .form-card p { font-size: 14px; color: var(--subtext); margin-bottom: 20px; }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--subtext); font-weight: 600; }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 15px;
-            color: var(--text-color);
-            outline: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            color: white;
-            border: none;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-            margin-top: 10px;
-        }
-
-        /* Partners Section */
-        .partners-section {
-            text-align: center;
-            padding: 40px 24px;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(0,0,0,0.1);
-        }
-
-        .partners-section p {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--subtext);
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .partner-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            opacity: 0.7;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        /* Services Grid */
-        .section-title {
-            text-align: center;
-            margin: 70px 0 20px;
-        }
-
-        .section-title h2 { font-size: 34px; font-weight: 800; }
-        .section-title p { color: var(--subtext); font-size: 16px; }
-
-        .services-grid {
-            max-width: 1240px;
-            margin: 0 auto 60px;
-            padding: 0 24px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            border-radius: 20px;
-            transition: transform 0.3s;
-        }
-
-        .service-card:hover { transform: translateY(-8px); }
-
-        .service-icon {
-            font-size: 32px;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .service-card h3 { font-size: 20px; margin-bottom: 10px; }
-        .service-card p { color: var(--subtext); font-size: 14px; }
-
-        /* Calculator Section */
-        .calculator-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 40px 30px;
-            margin: 60px auto;
-            max-width: 1240px;
-            text-align: center;
-        }
-
-        .calc-controls { max-width: 600px; margin: 20px auto; }
-        .calc-slider { width: 100%; accent-color: var(--primary); margin-top: 10px; }
-        .calc-result { display: flex; justify-content: center; gap: 50px; margin-top: 30px; }
-        .result-box h3 { font-size: 36px; color: var(--primary); }
-        .result-box p { font-size: 14px; color: var(--subtext); }
-
-        /* FAQ Section */
-        .faq-section {
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 0 24px;
-        }
-
-        .faq-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 18px 24px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-answer {
-            padding: 0 24px 18px;
-            color: var(--subtext);
-            font-size: 14px;
-            display: none;
-        }
-
-        /* Floating WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-            border-radius: 50px;
-            padding: 14px 22px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        /* Enterprise Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.4);
-            border-top: 1px solid var(--border-color);
-            padding: 60px 8% 30px;
-            margin-top: 80px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h4 {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a { color: var(--subtext); text-decoration: none; font-size: 14px; }
-        .footer-col ul li a:hover { color: var(--primary); }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border-color);
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            font-size: 13px;
-            color: var(--subtext);
-        }
-
-        /* Modal / Privacy Policy Pop-up */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            max-width: 600px;
-            padding: 30px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--subtext);
-        }
-
-        @media (max-width: 768px) {
-            nav { display: none; }
-            .hero-text h1 { font-size: 32px; }
-            .top-bar { display: none; }
-        }
-    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans">
 
-    <!-- Top Info Bar -->
-    <div class="top-bar">
-        <div class="top-bar-info">
-            <span><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 8:00 PM (PKT)</span>
-            <span><i class="fa-solid fa-envelope"></i> info@primesolutions.com</span>
-        </div>
-        <div>
-            <span><i class="fa-solid fa-shield-halved"></i> Certified Digital Partner</span>
-        </div>
-    </div>
-
-    <!-- Header Navigation -->
-    <header>
-        <a href="#" class="logo">
-            <i class="fa-solid fa-bolt"></i> Prime Solutions
-        </a>
-        <nav>
-            <ul>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#calculator">ROI Calculator</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <button class="theme-toggle-btn" onclick="toggleTheme()">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-            <a href="https://wa.me/923346824271" class="cta-header-btn">
-                Get Started
+    <!-- Header / Navbar -->
+    <header class="bg-indigo-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-van-shuttle text-2xl text-amber-400"></i>
+                <span class="text-xl font-bold tracking-wide">Secure Drop Travels</span>
+            </div>
+            <a href="https://wa.me/923000000000" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-4 py-2 rounded-full font-semibold text-sm flex items-center transition">
+                <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Book Now
             </a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <div class="container" id="contact">
-        <div class="hero-text">
-            <span class="badge"><i class="fa-solid fa-rocket"></i> Next-Gen Enterprise Growth Systems</span>
-            <h1>Scale Your Business With Automated Lead Engines</h1>
-            <p>We build high-performance, conversion-optimized web applications and web systems designed to generate high-paying clients continuously.</p>
-
-            <div style="border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 25px;">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Dashboard" style="width:100%; display:block;">
-            </div>
-
-            <div class="rating-badge">
-                <div class="stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <span><strong>4.9/5 Rating</strong> based on 120+ Business Reviews</span>
+    <section class="bg-indigo-900 text-white py-12 px-4 text-center border-b border-indigo-800">
+        <div class="max-w-3xl mx-auto">
+            <span class="bg-indigo-800 text-amber-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">KIU & Local Routes</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold mt-4 mb-3">Safe, Reliable & Daily Transport Service</h1>
+            <p class="text-indigo-200 text-base md:text-lg mb-6">Students aur daily commuters ke liye behtareen pick & drop service. Apni seat pehle se reserve karein.</p>
+            <div class="flex justify-center space-x-3">
+                <a href="#routes" class="bg-amber-400 text-slate-900 px-5 py-2.5 rounded-lg font-bold shadow hover:bg-amber-500 transition">View Routes</a>
+                <a href="#booking" class="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-lg font-semibold backdrop-blur transition">Book Seat</a>
             </div>
         </div>
+    </section>
 
-        <!-- Consultation Form Card -->
-        <div class="form-card">
-            <h2>Request Free Consultation</h2>
-            <p>Get a custom strategy & proposal from our expert developers.</p>
+    <!-- Features Badges -->
+    <section class="max-w-6xl mx-auto px-4 -mt-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100">
+                <i class="fa-solid fa-clock text-amber-500 text-xl mb-1"></i>
+                <h4 class="font-bold text-sm">On-Time Service</h4>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100">
+                <i class="fa-solid fa-shield-halved text-emerald-500 text-xl mb-1"></i>
+                <h4 class="font-bold text-sm">Safe & Secure</h4>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100">
+                <i class="fa-solid fa-graduation-cap text-indigo-500 text-xl mb-1"></i>
+                <h4 class="font-bold text-sm">Student Discount</h4>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100">
+                <i class="fa-solid fa-mobile-screen-button text-purple-500 text-xl mb-1"></i>
+                <h4 class="font-bold text-sm">PWA Mobile Ready</h4>
+            </div>
+        </div>
+    </section>
 
-            <form action="#" method="POST">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="John Doe" required>
+    <!-- Routes & Timings Section -->
+    <section id="routes" class="max-w-6xl mx-auto px-4 py-12">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold">Routes & Schedule</h2>
+            <p class="text-slate-600 text-sm mt-1">Neeche diye gaye routes aur timing check karein</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Route Card 1 -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md">Morning Route</span>
+                    <span class="text-indigo-900 font-bold">PKR 2,500 / Month</span>
                 </div>
+                <h3 class="font-bold text-lg mb-2">City Center ➔ KIU Main Campus</h3>
+                <ul class="text-sm text-slate-600 space-x-0 space-y-2 mb-6">
+                    <li><i class="fa-solid fa-location-dot text-indigo-500 mr-2"></i><strong>Pickup:</strong> 07:30 AM</li>
+                    <li><i class="fa-solid fa-graduation-cap text-indigo-500 mr-2"></i><strong>Drop:</strong> 08:15 AM</li>
+                    <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Type:</strong> AC Coaster / Hiace</li>
+                </ul>
+                <a href="#booking" class="block text-center w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-sm font-semibold transition">Reserve Seat</a>
+            </div>
 
-                <div class="form-group">
-                    <label>Work Email</label>
-                    <input type="email" placeholder="john@company.com" required>
+            <!-- Route Card 2 -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden">
+                <div class="bg-amber-400 text-slate-900 text-[10px] font-extrabold uppercase px-8 py-1 rotate-45 absolute -right-6 top-3 text-center">Popular</div>
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-md">Afternoon Route</span>
+                    <span class="text-indigo-900 font-bold">PKR 2,500 / Month</span>
                 </div>
+                <h3 class="font-bold text-lg mb-2">KIU Campus ➔ City Drop</h3>
+                <ul class="text-sm text-slate-600 space-x-0 space-y-2 mb-6">
+                    <li><i class="fa-solid fa-location-dot text-indigo-500 mr-2"></i><strong>Pickup:</strong> 01:30 PM</li>
+                    <li><i class="fa-solid fa-house text-indigo-500 mr-2"></i><strong>Drop:</strong> 02:15 PM</li>
+                    <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Type:</strong> AC Coaster / Hiace</li>
+                </ul>
+                <a href="#booking" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-slate-900 py-2 rounded-lg text-sm font-bold transition">Reserve Seat</a>
+            </div>
 
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" placeholder="+92 334 6824271" required>
+            <!-- Route Card 3 -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md">Evening Route</span>
+                    <span class="text-indigo-900 font-bold">PKR 2,500 / Month</span>
                 </div>
+                <h3 class="font-bold text-lg mb-2">KIU Evening ➔ Local Stop</h3>
+                <ul class="text-sm text-slate-600 space-x-0 space-y-2 mb-6">
+                    <li><i class="fa-solid fa-location-dot text-indigo-500 mr-2"></i><strong>Pickup:</strong> 04:30 PM</li>
+                    <li><i class="fa-solid fa-house text-indigo-500 mr-2"></i><strong>Drop:</strong> 05:15 PM</li>
+                    <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Type:</strong> AC Coaster / Hiace</li>
+                </ul>
+                <a href="#booking" class="block text-center w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-sm font-semibold transition">Reserve Seat</a>
+            </div>
+        </div>
+    </section>
 
-                <div class="form-group">
-                    <label>Select Required Solution</label>
-                    <select>
-                        <option>Lead Generation Web Systems</option>
-                        <option>Custom Web Application Development</option>
-                        <option>PWA & Enterprise Web Systems</option>
-                        <option>SEO & Digital Growth Strategy</option>
+    <!-- Quick Booking Form Section -->
+    <section id="booking" class="bg-slate-100 py-12 px-4">
+        <div class="max-w-xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold">Online Seat Booking Request</h3>
+                <p class="text-xs text-slate-500 mt-1">Form fill karein, hum WhatsApp par confirm karenge.</p>
+            </div>
+            <form onsubmit="sendToWhatsApp(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name</label>
+                    <input type="text" id="name" placeholder="Aapka Naam" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Select Route</label>
+                    <select id="route" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option>Morning (City Center to KIU)</option>
+                        <option>Afternoon (KIU to City Drop)</option>
+                        <option>Evening (KIU Evening Drop)</option>
                     </select>
                 </div>
-
-                <button type="submit" class="submit-btn">
-                    Get Free Instant Quote <i class="fa-solid fa-arrow-right"></i>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Pickup Stop</label>
+                    <input type="text" id="pickup" placeholder="Apna Stop Likhein" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg text-sm transition flex items-center justify-center">
+                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> WhatsApp Booking Bhejein
                 </button>
             </form>
         </div>
-    </div>
-
-    <!-- Trusted Partners Logos -->
-    <div class="partners-section">
-        <p>Trusted by Growth-Focused Brands & Enterprises</p>
-        <div class="partner-logos">
-            <span><i class="fa-brands fa-microsoft"></i> Microsoft</span>
-            <span><i class="fa-brands fa-google"></i> Google</span>
-            <span><i class="fa-brands fa-stripe"></i> Stripe</span>
-            <span><i class="fa-brands fa-aws"></i> AWS</span>
-            <span><i class="fa-brands fa-shopify"></i> Shopify</span>
-        </div>
-    </div>
-
-    <!-- Services Grid Section -->
-    <div class="section-title" id="services">
-        <h2>Enterprise Services</h2>
-        <p>Comprehensive Web Development & Digital Growth Architectures</p>
-    </div>
-
-    <div class="services-grid">
-        <div class="service-card">
-            <i class="fa-solid fa-code service-icon"></i>
-            <h3>Custom Web Development</h3>
-            <p>High-speed, scalable web applications crafted using modern JavaScript frameworks and seamless API integrations.</p>
-        </div>
-        <div class="service-card">
-            <i class="fa-solid fa-chart-line service-icon"></i>
-            <h3>Lead Funnel Systems</h3>
-            <p>High-converting landing pages integrated with automated CRM forms, instant messaging, and lead tracking.</p>
-        </div>
-        <div class="service-card">
-            <i class="fa-solid fa-mobile-screen-button service-icon"></i>
-            <h3>Progressive Web Apps (PWA)</h3>
-            <p>Fast, offline-ready, app-like experiences for users across desktop and mobile devices without app store barriers.</p>
-        </div>
-        <div class="service-card">
-            <i class="fa-solid fa-magnifying-glass-chart service-icon"></i>
-            <h3>SEO & Performance Optimization</h3>
-            <p>Technical search engine optimization ensuring top Google rankings and lighting-fast page loading speeds.</p>
-        </div>
-    </div>
-
-    <!-- Interactive Lead & ROI Calculator -->
-    <div class="calculator-card" id="calculator">
-        <h2><i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Estimated Lead Growth Calculator</h2>
-        <p>Drag the slider to project potential lead volume and estimated conversions with Prime Solutions technology.</p>
-
-        <div class="calc-controls">
-            <label><strong>Monthly Website Visitors:</strong> <span id="visitor-count">10,000</span></label>
-            <input type="range" min="1000" max="100000" value="10000" step="1000" class="calc-slider" id="visitorSlider" oninput="updateCalc()">
-        </div>
-
-        <div class="calc-result">
-            <div class="result-box">
-                <h3 id="est-leads">500</h3>
-                <p>Estimated Monthly Leads</p>
-            </div>
-            <div class="result-box">
-                <h3 id="est-conv">5.0%</h3>
-                <p>Avg. Conversion Rate</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- FAQ Section -->
-    <div class="section-title" id="faq">
-        <h2>Frequently Asked Questions</h2>
-        <p>Everything you need to know about getting started</p>
-    </div>
-
-    <div class="faq-section">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                How long does it take to deliver a completed system? <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                Depending on project complexity, custom lead-generation websites and web apps are usually delivered within 7 to 14 business days.
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                Are the websites mobile responsive and fast? <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                Yes, every solution built by Prime Solutions is fully mobile-first, optimized for lightning-fast speed and exceptional User Experience (UX).
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                Do you provide ongoing support & maintenance? <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                Absolutely. We offer dedicated maintenance packages, security updates, and performance monitoring for your web platforms.
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating WhatsApp -->
-    <a href="https://wa.me/923346824271" class="whatsapp-float" target="_blank">
-        <i class="fa-brands fa-whatsapp" style="font-size: 22px;"></i> Chat on WhatsApp
-    </a>
+    </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <a href="#" class="logo" style="margin-bottom: 15px;">
-                    <i class="fa-solid fa-bolt"></i> Prime Solutions
-                </a>
-                <p style="color: var(--subtext); font-size: 14px;">Building modern, high-converting digital web solutions for forward-thinking companies.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#calculator">ROI Calculator</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Legal & Policies</h4>
-                <ul>
-                    <li><a href="javascript:void(0)" onclick="openModal('privacyModal')">Privacy Policy</a></li>
-                    <li><a href="javascript:void(0)" onclick="openModal('termsModal')">Terms of Service</a></li>
-                    <li><a href="javascript:void(0)" onclick="openModal('securityModal')">Data Security</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact Info</h4>
-                <ul style="color: var(--subtext); font-size: 14px;">
-                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-phone"></i> +92 334 6824271</li>
-                    <li style="margin-bottom: 8px;"><i class="fa-solid fa-envelope"></i> contact@primesolutions.com</li>
-                    <li><i class="fa-solid fa-location-dot"></i> Pakistan</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div>&copy; 2026 Prime Solutions. All Rights Reserved.</div>
-            <div>Built for High Performance & Maximum Conversions.</div>
-        </div>
+    <footer class="bg-indigo-950 text-indigo-300 py-6 px-4 text-center text-xs">
+        <p>© Secure Drop Travels - All Rights Reserved.</p>
+        <p class="mt-1 text-indigo-400">Designed & Developed by <a href="https://myprimesolutions.netlify.app" class="underline font-semibold text-white">Prime Solutions</a></p>
     </footer>
 
-    <!-- Privacy Policy Modal -->
-    <div class="modal" id="privacyModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('privacyModal')">&times;</span>
-            <h2>Privacy Policy</h2>
-            <p style="margin-top: 15px; color: var(--subtext);">
-                At <strong>Prime Solutions</strong>, we value your privacy. Your contact details, including email and phone numbers submitted via our contact forms, are solely used to respond to your inquiries and provide custom project proposals.
-            </p>
-            <p style="margin-top: 10px; color: var(--subtext);">
-                We do not sell, trade, or transfer your personal information to third-party entities. All data is protected with enterprise-grade security protocols.
-            </p>
-        </div>
-    </div>
-
-    <!-- Terms Modal -->
-    <div class="modal" id="termsModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('termsModal')">&times;</span>
-            <h2>Terms of Service</h2>
-            <p style="margin-top: 15px; color: var(--subtext);">
-                By accessing Prime Solutions services, you agree to our standard development and consulting agreements. All project timelines, deliverables, and service scope will be outlined explicitly prior to contract execution.
-            </p>
-        </div>
-    </div>
-
-    <!-- Interactive Scripts -->
+    <!-- JavaScript for WhatsApp Integration -->
     <script>
-        // Dark / Light Theme Switcher
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeBtn = document.querySelector('.theme-toggle-btn i');
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                themeBtn.className = 'fa-solid fa-sun';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeBtn.className = 'fa-solid fa-moon';
-            }
-        }
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const route = document.getElementById('route').value;
+            const pickup = document.getElementById('pickup').value;
 
-        // Calculator Logic
-        function updateCalc() {
-            const visitors = document.getElementById('visitorSlider').value;
-            document.getElementById('visitor-count').innerText = parseInt(visitors).toLocaleString();
-            
-            const estimatedLeads = Math.round(visitors * 0.05);
-            document.getElementById('est-leads').innerText = estimatedLeads.toLocaleString();
-        }
+            const phone = "923000000000"; // Client WhatsApp number yahan aayega
+            const text = `AoA! Main Seat Booking Karna Chahta Hoon:%0A- *Name:* ${name}%0A- *Route:* ${route}%0A- *Pickup Stop:* ${pickup}`;
 
-        // Accordion FAQ Toggle
-        function toggleFaq(element) {
-            const answer = element.nextElementSibling;
-            const icon = element.querySelector('i');
-            
-            if (answer.style.display === "block") {
-                answer.style.display = "none";
-                icon.className = "fa-solid fa-chevron-down";
-            } else {
-                answer.style.display = "block";
-                icon.className = "fa-solid fa-chevron-up";
-            }
-        }
-
-        // Modals Controls
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
         }
     </script>
 </body>
