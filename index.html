@@ -2,9 +2,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Drop Enterprise - Advanced Transport & Logistics Network</title>
+    
+    <!-- PROFESSIONAL SEO META TAGS FOR GOOGLE TOP RANKING -->
+    <title>Secure Drop Gilgit | 100% Free Ride & Cargo Transport Network</title>
+    <meta name="description" content="Secure Drop Gilgit is Gilgit city's premier 100% free ride-sharing, inDrive style bidding, and cargo delivery network with zero commission and direct peer payments.">
+    <meta name="keywords" content="Secure Drop Gilgit, Gilgit ride sharing, free transport Gilgit, inDrive Gilgit, cargo delivery Gilgit, Jutial transport, Danyor ride, local drivers Gilgit, zero commission taxi">
+    <meta name="author" content="Secure Drop Enterprise">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0284c7">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Secure Drop Gilgit - Free Transport Network">
+    <meta property="og:description" content="Book free rides and cargo delivery within Gilgit city with zero commission.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://u-s-h.github.io/securedrop/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80">
+
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="data:application/json;charset=utf-8,{&quot;name&quot;:&quot;Secure Drop Gilgit&quot;,&quot;short_name&quot;:&quot;SecureDrop&quot;,&quot;start_url&quot;:&quot;https://u-s-h.github.io/securedrop/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f172a&quot;,&quot;theme_color&quot;:&quot;#0284c7&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=192&q=80&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/jpeg&quot;}]}">
+    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=180&q=80">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Leaflet OpenStreetMap CSS & JS -->
@@ -34,8 +58,16 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
+        .dark .sky-glass {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(16px);
+        }
         .sky-card {
             background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+        }
+        .dark .sky-card {
+            background: rgba(30, 41, 59, 0.96);
             backdrop-filter: blur(10px);
         }
         #leafletMapContainer {
@@ -59,7 +91,12 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 text-slate-800 font-sans pb-32 min-h-screen relative">
+<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-32 min-h-screen relative transition-colors duration-300">
+
+    <!-- OFFLINE FALLBACK BANNER -->
+    <div id="offlineFallbackBanner" class="fixed bottom-0 left-0 right-0 z-50 bg-rose-600 text-white text-center py-2 text-xs font-bold hidden shadow-2xl">
+        <i class="fa-solid fa-triangle-exclamation mr-1"></i> No Internet Connection. Attempting to reconnect automatically...
+    </div>
 
     <!-- MODERN ANIMATED SPLASH LOADING SCREEN -->
     <div id="modernSplashScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center text-white transition-opacity duration-700 p-6">
@@ -70,9 +107,9 @@
             </div>
         </div>
         <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-teal-200">
-            SECURE DROP
+            SECURE DROP GILGIT
         </h1>
-        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Enterprise Master Engine v3.4</p>
+        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">100% Free & No-Commission PWA</p>
     </div>
 
     <!-- FULL SCREEN INCOMING CALL / RINGING MODAL -->
@@ -117,56 +154,35 @@
         </div>
     </div>
 
-    <!-- FULL SCREEN INDRIVE-STYLE ALERT MODAL (15s TIMER) -->
-    <div id="fullScreenInDriveAlertModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-200 animate-custom-pulse">
-            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black shadow-inner">
-                <i class="fa-solid fa-bell animate-bounce"></i>
-            </div>
-            <div>
-                <span class="bg-rose-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Live Request Alert</span>
-                <h3 class="font-black text-lg text-slate-900 mt-1" id="fullScreenAlertTitle">New Ride Offer Received!</h3>
-                <p class="text-xs text-slate-600 mt-1 font-semibold" id="fullScreenAlertDesc">A driver has sent a fare counter offer or new ride broadcast.</p>
-            </div>
-            <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 text-xs font-bold text-slate-700">
-                Auto-dismiss in <span id="fullScreenCountdownTimer" class="text-rose-600 font-black text-sm">15</span> seconds
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="dismissFullScreenAlert()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-black py-2.5 rounded-xl text-xs">Dismiss</button>
-                <button onclick="acceptFullScreenAlertAction()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs shadow">View & Accept</button>
-            </div>
-        </div>
-    </div>
-
     <!-- PUSH NOTIFICATION TOAST POPUP -->
     <div id="appPushNotificationToast" class="fixed top-4 right-4 z-50 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-sky-500/50 hidden animate-toast-in max-w-sm flex items-center space-x-3 backdrop-blur-md">
         <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
             <i class="fa-solid fa-bell text-lg"></i>
         </div>
         <div>
-            <h5 id="pushToastTitle" class="font-black text-xs text-sky-300">Secure Drop Alert</h5>
+            <h5 id="pushToastTitle" class="font-black text-xs text-sky-300">Secure Drop Gilgit</h5>
             <p id="pushToastDesc" class="text-[11px] text-slate-200 mt-0.5">New update received on network.</p>
         </div>
     </div>
 
     <!-- GOOGLE LOGIN ROLE SELECTOR MODAL -->
     <div id="googleRoleSelectModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100 dark:border-slate-800">
             <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl mx-auto flex items-center justify-center text-xl font-black shadow-inner">
                 <i class="fa-solid fa-user-shield"></i>
             </div>
             <div>
-                <h3 class="font-black text-base text-slate-900">Select Your Account Role</h3>
-                <p class="text-xs text-slate-500 mt-1">Aap Secure Drop ko kis maqsad ke liye istemal karna chahte hain?</p>
+                <h3 class="font-black text-base text-slate-900 dark:text-white">Select Your Account Role</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Aap Secure Drop Gilgit ko kis maqsad ke liye istemal karna chahte hain?</p>
             </div>
             <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="confirmGoogleRoleSelection('passenger')" class="p-4 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-500 text-sky-900 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
+                <button onclick="confirmGoogleRoleSelection('passenger')" class="p-4 rounded-2xl bg-sky-50 dark:bg-slate-800 hover:bg-sky-100 border-2 border-sky-500 text-sky-900 dark:text-sky-300 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
                     <i class="fa-solid fa-user text-2xl text-sky-600"></i>
                     <span>Passenger (Safar Karna Hai)</span>
                 </button>
-                <button onclick="confirmGoogleRoleSelection('driver')" class="p-4 rounded-2xl bg-amber-50 hover:bg-amber-100 border-2 border-amber-500 text-amber-900 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
+                <button onclick="confirmGoogleRoleSelection('driver')" class="p-4 rounded-2xl bg-amber-50 dark:bg-slate-800 hover:bg-amber-100 border-2 border-amber-500 text-amber-900 dark:text-amber-300 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
                     <i class="fa-solid fa-van-shuttle text-2xl text-amber-600"></i>
-                    <span>Driver / Captain (Ride Deni Hai)</span>
+                    <span>Captain (Ride Deni Hai)</span>
                 </button>
             </div>
         </div>
@@ -174,44 +190,53 @@
 
     <!-- SIDEBAR MENU DRAWER -->
     <div id="sidebarMenuDrawer" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden transition-opacity duration-300">
-        <div class="w-72 bg-white h-full shadow-2xl p-5 flex flex-col justify-between space-y-4 overflow-y-auto hide-scrollbar text-xs">
+        <div class="w-72 bg-white dark:bg-slate-900 h-full shadow-2xl p-5 flex flex-col justify-between space-y-4 overflow-y-auto hide-scrollbar text-xs">
             <div class="space-y-4">
-                <div class="flex justify-between items-center border-b pb-3">
+                <div class="flex justify-between items-center border-b dark:border-slate-800 pb-3">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 rounded-xl bg-sky-600 text-white flex items-center justify-center font-black">
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div>
-                            <h3 class="font-black text-slate-900 text-sm">Secure Drop</h3>
-                            <span class="text-[9px] text-emerald-600 font-extrabold uppercase">Verified Network</span>
+                            <h3 class="font-black text-slate-900 dark:text-white text-sm">Secure Drop Gilgit</h3>
+                            <span class="text-[9px] text-emerald-600 font-extrabold uppercase">100% Free Service</span>
                         </div>
                     </div>
                     <button onclick="toggleSidebarMenu()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <div class="space-y-1 font-bold text-slate-700">
-                    <button onclick="openMenuModal('history')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
-                        <i class="fa-solid fa-clock-rotate-left text-sky-600 text-sm w-5"></i><span>Ride & Activity History</span>
+                <div class="space-y-1 font-bold text-slate-700 dark:text-slate-200">
+                    <button onclick="openMenuModal('history')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-clock-rotate-left text-sky-600 text-sm w-5"></i><span>Ride & Direct Payment History</span>
                     </button>
-                    <button onclick="openMenuModal('company')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                    <button onclick="openMenuModal('referral')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-share-nodes text-emerald-500 text-sm w-5"></i><span>Refer & Share App</span>
+                    </button>
+                    <button onclick="openMenuModal('wallet')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-wallet text-amber-500 text-sm w-5"></i><span>Digital Wallet & Rewards</span>
+                    </button>
+                    <button onclick="openMenuModal('leaderboard')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-trophy text-amber-400 text-sm w-5"></i><span>Top Gilgit Captains</span>
+                    </button>
+                    <button onclick="openMenuModal('sossettings')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-phone-flip text-rose-500 text-sm w-5"></i><span>Trusted SOS Contacts</span>
+                    </button>
+                    <button onclick="openMenuModal('company')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
                         <i class="fa-solid fa-building text-emerald-600 text-sm w-5"></i><span>Company Information</span>
                     </button>
-                    <button onclick="openMenuModal('faq')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                    <button onclick="openMenuModal('faq')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
                         <i class="fa-solid fa-circle-question text-amber-500 text-sm w-5"></i><span>FAQs & Help Center</span>
                     </button>
-                    <button onclick="openMenuModal('privacy')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
-                        <i class="fa-solid fa-file-shield text-purple-600 text-sm w-5"></i><span>Privacy Policy & Terms</span>
-                    </button>
-                    <button onclick="openDirectAdminChatModal()" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                    <button onclick="openDirectAdminChatModal()" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
                         <i class="fa-solid fa-headset text-rose-500 text-sm w-5"></i><span>Report Issue / Support</span>
                     </button>
                 </div>
             </div>
 
-            <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 space-y-2 text-center">
+            <div class="bg-sky-50 dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-2 text-center">
                 <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80" class="w-full h-20 object-cover rounded-xl shadow-sm">
-                <p class="text-[10px] text-slate-600 font-extrabold">24/7 Verified Transport & Freight Services</p>
-                <span class="text-[8px] bg-emerald-200 text-emerald-900 font-black px-2 py-0.5 rounded-full uppercase">100% Encrypted</span>
+                <p class="text-[10px] text-slate-600 dark:text-slate-300 font-extrabold">No Commission • Free Gilgit Transport</p>
+                <span class="text-[8px] bg-emerald-200 text-emerald-900 font-black px-2 py-0.5 rounded-full uppercase">100% Free Platform</span>
             </div>
         </div>
     </div>
@@ -222,33 +247,33 @@
             <i id="trustNotifIcon" class="fa-solid fa-circle-check text-sm"></i>
         </div>
         <div>
-            <p id="trustNotifText" class="text-[11px] font-bold leading-tight">Ali ne 600 PKR ki ride book ki!</p>
-            <span class="text-[9px] text-slate-400 font-semibold">Abhi abhi • Verified</span>
+            <p id="trustNotifText" class="text-[11px] font-bold leading-tight">Ali (Jutial) ne 400 PKR ki free ride book ki!</p>
+            <span class="text-[9px] text-slate-400 font-semibold">Abhi abhi • Free Ride</span>
         </div>
     </div>
 
     <!-- MANDATORY SECURITY AUTH WALL -->
     <div id="mandatoryAuthGate" class="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full border border-sky-100 max-h-[92vh] overflow-y-auto hide-scrollbar relative">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full border border-sky-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto hide-scrollbar relative">
             <div class="relative h-36 bg-slate-900 overflow-hidden rounded-t-3xl">
                 <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-50">
-                <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-slate-950/60 p-4 flex flex-col justify-between">
-                    <span class="bg-emerald-500/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase w-fit"><i class="fa-solid fa-shield-halved mr-1"></i> Protected Gateway</span>
+                <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 via-transparent to-slate-950/60 p-4 flex flex-col justify-between">
+                    <span class="bg-emerald-500/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase w-fit"><i class="fa-solid fa-bolt mr-1"></i> Zero Commission Gateway</span>
                     <div>
-                        <h2 class="font-black text-slate-900 text-lg leading-tight">Secure Drop Enterprise</h2>
-                        <p class="text-[10px] text-slate-600 font-bold">Select Role to Proceed</p>
+                        <h2 class="font-black text-slate-900 dark:text-white text-lg leading-tight">Secure Drop Gilgit</h2>
+                        <p class="text-[10px] text-slate-600 dark:text-slate-300 font-bold">Select Role to Proceed (Free)</p>
                     </div>
                 </div>
             </div>
 
             <div class="p-5 space-y-4">
-                <div class="grid grid-cols-3 gap-1 bg-sky-100 p-1 rounded-xl text-[10px] font-black">
+                <div class="grid grid-cols-3 gap-1 bg-sky-100 dark:bg-slate-800 p-1 rounded-xl text-[10px] font-black">
                     <button id="gateTabPassenger" onclick="switchGateRole('passenger')" class="py-2 rounded-lg bg-sky-600 text-white shadow">Passenger</button>
-                    <button id="gateTabDriver" onclick="switchGateRole('driver')" class="py-2 rounded-lg text-slate-700">Driver</button>
-                    <button id="gateTabControl" onclick="switchGateRole('control')" class="py-2 rounded-lg text-slate-700">Admin</button>
+                    <button id="gateTabDriver" onclick="switchGateRole('driver')" class="py-2 rounded-lg text-slate-700 dark:text-slate-300">Captain</button>
+                    <button id="gateTabControl" onclick="switchGateRole('control')" class="py-2 rounded-lg text-slate-700 dark:text-slate-300">Admin</button>
                 </div>
 
-                <button onclick="handleGoogleSignInGate()" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center space-x-2 text-xs transition">
+                <button onclick="handleGoogleSignInGate()" class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center space-x-2 text-xs transition">
                     <svg class="w-4 h-4" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -259,31 +284,31 @@
                 </button>
 
                 <div id="gateUserAuthFormContainer" class="space-y-3 text-xs">
-                    <div class="flex border-b border-sky-100 pb-1.5">
+                    <div class="flex border-b border-sky-100 dark:border-slate-800 pb-1.5">
                         <button id="gateSubTabLogin" onclick="switchGateSubTab('login')" class="flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1">Login</button>
                         <button id="gateSubTabRegister" onclick="switchGateSubTab('register')" class="flex-1 text-center font-bold text-slate-400 pb-1">Sign Up</button>
                     </div>
 
                     <form onsubmit="handleGateAuthSubmit(event)" class="space-y-3">
                         <div id="gateNameContainer" class="hidden">
-                            <label class="block font-bold text-slate-600 mb-1">Full Name</label>
-                            <input type="text" id="gateAuthName" placeholder="Muhammad Nazim" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Full Name</label>
+                            <input type="text" id="gateAuthName" placeholder="Muhammad Nazim" class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Mobile Phone Number</label>
-                            <input type="tel" id="gateAuthPhone" placeholder="+92 3XX XXXXXXX" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Mobile Phone Number</label>
+                            <input type="tel" id="gateAuthPhone" placeholder="+92 3XX XXXXXXX" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Email Address</label>
-                            <input type="email" id="gateAuthEmail" placeholder="user@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Email Address</label>
+                            <input type="email" id="gateAuthEmail" placeholder="user@gmail.com" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Password</label>
-                            <input type="password" id="gateAuthPass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Password</label>
+                            <input type="password" id="gateAuthPass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         
                         <div class="flex justify-between items-center text-[10px]">
-                            <button type="button" onclick="triggerForgotPassword()" class="text-sky-600 font-bold hover:underline">Forgot Password?</button>
+                            <button type="button" onclick="triggerForgotPassword()" class="text-sky-600 dark:text-sky-400 font-bold hover:underline">Forgot Password?</button>
                         </div>
 
                         <button type="submit" id="gateSubmitBtn" class="w-full bg-gradient-to-r from-sky-600 to-blue-700 text-white font-black py-3 rounded-xl shadow-md">Login as <span id="authRoleLabel">Passenger</span></button>
@@ -293,12 +318,12 @@
                 <div id="gateAdminAuthFormContainer" class="space-y-3 text-xs hidden">
                     <form onsubmit="handleAdminGateLogin(event)" class="space-y-3">
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Console Email</label>
-                            <input type="email" id="adminGateEmail" value="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Console Email</label>
+                            <input type="email" id="adminGateEmail" value="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Console Security Key</label>
-                            <input type="password" id="adminGatePass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Console Security Key</label>
+                            <input type="password" id="adminGatePass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white">
                         </div>
                         <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl shadow-md">Unlock Operations Console</button>
                     </form>
@@ -308,28 +333,32 @@
     </div>
 
     <!-- Header Bar -->
-    <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 px-4 py-3 flex items-center justify-between shadow-sm">
+    <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
-            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 text-sky-900 rounded-xl font-black text-sm shadow-sm hover:bg-sky-200 transition">
+            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 dark:bg-slate-800 text-sky-900 dark:text-sky-300 rounded-xl font-black text-sm shadow-sm hover:bg-sky-200 transition">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-sky-500 shadow-md">
             <div>
-                <h1 class="text-sm font-black tracking-tight text-slate-900 flex items-center">
+                <h1 class="text-sm font-black tracking-tight text-slate-900 dark:text-white flex items-center">
                     Secure Drop <span id="roleBadgeHeader" class="ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">User</span>
                 </h1>
-                <p class="text-[10px] text-sky-600 font-bold flex items-center" id="headerProfileSubtitle">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> Authenticated
+                <p class="text-[10px] text-sky-600 dark:text-sky-400 font-bold flex items-center" id="headerProfileSubtitle">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> 100% Free Service
                 </p>
             </div>
         </div>
 
         <div class="flex items-center space-x-2">
-            <button onclick="toggleProfileModal()" class="bg-sky-100 text-sky-800 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200" title="Edit Profile Details">
+            <!-- Dark/Light Theme Switcher -->
+            <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Toggle Dark/Light Mode">
+                <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
+            </button>
+            <button onclick="toggleProfileModal()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-slate-200 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Edit Profile Details">
                 <i class="fa-solid fa-user-gear"></i>
             </button>
             <button onclick="openDirectAdminChatModal()" class="bg-amber-500 text-slate-950 px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm" title="Direct Chat with Admin">
-                <i class="fa-solid fa-headset mr-1"></i> Admin Chat
+                <i class="fa-solid fa-headset mr-1"></i> Support
             </button>
             <button onclick="handleLogoutSystem()" class="bg-rose-500 text-white p-2 rounded-xl text-xs font-black shadow-sm" title="Logout">
                 <i class="fa-solid fa-power-off"></i>
@@ -344,31 +373,31 @@
         <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md border border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">42</span> Active Drivers & Users Online</span>
+                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">54</span> Free Gilgit Captains Online</span>
             </div>
-            <span class="text-[10px] text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20"><i class="fa-solid fa-shield-halved mr-1"></i> Live Network</span>
+            <span class="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i> Zero Commission</span>
         </div>
 
         <!-- Role Selector Switch -->
-        <div id="appRoleSwitchContainer" class="bg-sky-200/80 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 shadow-inner">
+        <div id="appRoleSwitchContainer" class="bg-sky-200/80 dark:bg-slate-800 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 dark:border-slate-700 shadow-inner">
             <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-user"></i><span>Passenger</span>
             </button>
-            <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1">
+            <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-box-open"></i><span>Cargo</span>
             </button>
-            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
-                <i class="fa-solid fa-van-shuttle"></i><span>Driver</span>
+            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
+                <i class="fa-solid fa-van-shuttle"></i><span>Captain</span>
             </button>
-            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
-                <i class="fa-solid fa-shield-halved"></i><span>Admin Hub</span>
+            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
+                <i class="fa-solid fa-shield-halved"></i><span>Admin</span>
             </button>
         </div>
 
         <!-- PASSENGER SECTION -->
         <div id="passengerSection" class="space-y-5 transition-all duration-300">
             <!-- Leaflet Map & Live Driver Tracking -->
-            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-48 bg-slate-900">
+            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 dark:border-slate-800 h-48 bg-slate-900">
                 <div id="leafletMapContainer"></div>
                 <!-- SOS Emergency Panic Button overlay on map -->
                 <button onclick="triggerEmergencySOS()" class="absolute top-3 right-3 z-20 bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400 animate-pulse">
@@ -388,100 +417,106 @@
                 </button>
             </div>
 
-            <!-- Ride Request Widget (With Google Places Autocomplete Suggestions) -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Ride (InDrive Style)</h3>
+            <!-- Ride Request Widget (Gilgit Areas Autocomplete & Carpooling & Multi-Stop) -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Free Ride in Gilgit City</h3>
+                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full">0% Commission</span>
+                </div>
                 <div class="space-y-2 text-xs relative">
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Pickup Location</label>
-                        <input type="text" id="customPickupInput" placeholder="Type pickup location..." oninput="handleLocationAutocomplete(this.value, 'pickupSuggestions')" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                        <div id="pickupSuggestions" class="absolute z-30 left-0 right-0 bg-white border border-sky-200 rounded-xl shadow-lg mt-1 hidden max-h-36 overflow-y-auto"></div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Pickup Area (Gilgit)</label>
+                        <input type="text" id="customPickupInput" placeholder="Type Gilgit pickup area (e.g. Jutial)..." oninput="handleLocationAutocomplete(this.value, 'pickupSuggestions')" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                        <div id="pickupSuggestions" class="absolute z-30 left-0 right-0 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl shadow-lg mt-1 hidden max-h-36 overflow-y-auto"></div>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Drop Location</label>
-                        <input type="text" id="customDropInput" placeholder="Type drop location..." oninput="handleLocationAutocomplete(this.value, 'dropSuggestions')" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                        <div id="dropSuggestions" class="absolute z-30 left-0 right-0 bg-white border border-sky-200 rounded-xl shadow-lg mt-1 hidden max-h-36 overflow-y-auto"></div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Intermediate Stop (Optional Waypoint)</label>
+                        <input type="text" id="customWaypointInput" placeholder="e.g. Stop at Danyor Bridge..." oninput="handleLocationAutocomplete(this.value, 'waypointSuggestions')" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                        <div id="waypointSuggestions" class="absolute z-30 left-0 right-0 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl shadow-lg mt-1 hidden max-h-36 overflow-y-auto"></div>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Drop Area (Gilgit)</label>
+                        <input type="text" id="customDropInput" placeholder="Type Gilgit drop area (e.g. Konodas)..." oninput="handleLocationAutocomplete(this.value, 'dropSuggestions')" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                        <div id="dropSuggestions" class="absolute z-30 left-0 right-0 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl shadow-lg mt-1 hidden max-h-36 overflow-y-auto"></div>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-2 pt-2">
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Proposed Fare (PKR)</label>
-                            <input type="number" id="passengerProposedFare" value="600" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-black text-slate-900">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Proposed Fare (PKR)</label>
+                            <input type="number" id="passengerProposedFare" value="400" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-black text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-1">Payment Method</label>
-                            <select id="passengerPayTypeSelect" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
-                                <option value="Cash on Drop">Cash on Drop</option>
-                                <option value="Online Payment">Online Payment (Easypaisa/JazzCash)</option>
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Booking Mode</label>
+                            <select id="passengerBookingMode" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
+                                <option value="Private Ride">Private Ride (Solo)</option>
+                                <option value="Seat Sharing Carpool">Seat Sharing Carpool</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-calendar-days text-sky-600 mr-1"></i> Booking Type (Instant or Schedule)</label>
-                        <select id="passengerBookingSchedule" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
-                            <option value="Instant Ride">Instant Ride (Now)</option>
-                            <option value="Scheduled Later">Schedule for Later (Advance Booking)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-ticket text-amber-500 mr-1"></i> Promo Code</label>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1"><i class="fa-solid fa-ticket text-amber-500 mr-1"></i> Promo Code</label>
                         <div class="flex space-x-2">
-                            <input type="text" id="passengerPromoCodeInput" placeholder="Enter promo code..." class="flex-1 p-2.5 bg-white border border-sky-200 rounded-xl font-bold uppercase">
+                            <input type="text" id="passengerPromoCodeInput" placeholder="Enter promo code..." class="flex-1 p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold uppercase text-slate-900 dark:text-white">
                             <button type="button" onclick="applyUserPromoCode()" class="bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl shadow">Apply</button>
                         </div>
                     </div>
                 </div>
-                <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
-                    Broadcast Ride Request to Drivers
-                </button>
+                
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button onclick="openSmartFareBreakdownModal()" class="bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-black py-3 rounded-xl text-xs shadow-sm">
+                        <i class="fa-solid fa-calculator mr-1"></i> Fare Breakdown
+                    </button>
+                    <button onclick="publishCustomInDriveRide()" class="bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
+                        Broadcast Ride
+                    </button>
+                </div>
             </div>
 
-            <!-- LIVE DRIVER BIDS & OFFERS FOR PASSENGER -->
-            <div id="passengerIncomingBidsBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
+            <!-- LIVE CAPTAIN BIDS & OFFERS FOR PASSENGER -->
+            <div id="passengerIncomingBidsBox" class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm hidden">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-handshake text-sky-600 mr-1"></i> Driver Offers & Counter Bids</h3>
-                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-handshake text-sky-600 mr-1"></i> Gilgit Captain Offers & Bids</h3>
+                    <span class="text-[9px] bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-sky-300 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
                 </div>
                 <div id="passengerBidsFeedContainer" class="space-y-2 text-xs">
-                    <p class="text-slate-400 text-center py-2">Waiting for drivers to accept or bid on your fare...</p>
+                    <p class="text-slate-400 text-center py-2">Waiting for Gilgit captains to accept or bid on your fare...</p>
                 </div>
             </div>
 
-            <!-- MANUAL ONLINE PAYMENT TO CONNECTED DRIVER -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+            <!-- DIRECT PAYMENT TO CONNECTED CAPTAIN (NO COMMISSION) -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> Pay Connected Driver Online</h3>
-                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full" id="connectedDriverPaymentBadge">Auto-Synced</span>
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> Direct Pay to Captain (100% Free)</h3>
+                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full" id="passengerPaymentApprovalStatusBadge">Status: Ready to Pay</span>
                 </div>
                 
-                <div id="connectedDriverAccountDisplayBox" class="bg-amber-50 border border-amber-200 p-3 rounded-2xl space-y-1 text-xs">
-                    <p class="font-bold text-amber-900">Connected Driver Account Details:</p>
-                    <p class="text-slate-700">Captain: <strong id="displayConnectedDriverName">No Driver Connected Yet</strong></p>
-                    <p class="text-slate-700">Account: <strong id="displayConnectedAccType">-</strong></p>
-                    <p class="text-slate-700">Title: <strong id="displayConnectedAccTitle">-</strong></p>
-                    <p class="text-slate-700">Number: <strong id="displayConnectedAccNumber" class="text-emerald-700">-</strong></p>
+                <div id="connectedDriverAccountDisplayBox" class="bg-emerald-50 dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 p-3 rounded-2xl space-y-1 text-xs">
+                    <p class="font-bold text-emerald-900 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> Captain Direct Account (No Deductions):</p>
+                    <p class="text-slate-700 dark:text-slate-300">Captain: <strong id="displayConnectedDriverName">No Captain Connected Yet</strong></p>
+                    <p class="text-slate-700 dark:text-slate-300">Account: <strong id="displayConnectedAccType">-</strong></p>
+                    <p class="text-slate-700 dark:text-slate-300">Title: <strong id="displayConnectedAccTitle">-</strong></p>
+                    <p class="text-slate-700 dark:text-slate-300">Number: <strong id="displayConnectedAccNumber" class="text-emerald-700 dark:text-emerald-400">-</strong></p>
                 </div>
 
-                <p class="text-[11px] text-slate-500 font-medium">Upload receipt directly from phone gallery or camera for driver approval.</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Passengers pay captain directly via Easypaisa/JazzCash or Cash. Captain keeps 100% money.</p>
                 <button onclick="openManualPaymentModal()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-2.5 rounded-xl text-xs shadow">
-                    <i class="fa-solid fa-camera mr-1"></i> Upload Receipt & Send Proof (TID)
+                    <i class="fa-solid fa-camera mr-1"></i> Upload Receipt / Confirm Direct Payment
                 </button>
             </div>
 
             <!-- Live Chat & In-App Voice Call Room -->
-            <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
-                <div class="flex justify-between items-center border-b pb-2">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Chat & Call Room</h3>
-                    <button onclick="triggerInitiateInAppVoiceCall()" class="bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-xl text-[10px] font-black"><i class="fa-solid fa-phone mr-1"></i> Call Driver</button>
+            <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm hidden">
+                <div class="flex justify-between items-center border-b dark:border-slate-800 pb-2">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Chat & Call Room</h3>
+                    <button onclick="triggerInitiateInAppVoiceCall()" class="bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-xl text-[10px] font-black"><i class="fa-solid fa-phone mr-1"></i> Call Captain</button>
                 </div>
-                <div id="realtimeChatMessagesContainer" class="bg-white p-2.5 rounded-xl space-y-1 max-h-44 overflow-y-auto hide-scrollbar border border-sky-100 text-xs"></div>
+                <div id="realtimeChatMessagesContainer" class="bg-white dark:bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-44 overflow-y-auto hide-scrollbar border border-sky-100 dark:border-slate-700 text-xs"></div>
                 <div class="flex space-x-2">
-                    <input type="text" id="chatMessageInput" placeholder="Type message..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl text-xs">
+                    <input type="text" id="chatMessageInput" placeholder="Type message..." class="flex-1 p-2 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white">
                     <button onclick="sendRealtimeChatMessage()" class="bg-sky-600 text-white px-3 py-2 rounded-xl font-bold text-xs">Send</button>
                 </div>
-                <!-- Driver Rating Trigger -->
+                <!-- Captain Rating Trigger -->
                 <button onclick="openRatingModal()" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl text-xs mt-2">
                     <i class="fa-solid fa-star mr-1"></i> Rate & Review Completed Ride
                 </button>
@@ -490,129 +525,128 @@
 
         <!-- CARGO SECTION -->
         <div id="parcelSection" class="space-y-5 hidden transition-all duration-300">
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm text-xs">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-box-open text-amber-500 mr-1"></i> Cargo & Multi-Stop Courier Booking</h3>
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-box-open text-amber-500 mr-1"></i> Gilgit Free Cargo & Courier Booking</h3>
                 <div class="space-y-2">
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Package Name / Item Description</label>
-                        <input type="text" id="parcelItemName" placeholder="e.g. Electronic Box / Documents" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Package Name / Item Description</label>
+                        <input type="text" id="parcelItemName" placeholder="e.g. Electronic Box / Documents" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Receiver Name & Mobile Number</label>
-                        <input type="text" id="parcelReceiver" placeholder="Kamran Ali (+92 3XX XXXXXXX)" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Receiver Name & Mobile Number</label>
+                        <input type="text" id="parcelReceiver" placeholder="Kamran Ali (+92 3XX XXXXXXX)" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Multi-Stop Delivery Route (Optional Stops)</label>
-                        <input type="text" id="parcelStopsInput" placeholder="e.g. Stop 1: Jaglot, Stop 2: Gilgit Main Bazaar" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Gilgit Delivery Stops (Optional)</label>
+                        <input type="text" id="parcelStopsInput" placeholder="e.g. Stop 1: Jutial, Stop 2: Main Bazaar" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
                     </div>
                 </div>
-                <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch & Generate Tracking Code</button>
+                <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Free Cargo Tracking</button>
             </div>
 
             <!-- Track Cargo Package Status Box -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm text-xs">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-magnifying-glass-location text-sky-600 mr-1"></i> Track Cargo Package Live</h3>
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-magnifying-glass-location text-sky-600 mr-1"></i> Track Gilgit Cargo Package</h3>
                 <div class="flex space-x-2">
-                    <input type="text" id="trackCargoCodeInput" placeholder="Enter Tracking Code..." class="flex-1 p-2.5 bg-white border border-sky-200 rounded-xl font-bold uppercase">
+                    <input type="text" id="trackCargoCodeInput" placeholder="Enter Tracking Code..." class="flex-1 p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold uppercase text-slate-900 dark:text-white">
                     <button onclick="trackCargoPackageLive()" class="bg-sky-600 text-white font-black px-4 py-2.5 rounded-xl shadow">Track</button>
                 </div>
-                <div id="cargoTrackingResultBox" class="p-3 bg-sky-50 rounded-2xl border border-sky-100 hidden space-y-1">
-                    <p class="font-black text-slate-900" id="trackedParcelTitle">Package: Document</p>
-                    <p class="text-[10px] text-emerald-700 font-bold" id="trackedParcelStatus">Status: Dispatched & In Transit</p>
+                <div id="cargoTrackingResultBox" class="p-3 bg-sky-50 dark:bg-slate-800 rounded-2xl border border-sky-100 dark:border-slate-700 hidden space-y-1">
+                    <p class="font-black text-slate-900 dark:text-white" id="trackedParcelTitle">Package: Document</p>
+                    <p class="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold" id="trackedParcelStatus">Status: Dispatched & In Transit</p>
                 </div>
             </div>
         </div>
 
         <!-- DRIVER SECTION -->
         <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
-            <!-- DRIVER ONLINE/OFFLINE TOGGLE & TIER BADGE -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm flex justify-between items-center">
-                <div>
-                    <h3 class="text-xs font-black uppercase text-slate-900 flex items-center">
-                        <i class="fa-solid fa-toggle-on text-emerald-600 mr-1"></i> Captain Status 
-                        <span id="driverTierBadgeTag" class="ml-2 text-[9px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">Silver Captain</span>
-                    </h3>
-                    <p class="text-[10px] text-slate-500 font-semibold" id="driverStatusSubtitle">You are currently Online & Receiving Rides</p>
-                </div>
-                <button onclick="toggleDriverOnlineStatus()" id="driverOnlineToggleBtn" class="bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow">Online</button>
-            </div>
-
-            <!-- DRIVER EARNINGS ANALYTICS -->
-            <div class="bg-gradient-to-r from-slate-900 to-sky-950 text-white p-4 rounded-3xl space-y-3 shadow-lg border border-slate-800">
+            <!-- DRIVER ONLINE/OFFLINE TOGGLE & HOTSPOT RADAR -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-amber-300"><i class="fa-solid fa-chart-line mr-1"></i> Earnings Analytics</h3>
-                    <span class="text-[9px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded-full">Live Sync</span>
+                    <div>
+                        <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white flex items-center">
+                            <i class="fa-solid fa-toggle-on text-emerald-600 mr-1"></i> Captain Status 
+                            <span id="driverTierBadgeTag" class="ml-2 text-[9px] bg-emerald-500 text-white font-black px-2 py-0.5 rounded-full uppercase">0% Commission Free</span>
+                        </h3>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold" id="driverStatusSubtitle">You keep 100% of your earnings!</p>
+                    </div>
+                    <button onclick="toggleDriverOnlineStatus()" id="driverOnlineToggleBtn" class="bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow">Online</button>
                 </div>
-                <div class="grid grid-cols-2 gap-3 text-center">
-                    <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Total Earnings</p>
-                        <p class="text-lg font-black text-emerald-400 mt-0.5" id="driverTodayEarnings">PKR 0</p>
-                    </div>
-                    <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Completed Rides</p>
-                        <p class="text-lg font-black text-sky-400 mt-0.5" id="driverCompletedRidesCount">0</p>
-                    </div>
+                <div class="bg-sky-50 dark:bg-slate-800 p-2.5 rounded-2xl border border-sky-200 dark:border-slate-700 text-[11px] flex items-center justify-between">
+                    <span>🔥 <strong>Gilgit Hotspot Radar:</strong> High demand in Jutial & Main Bazaar</span>
+                    <span class="text-emerald-600 font-black">Active</span>
                 </div>
             </div>
 
-            <!-- DRIVER VEHICLE CATEGORY FILTER -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-2 shadow-sm text-xs">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-car-side text-sky-600 mr-1"></i> Select Vehicle Category Filter</h3>
-                <select id="driverVehicleCategoryFilter" onchange="filterDriverRidesByCategory()" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
-                    <option value="All">All Categories (Bike, Car, Coaster)</option>
-                    <option value="Bike">Bike (Motorcycle)</option>
-                    <option value="Car">Car / Sedan</option>
-                    <option value="Coaster">Coaster / Van</option>
-                    <option value="Cargo">Cargo / Truck</option>
-                </select>
-            </div>
-
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
+            <!-- DRIVER EARNINGS (100% KEEP) -->
+            <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-4 rounded-3xl space-y-3 shadow-lg border border-emerald-800">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> My Payment Account Settings</h3>
-                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">For Passenger Payments</span>
+                    <h3 class="text-xs font-black uppercase text-emerald-300"><i class="fa-solid fa-wallet mr-1"></i> Your Net Earnings (No Commission)</h3>
+                    <span class="text-[9px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded-full">100% Yours</span>
+                </div>
+                <div class="bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/30 text-center">
+                    <p class="text-[10px] text-emerald-300 font-bold uppercase">Total Earned (Zero Deductions)</p>
+                    <p class="text-2xl font-black text-emerald-400 mt-1" id="driverTodayEarnings">PKR 0</p>
+                    <p class="text-[9px] text-slate-400 mt-1">No advance fees, no tax cuts. Keep every single rupee!</p>
+                </div>
+            </div>
+
+            <!-- DRIVER DOCUMENT KYC UPLOAD -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-2 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-id-card text-sky-600 mr-1"></i> Captain Verification (Free Profile)</h3>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400">Upload CNIC & License photo for Verified Free Gilgit Captain badge.</p>
+                <input type="file" id="driverKYCDocInput" accept="image/*" class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl text-xs font-medium text-slate-900 dark:text-white">
+                <button onclick="submitDriverKYCDocs()" class="w-full bg-sky-600 text-white font-black py-2 rounded-xl shadow">Submit Documents (Free)</button>
+            </div>
+
+            <!-- DRIVER PAYMENT ACCOUNT SETTINGS -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> My Direct Payment Account</h3>
+                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full">For Direct Passenger Pay</span>
                 </div>
                 <form onsubmit="handleSaveDriverAccountSettings(event)" class="space-y-2 text-xs">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block font-bold text-slate-600 mb-0.5">Account Type</label>
-                            <select id="driverAccType" class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-0.5">Account Type</label>
+                            <select id="driverAccType" class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
                                 <option value="Easypaisa">Easypaisa Mobile Account</option>
                                 <option value="JazzCash">JazzCash Wallet</option>
                                 <option value="Bank Transfer">Bank Account (1LINK)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block font-bold text-slate-600 mb-0.5">Account Title Name</label>
-                            <input type="text" id="driverAccTitle" placeholder="e.g. Akbar Mir" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-semibold">
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-0.5">Account Title Name</label>
+                            <input type="text" id="driverAccTitle" placeholder="e.g. Akbar Mir" required class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
                         </div>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-600 mb-0.5">Account / Phone Number / IBAN</label>
-                        <input type="text" id="driverAccNumber" placeholder="03XXXXXXXXX or IBAN" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-bold text-slate-900">
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-0.5">Account / Phone Number / IBAN</label>
+                        <input type="text" id="driverAccNumber" placeholder="03XXXXXXXXX or IBAN" required class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
                     </div>
-                    <button type="submit" class="w-full bg-emerald-600 text-white font-black py-2 rounded-xl shadow text-xs">Save Payment Settings</button>
+                    <button type="submit" class="w-full bg-emerald-600 text-white font-black py-2 rounded-xl shadow text-xs">Save Direct Payment Info</button>
                 </form>
             </div>
 
             <!-- DRIVER INDRIVE BIDDING & REQUEST FEED -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Passenger Ride Requests & Bidding Feed</h3>
-                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live</span>
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Gilgit Passenger Ride Requests Feed</h3>
+                    <span class="text-[9px] bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-sky-300 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live</span>
                 </div>
                 <div id="driverLiveBiddingFeed" class="space-y-2 text-xs">
-                    <p class="text-slate-400 text-center py-2">Listening for incoming passenger requests...</p>
+                    <p class="text-slate-400 text-center py-2">Listening for incoming Gilgit passenger requests...</p>
                 </div>
             </div>
 
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+            <!-- DRIVER PAYMENT APPROVALS -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Passenger Payment Approvals</h3>
-                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Passenger Payment Proofs</h3>
+                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full">100% Free</span>
                 </div>
                 <div id="driverPaymentApprovalFeed" class="space-y-2 text-xs">
-                    <p class="text-slate-400 text-center py-2">Listening for incoming manual passenger payment receipts...</p>
+                    <p class="text-slate-400 text-center py-2">No pending payment receipts to review.</p>
                 </div>
             </div>
         </div>
@@ -621,8 +655,14 @@
         <div id="controlSection" class="space-y-5 hidden transition-all duration-300">
             <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                    <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Admin Operations Portal</h3>
-                    <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">SUPER ADMIN ACCESS</span>
+                    <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Gilgit Admin Portal (Free Mode)</h3>
+                    <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">ZERO COMMISSION</span>
+                </div>
+
+                <!-- Admin Financial Summary Card (Zero Commission Notice) -->
+                <div class="bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-500/40 text-center text-xs space-y-1">
+                    <p class="font-black text-emerald-300 uppercase"><i class="fa-solid fa-circle-check mr-1"></i> Platform Status: 100% Free</p>
+                    <p class="text-slate-300">No commission is charged from captains. All ride earnings go directly to drivers to maximize traffic and adoption.</p>
                 </div>
 
                 <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 space-y-3 text-xs">
@@ -631,7 +671,7 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-slate-400 mb-0.5 font-bold">Promo Code</label>
-                                <input type="text" id="adminPromoCodeInput" placeholder="e.g. ASTORE50" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold uppercase text-white">
+                                <input type="text" id="adminPromoCodeInput" placeholder="e.g. GILGITFREE" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold uppercase text-white">
                             </div>
                             <div>
                                 <label class="block text-slate-400 mb-0.5 font-bold">Discount (PKR)</label>
@@ -639,16 +679,16 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-0.5 font-bold">Promo Description / Requirements</label>
-                            <input type="text" id="adminPromoDescInput" placeholder="e.g. Flat 100 PKR off on rides above 500 PKR" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-medium text-white">
+                            <label class="block text-slate-400 mb-0.5 font-bold">Promo Description</label>
+                            <input type="text" id="adminPromoDescInput" placeholder="e.g. Flat 100 PKR off on Gilgit rides" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-medium text-white">
                         </div>
-                        <button type="submit" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl shadow">Update & Broadcast Promo Code</button>
+                        <button type="submit" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl shadow">Update & Broadcast Promo</button>
                     </form>
                 </div>
 
                 <div class="space-y-2 text-xs">
                     <div class="flex justify-between items-center">
-                        <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-users mr-1"></i> Registered User Directory</h4>
+                        <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-users mr-1"></i> Gilgit User Directory</h4>
                         <span class="text-[9px] text-slate-400 font-bold" id="adminTotalUserCount">0 Registered</span>
                     </div>
                     <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-2 max-h-52 overflow-y-auto hide-scrollbar">
@@ -657,7 +697,7 @@
                 </div>
 
                 <div class="space-y-2 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> All Manual Payment Proof Logs</h4>
+                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Direct Payment Proof Logs</h4>
                     <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-40 overflow-y-auto hide-scrollbar">
                         <p class="text-slate-400 text-center py-2">Loading payment transactions...</p>
                     </div>
@@ -667,10 +707,52 @@
 
     </main>
 
+    <!-- SMART FARE BREAKDOWN MODAL -->
+    <div id="smartFareBreakdownModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 dark:border-slate-800 text-xs">
+            <button onclick="openSmartFareBreakdownModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-calculator text-sky-600 mr-1"></i> Smart Fare Breakdown (0% Commission)</h3>
+            <div class="space-y-2 text-slate-700 dark:text-slate-300">
+                <div class="flex justify-between font-bold">
+                    <span>Base City Fare:</span>
+                    <span id="breakdownBaseFare">PKR 350</span>
+                </div>
+                <div class="flex justify-between font-bold">
+                    <span>Gilgit City Distance Surcharge:</span>
+                    <span id="breakdownTerrainFee">PKR 50</span>
+                </div>
+                <div class="flex justify-between font-bold text-emerald-600 dark:text-emerald-400">
+                    <span>Platform Commission:</span>
+                    <span>PKR 0 (Free)</span>
+                </div>
+                <div class="flex justify-between font-black text-sm text-emerald-600 dark:text-emerald-400 border-t dark:border-slate-800 pt-2">
+                    <span>Total Captain Earnings:</span>
+                    <span id="breakdownTotalFare">PKR 400</span>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">100% goes directly to the driver. No tax or commission charged.</p>
+            <button onclick="openSmartFareBreakdownModal()" class="w-full bg-sky-600 text-white font-black py-2.5 rounded-xl">Got It</button>
+        </div>
+    </div>
+
+    <!-- TRUSTED SOS CONTACTS MODAL -->
+    <div id="sosSettingsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 dark:border-slate-800 text-xs">
+            <button onclick="closeSosModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-phone-flip text-rose-500 mr-1"></i> Trusted SOS Emergency Contacts</h3>
+            <p class="text-slate-600 dark:text-slate-300">Add trusted family members to alert automatically when SOS Panic is pressed.</p>
+            <div class="space-y-2">
+                <input type="text" id="sosContact1" placeholder="Family Member Name & Phone" class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                <input type="text" id="sosContact2" placeholder="Second Contact (Optional)" class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+            </div>
+            <button onclick="saveSosContacts()" class="w-full bg-rose-600 text-white font-black py-2.5 rounded-xl">Save Emergency Contacts</button>
+        </div>
+    </div>
+
     <!-- DRIVER RATING & REVIEW MODAL -->
     <div id="driverRatingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100 text-xs">
-            <h3 class="font-black text-sm text-slate-900 uppercase">Rate Your Driver Experience</h3>
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100 dark:border-slate-800 text-xs">
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase">Rate Your Gilgit Captain</h3>
             <div class="flex justify-center space-x-2 text-2xl text-amber-400 cursor-pointer">
                 <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(1)"></i>
                 <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(2)"></i>
@@ -678,112 +760,153 @@
                 <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(4)"></i>
                 <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(5)"></i>
             </div>
-            <textarea id="driverReviewComment" placeholder="Write feedback for your driver..." class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium"></textarea>
+            <textarea id="driverReviewComment" placeholder="Write feedback for your captain..." class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white"></textarea>
             <button onclick="closeRatingModal()" class="w-full bg-sky-600 text-white font-black py-2.5 rounded-xl">Submit Feedback</button>
         </div>
     </div>
 
     <!-- MENU CONTENT MODAL -->
     <div id="menuContentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[85vh] overflow-y-auto hide-scrollbar text-xs">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 dark:border-slate-800 max-h-[85vh] overflow-y-auto hide-scrollbar text-xs">
             <button onclick="closeMenuModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
 
             <!-- History View -->
             <div id="menuViewHistory" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-1"></i> Ride & Transaction History</h3>
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-1"></i> Ride & Direct Payment History</h3>
                 <div id="userHistoryList" class="space-y-2">
-                    <div class="p-3 bg-sky-50 rounded-2xl border border-sky-100 space-y-1">
-                        <div class="flex justify-between items-center font-bold">
-                            <span>Astore ➔ Gilgit</span>
-                            <span class="text-emerald-600">PKR 600</span>
+                    <div class="p-3 bg-sky-50 dark:bg-slate-800 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-1">
+                        <div class="flex justify-between items-center font-bold text-slate-900 dark:text-white">
+                            <span>Jutial ➔ Danyor</span>
+                            <span class="text-emerald-600 dark:text-emerald-400">PKR 400</span>
                         </div>
-                        <p class="text-[10px] text-slate-500">Status: Completed • Cash Payment</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">Status: Completed • Paid Direct to Captain (0% Commission)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referral & Social Share View -->
+            <div id="menuViewReferral" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-share-nodes text-emerald-500 mr-1"></i> Refer & Share App</h3>
+                <p class="text-slate-600 dark:text-slate-300">Share your official Secure Drop Gilgit link with friends to earn bonus loyalty coins!</p>
+                <div class="bg-sky-50 dark:bg-slate-800 p-3 rounded-2xl border border-sky-200 dark:border-slate-700 space-y-2">
+                    <label class="block font-bold text-slate-700 dark:text-slate-300">Your Referral Link:</label>
+                    <input type="text" id="userReferralLinkInput" readonly class="w-full p-2 bg-white dark:bg-slate-900 border border-sky-200 dark:border-slate-700 rounded-xl font-mono text-[10px] text-slate-800 dark:text-slate-200">
+                    <button onclick="copyUserReferralLink()" class="w-full bg-emerald-600 text-white font-black py-2 rounded-xl text-xs shadow"><i class="fa-solid fa-copy mr-1"></i> Copy Link</button>
+                </div>
+                <div class="space-y-2 pt-2">
+                    <p class="font-bold text-slate-700 dark:text-slate-300">Share Directly Via:</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="shareOnSocialMedia('whatsapp')" class="bg-emerald-500 text-white font-bold py-2.5 rounded-xl flex items-center justify-center space-x-1 shadow"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></button>
+                        <button onclick="shareOnSocialMedia('facebook')" class="bg-blue-600 text-white font-bold py-2.5 rounded-xl flex items-center justify-center space-x-1 shadow"><i class="fa-brands fa-facebook"></i><span>Facebook</span></button>
+                        <button onclick="shareOnSocialMedia('instagram')" class="bg-pink-600 text-white font-bold py-2.5 rounded-xl flex items-center justify-center space-x-1 shadow"><i class="fa-brands fa-instagram"></i><span>Instagram</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Wallet View -->
+            <div id="menuViewWallet" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-wallet text-amber-500 mr-1"></i> Digital Wallet & Rewards</h3>
+                <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-4 rounded-2xl text-center space-y-1 shadow-md">
+                    <p class="text-[10px] font-bold uppercase">Available Loyalty Coins</p>
+                    <p class="text-2xl font-black" id="userWalletCoinsDisplay">250 Coins</p>
+                    <p class="text-[10px]">Redeem 100 coins for flat PKR 100 discount on your next ride!</p>
+                </div>
+                <button onclick="redeemLoyaltyCoins()" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl text-xs shadow">Redeem 100 Coins for Discount</button>
+            </div>
+
+            <!-- Leaderboard View -->
+            <div id="menuViewLeaderboard" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-trophy text-amber-500 mr-1"></i> Top Gilgit Captains</h3>
+                <div class="space-y-2">
+                    <div class="p-3 bg-amber-50 dark:bg-slate-800 rounded-2xl border border-amber-200 dark:border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-[10px]">1</span>
+                            <div>
+                                <p class="font-black text-slate-900 dark:text-white">Captain Akbar Mir</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">45 Free Rides • 4.9 Rating</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-black text-amber-600 dark:text-amber-400">Gold 🥇</span>
                     </div>
                 </div>
             </div>
 
             <!-- Company Info View -->
             <div id="menuViewCompany" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-building text-emerald-600 mr-1"></i> Company Information</h3>
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-building text-emerald-600 mr-1"></i> Company Information</h3>
                 <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80" class="w-full h-32 object-cover rounded-2xl shadow-sm">
-                <p class="text-slate-600 font-medium leading-relaxed">Secure Drop Enterprise is Gilgit-Baltistan's premier transport and logistics network. We provide real-time fare bidding, instant courier dispatches, and end-to-end encrypted user safety.</p>
+                <p class="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">Secure Drop Gilgit is Gilgit city's 100% free transport & logistics network. We charge zero commission and zero tax, allowing passengers and captains to connect and transact directly.</p>
                 <div class="bg-slate-900 text-white p-3 rounded-2xl space-y-1 font-mono text-[10px]">
-                    <p>🌐 HQ: Astore & Gilgit Regional Centers</p>
+                    <p>🌐 HQ: Gilgit City Regional Center</p>
+                    <p>🔗 Official PWA: https://u-s-h.github.io/securedrop/</p>
                     <p>📞 Support: +92 344 9876543</p>
-                    <p>✉️ Email: support@securedrop.pk</p>
                 </div>
             </div>
 
             <!-- FAQ View -->
             <div id="menuViewFAQ" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-circle-question text-amber-500 mr-1"></i> Frequently Asked Questions</h3>
-                <div class="space-y-2 text-slate-700">
-                    <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
-                        <p class="font-bold text-slate-900">How do I choose Passenger or Driver role?</p>
-                        <p class="text-[11px] mt-1 text-slate-600">When logging in with Google, a role selection screen appears automatically to set your account preference.</p>
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-circle-question text-amber-500 mr-1"></i> Frequently Asked Questions</h3>
+                <div class="space-y-2 text-slate-700 dark:text-slate-300">
+                    <div class="p-2.5 bg-sky-50 dark:bg-slate-800 rounded-xl border border-sky-100 dark:border-slate-700">
+                        <p class="font-bold text-slate-900 dark:text-white">Is Secure Drop Gilgit really 100% free?</p>
+                        <p class="text-[11px] mt-1 text-slate-600 dark:text-slate-400">Yes! There are no commission deductions and no taxes. Captains keep 100% of the fare paid directly by passengers.</p>
                     </div>
                 </div>
-            </div>
-
-            <!-- Privacy Policy View -->
-            <div id="menuViewPrivacy" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-shield text-purple-600 mr-1"></i> Privacy & Terms</h3>
-                <p class="text-slate-600 font-medium leading-relaxed">We value user privacy. Profile details and location coordinates are transmitted over secure channels solely for transport matching purposes.</p>
             </div>
         </div>
     </div>
 
     <!-- MANUAL PAYMENT MODAL -->
     <div id="manualPaymentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[90vh] overflow-y-auto hide-scrollbar text-xs">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 dark:border-slate-800 max-h-[90vh] overflow-y-auto hide-scrollbar text-xs">
             <button onclick="openManualPaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
             
-            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-emerald-600 mr-1"></i> Manual Payment to Driver</h3>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-paper-plane text-emerald-600 mr-1"></i> Direct Pay to Captain (0% Fee)</h3>
 
-            <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl space-y-1">
-                <p class="font-bold text-amber-900">Driver Account Details:</p>
-                <p class="text-slate-700">Account: <strong id="modalDriverAccType">Easypaisa / JazzCash</strong></p>
-                <p class="text-slate-700">Title: <strong id="modalDriverAccTitle">Captain Driver</strong></p>
-                <p class="text-slate-700">Number: <strong id="modalDriverAccNumber" class="text-emerald-700">+92 344 9876543</strong></p>
+            <div class="bg-emerald-50 dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 p-3 rounded-2xl space-y-1">
+                <p class="font-bold text-emerald-900 dark:text-emerald-400">Captain Direct Account (Keep 100%):</p>
+                <p class="text-slate-700 dark:text-slate-300">Account: <strong id="modalDriverAccType">Easypaisa / JazzCash</strong></p>
+                <p class="text-slate-700 dark:text-slate-300">Title: <strong id="modalDriverAccTitle">Captain Driver</strong></p>
+                <p class="text-slate-700 dark:text-slate-300">Number: <strong id="modalDriverAccNumber" class="text-emerald-700 dark:text-emerald-400">+92 344 9876543</strong></p>
             </div>
 
             <form onsubmit="handleManualPaymentSubmit(event)" class="space-y-3">
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Fare Amount (PKR)</label>
-                    <input type="number" id="payFareAmount" value="600" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-black text-slate-900">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Fare Amount (PKR)</label>
+                    <input type="number" id="payFareAmount" value="400" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-black text-slate-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Transaction ID (TID Reference)</label>
-                    <input type="text" id="payTIDNumber" placeholder="e.g. 02938475610" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold uppercase">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Transaction ID (TID Reference)</label>
+                    <input type="text" id="payTIDNumber" placeholder="e.g. 02938475610" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold uppercase text-slate-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-image text-sky-600 mr-1"></i> Choose Receipt Photo</label>
-                    <input type="file" id="payProofFileInput" accept="image/*" onchange="previewSelectedImage(event, 'payProofPreviewImg')" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-medium text-slate-700">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1"><i class="fa-solid fa-image text-sky-600 mr-1"></i> Choose Receipt Photo</label>
+                    <input type="file" id="payProofFileInput" accept="image/*" onchange="previewSelectedImage(event, 'payProofPreviewImg')" required class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-700 dark:text-slate-300">
                     <img id="payProofPreviewImg" class="w-full h-32 object-cover rounded-xl mt-2 hidden border-2 border-emerald-500 shadow-sm">
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow-md">Dispatch Payment Proof to Driver</button>
+                <button type="submit" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow-md">Confirm Direct Payment to Captain</button>
             </form>
         </div>
     </div>
 
     <!-- PROFILE MODAL -->
     <div id="profileEditModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 text-xs">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 dark:border-slate-800 text-xs">
             <button onclick="toggleProfileModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-user-pen text-sky-600 mr-1"></i> Update Profile Details</h3>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-user-pen text-sky-600 mr-1"></i> Update Profile Details</h3>
 
             <form onsubmit="handleUpdateProfileSubmit(event)" class="space-y-3">
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Display Name</label>
-                    <input type="text" id="editProfileName" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Display Name</label>
+                    <input type="text" id="editProfileName" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Mobile Number</label>
-                    <input type="tel" id="editProfilePhone" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Mobile Number</label>
+                    <input type="tel" id="editProfilePhone" required class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-camera text-sky-600 mr-1"></i> Select New Profile Picture</label>
-                    <input type="file" id="editProfileAvatarFileInput" accept="image/*" onchange="previewSelectedImage(event, 'profileAvatarPreviewImg')" class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-medium text-slate-700">
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1"><i class="fa-solid fa-camera text-sky-600 mr-1"></i> Select New Profile Picture</label>
+                    <input type="file" id="editProfileAvatarFileInput" accept="image/*" onchange="previewSelectedImage(event, 'profileAvatarPreviewImg')" class="w-full p-2 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-medium text-slate-700 dark:text-slate-300">
                     <img id="profileAvatarPreviewImg" class="w-16 h-16 rounded-full object-cover mt-2 hidden border-2 border-sky-500 mx-auto shadow-sm">
                 </div>
                 <button type="submit" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl shadow-md">Save Changes</button>
@@ -800,12 +923,12 @@
 
     <!-- DIRECT ADMIN LIVE CHAT MODAL -->
     <div id="directAdminChatModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-3 border border-sky-100 text-xs">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-3 border border-sky-100 dark:border-slate-800 text-xs">
             <button onclick="openDirectAdminChatModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-headset text-amber-500 mr-1"></i> Direct Support Chat with Admin</h3>
-            <div id="adminDirectChatRoomContainer" class="bg-sky-50 p-2.5 rounded-xl space-y-1 max-h-52 overflow-y-auto hide-scrollbar border border-sky-100"></div>
+            <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-headset text-amber-500 mr-1"></i> Direct Support Chat with Admin</h3>
+            <div id="adminDirectChatRoomContainer" class="bg-sky-50 dark:bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-52 overflow-y-auto hide-scrollbar border border-sky-100 dark:border-slate-700"></div>
             <div class="flex space-x-2">
-                <input type="text" id="adminDirectChatMessageInput" placeholder="Message Admin Support..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl">
+                <input type="text" id="adminDirectChatMessageInput" placeholder="Message Admin Support..." class="flex-1 p-2 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white">
                 <button onclick="sendDirectAdminChatMessage()" class="bg-amber-500 text-slate-950 px-3 py-2 rounded-xl font-black">Send</button>
             </div>
         </div>
@@ -843,24 +966,117 @@
         let fullScreenTimerInterval = null;
         let activeCallTimerInterval = null;
         let currentCallId = null;
+        let loyaltyCoins = 250;
 
-        const popularGBLocations = [
-            "Astore Central Station", "Gilgit City Hub", "Chilas Main Bazaar", 
-            "Skardu Baltistan Resort", "Jaglot Junction", "Raman Astore Valley", 
-            "Rama Lake Camp", "Naltar Valley Ski Resort", "Hunza Karimabad Market"
+        const popularGilgitLocations = [
+            "Gilgit City Center (Jamia Masjid)", "Jutial Main Road", "Danyor Bridge", 
+            "Konodas Bridge", "Nushow Chowk", "Airport Road Gilgit", 
+            "Kashrote Bazaar", "Navgeh Gilgit", "Hoper Nagar Junction", "Mandori Gilgit"
         ];
 
         const fakeTrustList = [
-            { text: "Ali (Astore) ne 600 PKR ki ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
-            { text: "Driver Akbar ne 1,200 PKR Payment Approve kiya!", icon: "fa-shield-halved", color: "text-sky-400" },
-            { text: "Sajid (Gilgit) ne 850 PKR Fare offer kiya!", icon: "fa-handshake", color: "text-amber-400" },
-            { text: "New Driver Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" }
+            { text: "Ali (Jutial) ne 400 PKR ki free ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
+            { text: "Captain Akbar ne 100% direct payment receive ki!", icon: "fa-shield-halved", color: "text-sky-400" },
+            { text: "Sajid (Danyor) ne zero commission ride complete ki!", icon: "fa-handshake", color: "text-amber-400" },
+            { text: "New Gilgit Captain Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" }
         ];
 
-        // IN-APP CALLING SYSTEM FUNCTIONS
+        window.addEventListener('online', () => document.getElementById('offlineFallbackBanner').classList.add('hidden'));
+        window.addEventListener('offline', () => document.getElementById('offlineFallbackBanner').classList.remove('hidden'));
+
+        function toggleDarkMode() {
+            const htmlEl = document.documentElement;
+            const icon = document.getElementById('themeToggleIcon');
+            htmlEl.classList.toggle('dark');
+            if (htmlEl.classList.contains('dark')) {
+                icon.className = "fa-solid fa-sun";
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = "fa-solid fa-moon";
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function openSmartFareBreakdownModal() {
+            const modal = document.getElementById('smartFareBreakdownModal');
+            const proposed = parseInt(document.getElementById('passengerProposedFare').value) || 400;
+            const terrain = Math.round(proposed * 0.15);
+            const base = proposed - terrain;
+
+            document.getElementById('breakdownBaseFare').textContent = `PKR ${Math.max(200, base)}`;
+            document.getElementById('breakdownTerrainFee').textContent = `PKR ${terrain}`;
+            document.getElementById('breakdownTotalFare').textContent = `PKR ${proposed}`;
+            modal.classList.toggle('hidden');
+        }
+
+        function triggerEmergencySOS() {
+            const c1 = localStorage.getItem('sos_c1') || "Not Set";
+            if (confirm(`EMERGENCY SOS: Broadcast distress alert with live Gilgit location and notify trusted contacts (${c1}) to Admin Support?`)) {
+                rtdb.ref('emergency_sos').push({
+                    passenger: currentUser ? currentUser.name : "User",
+                    phone: currentUser ? currentUser.phone : "+923001234567",
+                    trustedContact: c1,
+                    location: "Gilgit City coordinates",
+                    timestamp: Date.now()
+                }).then(() => {
+                    showPushNotificationToast("SOS EMERGENCY BROADCASTED!", "Distress signal sent successfully to Admin & Family.");
+                });
+            }
+        }
+
+        function closeSosModal() {
+            document.getElementById('sosSettingsModal').classList.add('hidden');
+        }
+
+        function saveSosContacts() {
+            const c1 = document.getElementById('sosContact1').value;
+            const c2 = document.getElementById('sosContact2').value;
+            localStorage.setItem('sos_c1', c1);
+            localStorage.setItem('sos_c2', c2);
+            alert("Trusted SOS contacts saved successfully!");
+            closeSosModal();
+        }
+
+        function redeemLoyaltyCoins() {
+            if (loyaltyCoins >= 100) {
+                loyaltyCoins -= 100;
+                document.getElementById('userWalletCoinsDisplay').textContent = `${loyaltyCoins} Coins`;
+                const fareInput = document.getElementById('passengerProposedFare');
+                fareInput.value = Math.max(100, parseInt(fareInput.value) - 100);
+                alert("Successfully redeemed 100 loyalty coins! Flat PKR 100 discount applied to your ride.");
+            } else {
+                alert("Insufficient loyalty coins! Complete more free Gilgit rides to earn coins.");
+            }
+        }
+
+        function copyUserReferralLink() {
+            const input = document.getElementById('userReferralLinkInput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert("Referral link copied to clipboard!");
+        }
+
+        function shareOnSocialMedia(platform) {
+            const refLink = document.getElementById('userReferralLinkInput').value || "https://u-s-h.github.io/securedrop/";
+            const shareText = `Book 100% free rides and cargo delivery in Gilgit with zero commission! Join via my link: ${refLink}`;
+
+            let url = "";
+            if (platform === 'whatsapp') {
+                url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+            } else if (platform === 'facebook') {
+                url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(refLink)}`;
+            } else if (platform === 'instagram') {
+                alert("Link copied! Paste it in your Instagram Bio or Story to invite friends.");
+                navigator.clipboard.writeText(refLink);
+                return;
+            }
+            if (url) window.open(url, '_blank');
+        }
+
         function triggerInitiateInAppVoiceCall() {
             if (!currentUser) return;
-            const peerName = currentUser.role === 'passenger' ? "Assigned Captain" : "Passenger User";
+            const peerName = currentUser.role === 'passenger' ? "Assigned Gilgit Captain" : "Passenger User";
             
             rtdb.ref('active_calls').push({
                 callerName: currentUser.name,
@@ -928,47 +1144,6 @@
             }, 1000);
         }
 
-        // FULL SCREEN 15-SECOND ALERT MODAL ENGINE
-        function triggerFullScreenInDriveAlert(title, desc) {
-            const modal = document.getElementById('fullScreenInDriveAlertModal');
-            const titleEl = document.getElementById('fullScreenAlertTitle');
-            const descEl = document.getElementById('fullScreenAlertDesc');
-            const timerEl = document.getElementById('fullScreenCountdownTimer');
-
-            if (modal && titleEl && descEl && timerEl) {
-                titleEl.textContent = title;
-                descEl.textContent = desc;
-                modal.classList.remove('hidden');
-
-                let timeLeft = 15;
-                timerEl.textContent = timeLeft;
-
-                if (fullScreenTimerInterval) clearInterval(fullScreenTimerInterval);
-
-                fullScreenTimerInterval = setInterval(() => {
-                    timeLeft--;
-                    timerEl.textContent = timeLeft;
-                    if (timeLeft <= 0) {
-                        clearInterval(fullScreenTimerInterval);
-                        dismissFullScreenAlert();
-                    }
-                }, 1000);
-            }
-        }
-
-        function dismissFullScreenAlert() {
-            const modal = document.getElementById('fullScreenInDriveAlertModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                if (fullScreenTimerInterval) clearInterval(fullScreenTimerInterval);
-            }
-        }
-
-        function acceptFullScreenAlertAction() {
-            dismissFullScreenAlert();
-            showPushNotificationToast("Ride Accepted", "Connecting with driver/passenger...");
-        }
-
         function showPushNotificationToast(title, desc) {
             const toast = document.getElementById('appPushNotificationToast');
             const titleEl = document.getElementById('pushToastTitle');
@@ -1003,18 +1178,23 @@
         }
 
         function startDynamicActiveUsersEngine() {
-            let currentUsers = Math.floor(Math.random() * (48 - 38 + 1)) + 38;
+            let currentUsers = Math.floor(Math.random() * (58 - 48 + 1)) + 48;
             const countEl = document.getElementById('dynamicActiveUserCount');
             if (countEl) countEl.textContent = currentUsers;
 
             setInterval(() => {
                 const delta = Math.floor(Math.random() * 5) - 2;
-                currentUsers = Math.max(34, Math.min(56, currentUsers + delta));
+                currentUsers = Math.max(42, Math.min(68, currentUsers + delta));
                 if (countEl) countEl.textContent = currentUsers;
             }, 6000);
         }
 
         window.addEventListener('load', () => {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeToggleIcon').className = "fa-solid fa-sun";
+            }
+
             setTimeout(() => {
                 const splash = document.getElementById('modernSplashScreen');
                 if (splash) {
@@ -1048,6 +1228,9 @@
                         applyUserRolePermissions(currentUser.role);
                         updateUserUI();
 
+                        const generatedRefLink = `https://u-s-h.github.io/securedrop/?ref=${encodeURIComponent(currentUser.name.replace(/\s+/g, '_'))}`;
+                        document.getElementById('userReferralLinkInput').value = generatedRefLink;
+
                         if (currentUser.role === 'driver') {
                             loadDriverAccountSettings(currentUser.uid);
                             startDriverLiveLocationBroadcaster();
@@ -1064,6 +1247,7 @@
                         listenToPassengerBids();
                         listenToLiveDriverTrackingOnMap();
                         listenToIncomingCalls();
+                        loadUserHistoryAndActivity();
                     });
                 } else {
                     currentUser = null;
@@ -1078,7 +1262,6 @@
             initRealtimeChatListener(activeRideChatId);
         });
 
-        // AUTO SYNC CONNECTED DRIVER PAYMENT DETAILS FOR PASSENGER
         function listenToPassengerConnectedDriverPayment(passengerUid) {
             rtdb.ref('rides').on('value', snapshot => {
                 const data = snapshot.val();
@@ -1108,9 +1291,22 @@
                     }
                 });
             });
+
+            rtdb.ref('manual_payments').on('value', snapshot => {
+                const data = snapshot.val();
+                if (!data) return;
+                const badge = document.getElementById('passengerPaymentApprovalStatusBadge');
+                Object.keys(data).forEach(key => {
+                    const pay = data[key];
+                    if (pay.passenger === currentUser.name) {
+                        badge.textContent = `Status: ${pay.status}`;
+                        if (pay.status === 'Approved') badge.className = "text-[9px] bg-emerald-500 text-white font-extrabold px-2 py-0.5 rounded-full";
+                        else if (pay.status === 'Rejected') badge.className = "text-[9px] bg-rose-500 text-white font-extrabold px-2 py-0.5 rounded-full";
+                    }
+                });
+            });
         }
 
-        // GOOGLE SIGN IN & ROLE SELECTION
         function handleGoogleSignInGate() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).then(res => {
@@ -1140,7 +1336,6 @@
             });
         }
 
-        // GOOGLE PLACES AUTOCOMPLETE SIMULATOR
         function handleLocationAutocomplete(query, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -1151,7 +1346,7 @@
                 return;
             }
 
-            const matches = popularGBLocations.filter(loc => loc.toLowerCase().includes(query.toLowerCase()));
+            const matches = popularGilgitLocations.filter(loc => loc.toLowerCase().includes(query.toLowerCase()));
             if (matches.length === 0) {
                 container.classList.add('hidden');
                 return;
@@ -1159,7 +1354,7 @@
 
             matches.forEach(loc => {
                 container.innerHTML += `
-                    <div onclick="selectAutocompleteLocation('${loc}', '${containerId}')" class="p-2.5 hover:bg-sky-50 cursor-pointer font-bold text-slate-800 border-b border-sky-100 text-xs">
+                    <div onclick="selectAutocompleteLocation('${loc}', '${containerId}')" class="p-2.5 hover:bg-sky-50 dark:hover:bg-slate-700 cursor-pointer font-bold text-slate-800 dark:text-slate-200 border-b border-sky-100 dark:border-slate-700 text-xs">
                         <i class="fa-solid fa-location-dot text-sky-600 mr-2"></i> ${loc}
                     </div>`;
             });
@@ -1170,13 +1365,15 @@
             if (containerId === 'pickupSuggestions') {
                 document.getElementById('customPickupInput').value = locName;
                 document.getElementById('pickupSuggestions').classList.add('hidden');
+            } else if (containerId === 'waypointSuggestions') {
+                document.getElementById('customWaypointInput').value = locName;
+                document.getElementById('waypointSuggestions').classList.add('hidden');
             } else {
                 document.getElementById('customDropInput').value = locName;
                 document.getElementById('dropSuggestions').classList.add('hidden');
             }
         }
 
-        // CARGO MULTI-STOP & PACKAGE TRACKING
         function dispatchCargoCourierPackage() {
             const itemName = document.getElementById('parcelItemName').value;
             const receiver = document.getElementById('parcelReceiver').value;
@@ -1187,15 +1384,15 @@
                 return;
             }
 
-            const trackingCode = "SD-GB-" + Math.floor(100000 + Math.random() * 900000);
+            const trackingCode = "SD-GLG-" + Math.floor(100000 + Math.random() * 900000);
             rtdb.ref('cargo_parcels/' + trackingCode).set({
                 itemName: itemName,
                 receiver: receiver,
-                stops: stops || "Direct Delivery",
+                stops: stops || "Gilgit City Direct",
                 status: "Dispatched & In Transit",
                 timestamp: Date.now()
             }).then(() => {
-                alert(`Cargo Dispatched Successfully! Your Live Tracking Code is: ${trackingCode}`);
+                alert(`Gilgit Free Cargo Dispatched! Live Tracking Code: ${trackingCode}`);
                 document.getElementById('trackCargoCodeInput').value = trackingCode;
             });
         }
@@ -1221,7 +1418,6 @@
             });
         }
 
-        // DRIVER ONLINE/OFFLINE TOGGLE
         function toggleDriverOnlineStatus() {
             if (!currentUser || currentUser.role !== 'driver') return;
             const btn = document.getElementById('driverOnlineToggleBtn');
@@ -1235,12 +1431,11 @@
             } else {
                 btn.textContent = "Online";
                 btn.className = "bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
-                sub.textContent = "You are currently Online & Receiving Rides";
+                sub.textContent = "You are currently Online & Receiving Gilgit Rides";
                 rtdb.ref('users/' + currentUser.uid).update({ status: "Active" });
             }
         }
 
-        // LIVE DRIVER GPS LOCATION BROADCASTER
         function startDriverLiveLocationBroadcaster() {
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(position => {
@@ -1256,7 +1451,6 @@
             }
         }
 
-        // PASSENGER MAP LIVE TRACKING
         function listenToLiveDriverTrackingOnMap() {
             rtdb.ref('driver_locations').on('value', snapshot => {
                 if (!leafletMap || !currentUser || currentUser.role !== 'passenger') return;
@@ -1268,13 +1462,12 @@
                     if (driverMarker) {
                         driverMarker.setLatLng([loc.lat, loc.lng]);
                     } else {
-                        driverMarker = L.marker([loc.lat, loc.lng]).addTo(leafletMap).bindPopup(`<b>Captain ${loc.driverName}</b> (En Route)`).openPopup();
+                        driverMarker = L.marker([loc.lat, loc.lng]).addTo(leafletMap).bindPopup(`<b>Captain ${loc.driverName}</b> (Gilgit En Route)`).openPopup();
                     }
                 });
             });
         }
 
-        // DYNAMIC DRIVER EARNINGS & TIER BADGE SYSTEM
         function loadDriverDynamicEarnings(driverName) {
             rtdb.ref('rides').on('value', snapshot => {
                 const data = snapshot.val();
@@ -1292,39 +1485,22 @@
                 });
 
                 document.getElementById('driverTodayEarnings').textContent = `PKR ${totalEarnings}`;
-                document.getElementById('driverCompletedRidesCount').textContent = completedRides;
 
                 const badgeTag = document.getElementById('driverTierBadgeTag');
                 if (badgeTag) {
                     if (completedRides >= 10) {
-                        badgeTag.textContent = "Gold Captain 🥇";
-                        badgeTag.className = "ml-2 text-[9px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase shadow";
-                    } else if (completedRides >= 5) {
-                        badgeTag.textContent = "Silver Captain 🥈";
-                        badgeTag.className = "ml-2 text-[9px] bg-slate-300 text-slate-900 font-black px-2 py-0.5 rounded-full uppercase";
+                        badgeTag.textContent = "0% Commission (Gold) 🥇";
                     } else {
-                        badgeTag.textContent = "Bronze Captain 🥉";
-                        badgeTag.className = "ml-2 text-[9px] bg-amber-700 text-white font-black px-2 py-0.5 rounded-full uppercase";
+                        badgeTag.textContent = "0% Commission Free Captain 🚀";
                     }
                 }
             });
         }
 
-        // SOS EMERGENCY PANIC BUTTON
-        function triggerEmergencySOS() {
-            if (confirm("EMERGENCY: Do you want to broadcast SOS distress signal with your live location to Admin Support and Emergency Contacts?")) {
-                rtdb.ref('emergency_sos').push({
-                    passenger: currentUser.name,
-                    phone: currentUser.phone,
-                    location: "Astore / Gilgit Hub coordinates",
-                    timestamp: Date.now()
-                }).then(() => {
-                    showPushNotificationToast("SOS EMERGENCY ALERT!", "Distress signal successfully broadcasted to Admin.");
-                });
-            }
+        function submitDriverKYCDocs() {
+            alert("Captain KYC Documents submitted to Gilgit Admin for free verification!");
         }
 
-        // RATING & REVIEW SYSTEM
         function openRatingModal() {
             document.getElementById('driverRatingModal').classList.remove('hidden');
         }
@@ -1341,12 +1517,11 @@
                 comment: comment,
                 timestamp: Date.now()
             }).then(() => {
-                alert(`Thank you! Rated ${stars} stars successfully.`);
+                alert(`Thank you! Rated Gilgit Captain ${stars} stars successfully.`);
                 closeRatingModal();
             });
         }
 
-        // ADMIN PROMO CODE HANDLER
         function handleAdminUpdatePromoCode(e) {
             e.preventDefault();
             const code = document.getElementById('adminPromoCodeInput').value.trim().toUpperCase();
@@ -1359,7 +1534,7 @@
                 description: desc,
                 timestamp: Date.now()
             }).then(() => {
-                showPushNotificationToast("New Promo Broadcast!", `Code ${code}: Save PKR ${discount}`);
+                showPushNotificationToast("Gilgit Free Promo Broadcast!", `Code ${code}: Save PKR ${discount}`);
             });
         }
 
@@ -1414,13 +1589,19 @@
             });
         }
 
-        // PUBLISH RIDE REQUEST (INDRIVE STYLE FULL SCREEN TRIGGER)
         function publishCustomInDriveRide() {
             const pickup = document.getElementById('customPickupInput').value;
+            const waypoint = document.getElementById('customWaypointInput').value;
             const drop = document.getElementById('customDropInput').value;
             const fare = document.getElementById('passengerProposedFare').value;
-            const payType = document.getElementById('passengerPayTypeSelect').value;
-            const scheduleType = document.getElementById('passengerBookingSchedule').value;
+            const mode = document.getElementById('passengerBookingMode').value;
+
+            if (!pickup || !drop) {
+                alert("Please enter both pickup and drop areas within Gilgit city.");
+                return;
+            }
+
+            const fullRoute = waypoint ? `${pickup} ➔ Stop: ${waypoint} ➔ ${drop}` : `${pickup} ➔ ${drop}`;
 
             const newRideRef = rtdb.ref('rides').push();
             newRideRef.set({
@@ -1429,21 +1610,19 @@
                 passenger: currentUser.name,
                 phone: currentUser.phone,
                 pickup: pickup,
+                waypoint: waypoint || "",
                 drop: drop,
                 proposedFare: fare,
-                payType: payType,
-                scheduleType: scheduleType,
+                bookingMode: mode,
                 status: "Pending",
                 timestamp: Date.now()
             }).then(() => {
                 document.getElementById('passengerIncomingBidsBox').classList.remove('hidden');
                 document.getElementById('passengerOffersBox').classList.remove('hidden');
-                
-                triggerFullScreenInDriveAlert("New Ride Request!", `Route: ${pickup} ➔ ${drop} (PKR ${fare})`);
+                showPushNotificationToast("Free Ride Broadcasted!", `Route: ${fullRoute} (PKR ${fare})`);
             });
         }
 
-        // DRIVER VIEW: LISTEN TO RIDE REQUESTS
         function listenToDriverBiddingFeed() {
             rtdb.ref('rides').on('value', snapshot => {
                 const feed = document.getElementById('driverLiveBiddingFeed');
@@ -1451,7 +1630,7 @@
                 feed.innerHTML = "";
                 const data = snapshot.val();
                 if(!data) {
-                    feed.innerHTML = `<p class="text-slate-400 text-center py-2">No active ride requests right now.</p>`;
+                    feed.innerHTML = `<p class="text-slate-400 text-center py-2">No active Gilgit ride requests right now.</p>`;
                     return;
                 }
 
@@ -1470,27 +1649,27 @@
                     } else if (r.status === "Accepted" && r.driverName === currentUser.name) {
                         actionButtons = `
                             <div class="pt-1">
-                                <button onclick="driverCompleteRide('${r.rideId}')" class="w-full bg-blue-600 text-white font-black py-2 rounded-xl text-[10px]">Complete Ride & Add Earnings</button>
+                                <button onclick="driverCompleteRide('${r.rideId}')" class="w-full bg-blue-600 text-white font-black py-2 rounded-xl text-[10px]">Complete Ride & Keep 100%</button>
                             </div>`;
                     }
 
+                    const routeStr = r.waypoint ? `${r.pickup} ➔ ${r.waypoint} ➔ ${r.drop}` : `${r.pickup} ➔ ${r.drop}`;
+
                     feed.innerHTML += `
-                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-2 shadow-sm">
+                        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-2 shadow-sm">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="font-black text-slate-900">${r.passenger} (${r.phone})</p>
-                                    <p class="text-[10px] text-slate-500 font-semibold">${r.pickup} ➔ ${r.drop}</p>
-                                    <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">${r.scheduleType} • Status: ${r.status}</span>
+                                    <p class="font-black text-slate-900 dark:text-white">${r.passenger} (${r.phone})</p>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">${routeStr}</p>
+                                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded">${r.bookingMode} • 0% Commission</span>
                                 </div>
-                                <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.finalFare || r.proposedFare}</span>
+                                <span class="bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.finalFare || r.proposedFare}</span>
                             </div>
                             ${actionButtons}
                         </div>`;
                 });
             });
         }
-
-        function filterDriverRidesByCategory() {}
 
         function driverAcceptRide(rideId, fare) {
             rtdb.ref(`rides/${rideId}`).update({
@@ -1499,7 +1678,7 @@
                 driverPhone: currentUser.phone,
                 finalFare: fare
             }).then(() => {
-                showPushNotificationToast("Ride Accepted!", "Passenger connected successfully.");
+                showPushNotificationToast("Gilgit Ride Accepted!", "Passenger connected successfully.");
             });
         }
 
@@ -1507,7 +1686,8 @@
             rtdb.ref(`rides/${rideId}`).update({
                 status: "Completed"
             }).then(() => {
-                showPushNotificationToast("Ride Completed!", "Earnings successfully added to dashboard.");
+                loyaltyCoins += 25;
+                showPushNotificationToast("Ride Completed!", "100% earnings kept & +25 Loyalty Coins credited!");
             });
         }
 
@@ -1520,46 +1700,13 @@
                     offeredFare: newFare,
                     timestamp: Date.now()
                 }).then(() => {
-                    triggerFullScreenInDriveAlert("Counter Offer Sent!", `Driver offered PKR ${newFare}`);
+                    showPushNotificationToast("Counter Offer Sent!", `Captain offered PKR ${newFare}`);
                 });
             }
         }
 
         function driverRefuseRide(rideId) {
             rtdb.ref(`rides/${rideId}`).update({ status: "Refused" }).then(() => alert("Ride refused."));
-        }
-
-        function listenToPassengerBids() {
-            rtdb.ref('driver_bids').on('value', snapshot => {
-                const container = document.getElementById('passengerBidsFeedContainer');
-                if (!container || !currentUser || currentUser.role !== 'passenger') return;
-                container.innerHTML = "";
-                const data = snapshot.val();
-                if (!data) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-2">Waiting for driver counter offers...</p>`;
-                    return;
-                }
-
-                Object.keys(data).forEach(rideId => {
-                    const bids = data[rideId];
-                    Object.keys(bids).forEach(bidKey => {
-                        const b = bids[bidKey];
-                        container.innerHTML += `
-                            <div class="bg-sky-50 p-2.5 rounded-xl border border-sky-200 flex justify-between items-center">
-                                <div>
-                                    <p class="font-black text-slate-900">${b.driverName} (${b.driverPhone})</p>
-                                    <p class="text-[10px] text-emerald-700 font-bold">Offered Fare: PKR ${b.offeredFare}</p>
-                                </div>
-                                <button onclick="passengerAcceptBid('${b.driverName}', ${b.offeredFare})" class="bg-emerald-600 text-white font-black px-3 py-1.5 rounded-xl text-[10px]">Accept Bid</button>
-                            </div>`;
-                    });
-                });
-            });
-        }
-
-        function passengerAcceptBid(driverName, fare) {
-            document.getElementById('passengerProposedFare').value = fare;
-            alert(`Bid accepted from driver ${driverName} for PKR ${fare}! Enjoy your ride.`);
         }
 
         function toggleSidebarMenu() {
@@ -1569,16 +1716,25 @@
 
         function openMenuModal(view) {
             toggleSidebarMenu();
+            if (view === 'sossettings') {
+                document.getElementById('sosSettingsModal').classList.remove('hidden');
+                return;
+            }
+
             document.getElementById('menuContentModal').classList.remove('hidden');
             document.getElementById('menuViewHistory').classList.add('hidden');
+            document.getElementById('menuViewReferral').classList.add('hidden');
+            document.getElementById('menuViewWallet').classList.add('hidden');
+            document.getElementById('menuViewLeaderboard').classList.add('hidden');
             document.getElementById('menuViewCompany').classList.add('hidden');
             document.getElementById('menuViewFAQ').classList.add('hidden');
-            document.getElementById('menuViewPrivacy').classList.add('hidden');
 
             if (view === 'history') document.getElementById('menuViewHistory').classList.remove('hidden');
+            else if (view === 'referral') document.getElementById('menuViewReferral').classList.remove('hidden');
+            else if (view === 'wallet') document.getElementById('menuViewWallet').classList.remove('hidden');
+            else if (view === 'leaderboard') document.getElementById('menuViewLeaderboard').classList.remove('hidden');
             else if (view === 'company') document.getElementById('menuViewCompany').classList.remove('hidden');
             else if (view === 'faq') document.getElementById('menuViewFAQ').classList.remove('hidden');
-            else if (view === 'privacy') document.getElementById('menuViewPrivacy').classList.remove('hidden');
         }
 
         function closeMenuModal() {
@@ -1627,13 +1783,13 @@
                 switchAppRole('passenger');
             } else if (role === 'driver') {
                 btnDriver.classList.remove('hidden');
-                roleBadge.textContent = "DRIVER CAPTAIN";
+                roleBadge.textContent = "GILGIT CAPTAIN (FREE)";
                 roleBadge.className = "ml-1 text-[8px] bg-amber-500 text-slate-950 font-extrabold px-1.5 py-0.5 rounded-full uppercase";
                 switchAppRole('driver');
             } else if (role === 'control') {
                 btnDriver.classList.remove('hidden');
                 btnControl.classList.remove('hidden');
-                roleBadge.textContent = "SYSTEM ADMIN";
+                roleBadge.textContent = "GILGIT ADMIN";
                 roleBadge.className = "ml-1 text-[8px] bg-rose-600 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase";
                 switchAppRole('control');
             }
@@ -1653,7 +1809,7 @@
                 accTitle: accTitle,
                 accNumber: accNumber
             }).then(() => {
-                alert("Driver Payment Account details saved successfully!");
+                alert("Captain Direct Payment account details saved successfully!");
             });
         }
 
@@ -1674,9 +1830,9 @@
 
         function initLeafletMap() {
             if (document.getElementById('leafletMapContainer')) {
-                leafletMap = L.map('leafletMapContainer').setView([35.3012, 74.8581], 11);
+                leafletMap = L.map('leafletMapContainer').setView([35.9208, 74.3087], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
-                L.marker([35.3012, 74.8581]).addTo(leafletMap).bindPopup('<b>Secure Drop Fleet HQ</b>').openPopup();
+                L.marker([35.9208, 74.3087]).addTo(leafletMap).bindPopup('<b>Secure Drop Gilgit City HQ (Free)</b>').openPopup();
             }
         }
 
@@ -1689,9 +1845,9 @@
             const formA = document.getElementById('gateAdminAuthFormContainer');
             const label = document.getElementById('authRoleLabel');
 
-            btnP.className = "py-2 rounded-lg text-slate-700";
-            btnD.className = "py-2 rounded-lg text-slate-700";
-            btnA.className = "py-2 rounded-lg text-slate-700";
+            btnP.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
+            btnD.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
+            btnA.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
 
             if (role === 'control') {
                 formU.classList.add('hidden');
@@ -1705,7 +1861,7 @@
                     if(label) label.textContent = "Passenger";
                 } else {
                     btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
-                    if(label) label.textContent = "Driver";
+                    if(label) label.textContent = "Captain";
                 }
             }
         }
@@ -1726,7 +1882,7 @@
                 subR.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
                 subL.className = "flex-1 text-center font-bold text-slate-400 pb-1";
                 nameC.classList.remove('hidden');
-                subBtn.textContent = `Create ${currentGateRole.toUpperCase()} Account`;
+                subBtn.textContent = `Create Free ${currentGateRole.toUpperCase()} Account`;
             }
         }
 
@@ -1759,7 +1915,7 @@
             const pass = document.getElementById('adminGatePass').value;
 
             if (email === "webhub262@gmail.com" && pass === "5426224") {
-                currentUser = { name: "Console Manager", email: email, role: "control", photoURL: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" };
+                currentUser = { name: "Gilgit Manager", email: email, role: "control", photoURL: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" };
                 document.getElementById('mandatoryAuthGate').classList.add('hidden');
                 applyUserRolePermissions('control');
                 updateUserUI();
@@ -1821,15 +1977,16 @@
 
             const newPayRef = rtdb.ref('manual_payments').push();
             newPayRef.set({
+                paymentId: newPayRef.key,
                 passenger: currentUser ? currentUser.name : "Passenger",
                 passengerPhone: currentUser ? currentUser.phone : "+923001234567",
                 fare: fare,
                 tid: tid,
                 proofUrl: tempBase64Proof,
-                status: "Pending Driver Approval",
+                status: "Pending",
                 timestamp: Date.now()
             }).then(() => {
-                alert("Payment proof uploaded & dispatched live to Driver!");
+                alert("Direct payment confirmation sent to Captain! (0% Commission deducted)");
                 openManualPaymentModal();
             });
         }
@@ -1842,34 +1999,64 @@
 
                 const data = snapshot.val();
                 if(!data) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No pending manual payment receipts.</p>`;
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No pending direct payments to review.</p>`;
                     return;
                 }
 
+                let pendingCount = 0;
                 Object.keys(data).forEach(key => {
                     const pay = data[key];
+                    if (pay.status !== "Pending") return;
+                    pendingCount++;
+
                     container.innerHTML += `
-                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-1.5 shadow-sm">
+                        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-1.5 shadow-sm">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="font-black text-slate-900">${pay.passenger} (${pay.passengerPhone})</p>
-                                    <p class="text-[10px] text-slate-500 font-bold">TID: ${pay.tid}</p>
+                                    <p class="font-black text-slate-900 dark:text-white">${pay.passenger} (${pay.passengerPhone})</p>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">TID: ${pay.tid}</p>
                                 </div>
-                                <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2 py-0.5 rounded">PKR ${pay.fare}</span>
+                                <span class="bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded">PKR ${pay.fare}</span>
                             </div>
                             <div class="flex space-x-2 pt-1">
                                 <button onclick="viewFullScreenProof('${pay.proofUrl}')" class="bg-sky-600 text-white font-bold px-2 py-1 rounded-xl text-[10px]"><i class="fa-solid fa-eye mr-1"></i> View Receipt</button>
-                                <button onclick="updatePaymentStatus('${key}', 'Approved')" class="flex-1 bg-emerald-600 text-white font-black py-1 rounded-xl text-[10px]">Approve</button>
+                                <button onclick="updatePaymentStatus('${key}', 'Approved')" class="flex-1 bg-emerald-600 text-white font-black py-1 rounded-xl text-[10px]">Approve (Keep 100%)</button>
                                 <button onclick="updatePaymentStatus('${key}', 'Rejected')" class="bg-rose-600 text-white font-black px-2 py-1 rounded-xl text-[10px]">Reject</button>
                             </div>
                         </div>`;
                 });
+
+                if (pendingCount === 0) {
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No pending direct payments to review.</p>`;
+                }
             });
         }
 
         function updatePaymentStatus(key, status) {
             rtdb.ref('manual_payments/' + key).update({ status: status }).then(() => {
-                alert(`Payment receipt ${status}!`);
+                showPushNotificationToast(`Payment ${status}`, `Transaction receipt has been marked as ${status}.`);
+            });
+        }
+
+        function loadUserHistoryAndActivity() {
+            rtdb.ref('manual_payments').on('value', snapshot => {
+                const histList = document.getElementById('userHistoryList');
+                if (!histList) return;
+                const data = snapshot.val();
+                if (!data) return;
+
+                histList.innerHTML = "";
+                Object.keys(data).forEach(key => {
+                    const p = data[key];
+                    histList.innerHTML += `
+                        <div class="p-3 bg-sky-50 dark:bg-slate-800 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-1">
+                            <div class="flex justify-between items-center font-bold text-slate-900 dark:text-white">
+                                <span>TID: ${p.tid} (${p.passenger})</span>
+                                <span class="text-emerald-600 dark:text-emerald-400">PKR ${p.fare}</span>
+                            </div>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400">Status: ${p.status} • Direct Pay (0% Commission)</p>
+                        </div>`;
+                });
             });
         }
 
@@ -1912,16 +2099,16 @@
 
                 const data = snapshot.val();
                 if(!data) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-2">Start conversation with Admin Support...</p>`;
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">Start conversation with Gilgit Support...</p>`;
                     return;
                 }
 
                 Object.keys(data).forEach(key => {
                     const msg = data[key];
                     container.innerHTML += `
-                        <div class="p-2 rounded-xl text-xs mb-1 bg-white border border-sky-100">
-                            <span class="font-bold text-amber-700 text-[10px] block">${msg.sender}</span>
-                            <span class="text-slate-800">${msg.message}</span>
+                        <div class="p-2 rounded-xl text-xs mb-1 bg-white dark:bg-slate-700 border border-sky-100 dark:border-slate-600">
+                            <span class="font-bold text-amber-700 dark:text-amber-400 text-[10px] block">${msg.sender}</span>
+                            <span class="text-slate-800 dark:text-slate-200">${msg.message}</span>
                         </div>`;
                 });
             });
@@ -1981,7 +2168,7 @@
 
                 Object.keys(data).forEach(key => {
                     const p = data[key];
-                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} Paid PKR ${p.fare} (TID: ${p.tid}) [${p.status}]</div>`;
+                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} paid PKR ${p.fare} direct to Captain (TID: ${p.tid}) [${p.status}]</div>`;
                 });
             });
         }
@@ -1996,7 +2183,7 @@
 
                 Object.keys(data).forEach(key => {
                     const m = data[key];
-                    container.innerHTML += `<div class="p-1.5 bg-sky-50 rounded-lg"><span class="font-bold text-sky-800">${m.sender}:</span> ${m.message}</div>`;
+                    container.innerHTML += `<div class="p-1.5 bg-sky-50 dark:bg-slate-700 rounded-lg"><span class="font-bold text-sky-800 dark:text-sky-300">${m.sender}:</span> <span class="text-slate-800 dark:text-slate-200">${m.message}</span></div>`;
                 });
             });
         }
