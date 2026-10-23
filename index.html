@@ -104,7 +104,6 @@
         </div>
 
         <div class="grid md:grid-cols-4 gap-6">
-            <!-- Service 1 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
                 <div class="w-12 h-12 bg-indigo-100 text-indigo-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     <i class="fa-solid fa-graduation-cap"></i>
@@ -113,7 +112,6 @@
                 <p class="text-xs text-slate-600">Fixed daily routes for KIU, Colleges, and Schools across Jutial, Danyore, and City areas.</p>
             </div>
 
-            <!-- Service 2 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
                 <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     <i class="fa-solid fa-briefcase"></i>
@@ -122,7 +120,6 @@
                 <p class="text-xs text-slate-600">Punctual morning & evening pick and drop for government and private sector employees.</p>
             </div>
 
-            <!-- Service 3 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
                 <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     <i class="fa-solid fa-house-user"></i>
@@ -131,7 +128,6 @@
                 <p class="text-xs text-slate-600">Personalized neighborhood pickup points for ladies, children, and daily travelers.</p>
             </div>
 
-            <!-- Service 4 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
                 <div class="w-12 h-12 bg-purple-100 text-purple-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
                     <i class="fa-solid fa-route"></i>
@@ -142,7 +138,7 @@
         </div>
     </section>
 
-    <!-- City Routes Table / Schedule -->
+    <!-- City Routes Schedule -->
     <section id="routes" class="bg-slate-100 py-16 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
@@ -151,7 +147,6 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- Route Card 1 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                     <div class="flex justify-between items-center mb-3">
                         <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-md">Route #1 (Jutial Line)</span>
@@ -167,7 +162,6 @@
                     <a href="#booking" class="block text-center w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-semibold transition">Book Jutial Route</a>
                 </div>
 
-                <!-- Route Card 2 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden">
                     <div class="bg-amber-400 text-slate-900 text-[9px] font-extrabold uppercase px-8 py-1 rotate-45 absolute -right-6 top-3 text-center">Popular</div>
                     <div class="flex justify-between items-center mb-3">
@@ -184,7 +178,6 @@
                     <a href="#booking" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-slate-900 py-2 rounded-lg text-xs font-bold transition">Book Danyore Route</a>
                 </div>
 
-                <!-- Route Card 3 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
                     <div class="flex justify-between items-center mb-3">
                         <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md">Route #3 (Baseen Line)</span>
@@ -261,13 +254,11 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Tabs -->
             <div class="flex border-b border-slate-200 mb-6">
                 <button id="tabPassenger" onclick="switchAuthTab('passenger')" class="flex-1 py-2 text-center font-bold text-xs border-b-2 border-indigo-900 text-indigo-900">Passenger Pass</button>
                 <button id="tabDriver" onclick="switchAuthTab('driver')" class="flex-1 py-2 text-center font-bold text-xs text-slate-400 border-b-2 border-transparent">Driver Portal</button>
             </div>
 
-            <!-- Passenger Login Form -->
             <form id="formPassenger" onsubmit="handleAuth(event, 'passenger')" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Pass ID / Mobile Number</label>
@@ -280,7 +271,6 @@
                 <button type="submit" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2.5 rounded-lg text-xs transition">Login to Digital Pass</button>
             </form>
 
-            <!-- Driver Login Form -->
             <form id="formDriver" onsubmit="handleAuth(event, 'driver')" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Driver Vehicle ID</label>
