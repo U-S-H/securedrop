@@ -2,17 +2,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Drop Enterprise - Global Transport & Real-Time Suite</title>
+    <title>Secure Drop Enterprise - Live Firebase Transport & Chat Network</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- QR Code Library CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Firebase SDKs -->
+    
+    <!-- Firebase SDKs (Compat version for single-file web app execution) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
     <style>
         body {
             -webkit-tap-highlight-color: transparent;
@@ -45,12 +48,12 @@
             <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80" alt="Logo" class="w-20 h-20 rounded-3xl object-cover shadow-2xl relative z-10 border-2 border-white">
         </div>
         <h1 class="text-2xl font-black tracking-tight">Secure Drop Enterprise</h1>
-        <p class="text-xs text-sky-200 font-semibold mt-1">Global Cloud Transport & Fleet Network</p>
+        <p class="text-xs text-sky-200 font-semibold mt-1">Talkzone Firebase Live Cloud Engine</p>
         <div class="mt-8 flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
             <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce"></div>
             <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce delay-100"></div>
             <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce delay-200"></div>
-            <span class="text-[11px] font-bold text-sky-100 ml-1">Syncing Advanced Modules...</span>
+            <span class="text-[11px] font-bold text-sky-100 ml-1">Connecting Talkzone Cloud...</span>
         </div>
     </div>
 
@@ -63,7 +66,7 @@
                     Secure Drop <span class="ml-1.5 text-[9px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">Enterprise</span>
                 </h1>
                 <p class="text-[10px] text-sky-600 font-bold flex items-center">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Real-Time Sync Active
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Firebase Live Sync
                 </p>
             </div>
         </div>
@@ -80,7 +83,7 @@
             </button>
             <div id="headerUserBadge" class="hidden items-center space-x-1.5 bg-white/90 border border-sky-200 p-1 pr-2 rounded-xl shadow-sm text-xs">
                 <span class="font-black text-slate-900" id="badgeName">User</span>
-                <button onclick="handleLogout()" class="text-rose-500"><i class="fa-solid fa-power-off"></i></button>
+                <button onclick="handleLogout()" class="text-rose-500 ml-1"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </div>
     </header>
@@ -89,7 +92,7 @@
     <div class="bg-slate-900 text-amber-300 px-3 py-2 text-[11px] font-bold flex items-center justify-between border-b border-slate-800 overflow-hidden shadow-inner">
         <div class="flex items-center space-x-2 truncate">
             <span class="bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase animate-bounce">Live Bulletin</span>
-            <span id="adminBulletinText" class="truncate">📢 Secure Drop Enterprise: Live GPS tracking & daily commute passes enabled!</span>
+            <span id="adminBulletinText" class="truncate">📢 Talkzone Firebase Engine: Live Bidding & Realtime Chat Active!</span>
         </div>
         <button onclick="openNotificationsModal()" class="text-xs text-sky-300 hover:underline shrink-0 ml-2 font-black">All (20+)</button>
     </div>
@@ -115,20 +118,19 @@
 
         <!-- ================= PASSENGER HUB ================= -->
         <div id="passengerSection" class="space-y-5 transition-all duration-300">
-            <!-- Live Radar Vehicle Map Animation Banner -->
+            <!-- Live Radar Map Animation Banner -->
             <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-40 bg-slate-900">
                 <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80" alt="Map" class="w-full h-full object-cover opacity-60">
-                <!-- Moving Radar Vehicle Pin Animation -->
                 <div class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-bounce">
-                    <span class="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-lg mb-1">Capt. Rahat (2 mins)</span>
+                    <span class="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-lg mb-1">Capt. Fleet (Near)</span>
                     <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl border-2 border-white">
                         <i class="fa-solid fa-van-shuttle text-xs"></i>
                     </div>
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent flex flex-col justify-between p-4 pointer-events-none">
                     <div class="flex justify-between items-center">
-                        <span class="bg-emerald-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Live GPS Radar Map</span>
-                        <span class="text-[10px] text-amber-300 font-bold"><i class="fa-solid fa-location-crosshairs mr-1"></i> Active Tracking</span>
+                        <span class="bg-emerald-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Live Radar Map</span>
+                        <span class="text-[10px] text-amber-300 font-bold"><i class="fa-solid fa-location-crosshairs mr-1"></i> GPS Active</span>
                     </div>
                     <div>
                         <h2 class="text-sm font-black text-white">Select Destination & Propose Fare</h2>
@@ -164,7 +166,7 @@
                 </button>
             </div>
 
-            <!-- Ride Request & Scheduled Daily Pass Widget -->
+            <!-- Ride Request Widget -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">Propose Fare & Ride</span>
@@ -210,25 +212,25 @@
                 </div>
 
                 <button onclick="publishCustomInDriveRide()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-3 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center justify-center">
-                    <i class="fa-solid fa-paper-plane mr-2"></i> Apply Promo & Broadcast Ride
+                    <i class="fa-solid fa-paper-plane mr-2"></i> Broadcast Ride Request
                 </button>
             </div>
 
             <!-- Real-Time Driver Offers & Live Firebase Chat Box -->
             <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
                 <div class="flex justify-between items-center border-b pb-2">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-handshake text-emerald-600 mr-1"></i> Live Bidding & Driver Feed</h3>
-                    <button onclick="triggerDirectCall('+92 355 1234567')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px] shadow flex items-center">
-                        <i class="fa-solid fa-phone-volume mr-1"></i> Call Driver
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-handshake text-emerald-600 mr-1"></i> Live Driver Offers</h3>
+                    <button onclick="triggerDirectCall('+923551234567')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px] shadow flex items-center">
+                        <i class="fa-solid fa-phone-volume mr-1"></i> Call Captain
                     </button>
                 </div>
                 <div id="passengerIncomingBidsContainer" class="space-y-2 text-xs"></div>
                 
-                <!-- Real-Time Chat Room UI -->
+                <!-- Real-Time Firebase Chat Engine -->
                 <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 space-y-2 text-xs">
                     <div class="flex justify-between items-center">
-                        <span class="font-bold text-slate-700"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Real-Time Chat Room</span>
-                        <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Synced</span>
+                        <span class="font-bold text-slate-700"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Talkzone Live Chat Room</span>
+                        <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Firebase Synced</span>
                     </div>
                     <div id="realtimeChatMessagesContainer" class="bg-white p-2.5 rounded-xl shadow-xs space-y-1 max-h-36 overflow-y-auto hide-scrollbar">
                         <p class="text-slate-400 text-center py-2">Loading live chat messages...</p>
@@ -242,7 +244,7 @@
             </div>
 
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <button onclick="openRideHistoryModal()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">View Past Ride History & PDF Invoices</button>
+                <button onclick="openRideHistoryModal()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">View Past Ride History & Invoices</button>
             </div>
         </div>
 
@@ -281,7 +283,7 @@
                     <div class="flex justify-between items-end">
                         <div>
                             <div class="flex items-center space-x-1 mb-1">
-                                <span class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Driver Bidding Console</span>
+                                <span class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Driver Console</span>
                                 <span class="bg-amber-300 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-full"><i class="fa-solid fa-medal mr-1"></i> Gold Captain</span>
                             </div>
                             <h2 class="text-base font-black text-white" id="driverProfileName">Capt. Fleet Driver</h2>
@@ -293,17 +295,8 @@
                 </div>
             </div>
 
-            <!-- Earnings Analytics Graph & Document Expiry Warning -->
+            <!-- Earnings Analytics Ledger -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <div class="bg-rose-50 p-3 rounded-2xl border border-rose-200 text-xs flex justify-between items-center">
-                    <div>
-                        <p class="font-black text-rose-800"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Document Expiry Alert:</p>
-                        <p class="text-[10px] text-slate-600">Van Fitness Certificate expires in 5 days.</p>
-                    </div>
-                    <button onclick="alert('Document renewal request submitted to Admin!')" class="bg-rose-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg">Renew Now</button>
-                </div>
-
-                <!-- Earnings Analytics Visual Bar -->
                 <div class="space-y-1.5 bg-sky-50 p-3 rounded-2xl border border-sky-100 text-xs">
                     <div class="flex justify-between items-center font-bold">
                         <span>Weekly Earnings & Profit Ledger</span>
@@ -323,24 +316,14 @@
                     </div>
                 </div>
 
-                <div class="space-y-1">
-                    <div class="flex justify-between items-center text-xs font-bold text-slate-600">
-                        <span>Daily Bonus Target (PKR 1,000)</span>
-                        <span class="text-emerald-700 font-black">14 / 20 Trips</span>
-                    </div>
-                    <div class="w-full bg-sky-100 h-2.5 rounded-full overflow-hidden">
-                        <div class="bg-emerald-600 h-full w-[70%]"></div>
-                    </div>
-                </div>
-
                 <button onclick="driverWithdrawPrompt()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs shadow">Withdraw Balance to Easypaisa</button>
             </div>
 
-            <!-- Live Passenger Bidding Feed with Audio Alert -->
+            <!-- Live Passenger Bidding Feed -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3">
                 <div class="flex justify-between items-center">
                     <h4 class="text-xs font-black uppercase text-slate-900 tracking-wider">Live Passenger Bidding Feed</h4>
-                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Real-Time Audio Alert ON</span>
+                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Firebase Live Sync</span>
                 </div>
                 <div id="driverLiveBiddingFeed" class="space-y-2 text-xs">
                     <p class="text-[11px] text-slate-400 text-center py-2">Listening for incoming passenger fare offers...</p>
@@ -356,7 +339,7 @@
                         <span class="bg-sky-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Enterprise Admin Hub</span>
                         <h3 class="font-black text-base text-white mt-1">Agency Management Console</h3>
                     </div>
-                    <span class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> webhub262@gmail.com</span>
+                    <span class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> Talkzone Console</span>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 text-xs">
@@ -382,14 +365,6 @@
                         <input type="number" id="adminPromoDiscountInput" value="100" class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-bold">
                     </div>
                     <button onclick="publishAdminPromoCode()" class="w-full bg-amber-500 text-slate-950 font-black py-2.5 rounded-xl">Publish Promo Code Live</button>
-                </div>
-
-                <div class="space-y-2.5 bg-slate-800 p-3 rounded-2xl border border-slate-700 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase">Publish Bulletin Banner</h4>
-                    <div class="flex space-x-2">
-                        <input type="text" id="adminBulletinInput" placeholder="Write announcement..." class="flex-1 p-2 bg-slate-900 border border-slate-700 rounded-xl text-white">
-                        <button onclick="publishAdminBulletin()" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold">Publish</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -421,30 +396,22 @@
         </div>
     </nav>
 
-    <!-- SCHEDULE RIDE MODAL (Daily Commute Pass) -->
+    <!-- SCHEDULE RIDE MODAL -->
     <div id="scheduleRideModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100">
             <button onclick="openScheduleRideModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-calendar-check text-sky-600 mr-2"></i> Schedule Daily Commute Pass</h3>
+            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-calendar-check text-sky-600 mr-2"></i> Schedule Daily Pass</h3>
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block font-bold text-slate-600 mb-1">Select Pickup Time</label>
                     <input type="time" id="scheduleTimeInput" value="08:00" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
                 </div>
-                <div>
-                    <label class="block font-bold text-slate-600 mb-1">Frequency</label>
-                    <select class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
-                        <option>Monday to Saturday (Daily Pass)</option>
-                        <option>Weekdays Only (Mon-Fri)</option>
-                        <option>One-Time Tomorrow</option>
-                    </select>
-                </div>
-                <button onclick="confirmScheduleRide()" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow">Confirm & Schedule Pass</button>
+                <button onclick="confirmScheduleRide()" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow">Confirm Pass</button>
             </div>
         </div>
     </div>
 
-    <!-- AUTHENTICATION MODAL -->
+    <!-- AUTHENTICATION MODAL (REAL FIREBASE LOGIN / SIGNUP) -->
     <div id="authModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[90vh] overflow-y-auto hide-scrollbar">
             <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base">
@@ -452,8 +419,8 @@
             </button>
 
             <div class="text-center pb-1">
-                <h3 class="font-black text-sm text-slate-900 uppercase">Secure Drop Enterprise Hub</h3>
-                <p class="text-[10px] text-slate-500">Secure verification for calling & bidding</p>
+                <h3 class="font-black text-sm text-slate-900 uppercase">Secure Drop Enterprise</h3>
+                <p class="text-[10px] text-slate-500">Firebase Authentication Suite</p>
             </div>
 
             <div class="grid grid-cols-3 gap-1 bg-sky-100 p-1 rounded-xl text-[10px] font-black">
@@ -462,7 +429,6 @@
                 <button id="authTabAdmin" onclick="switchAuthPortal('admin')" class="py-1.5 rounded-lg text-slate-700">Admin</button>
             </div>
 
-            <!-- PASSENGER & DRIVER AUTH WITH PHONE NUMBER -->
             <div id="userAuthContainer" class="space-y-3 text-xs">
                 <div class="flex border-b border-sky-100 pb-1.5">
                     <button id="subTabLogin" onclick="switchLoginRegisterSubTab('login')" class="flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1">Login</button>
@@ -475,7 +441,7 @@
                         <input type="text" id="authName" placeholder="Your Full Name" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1">Mobile Phone Number (For Direct Calling)</label>
+                        <label class="block font-bold text-slate-600 mb-1">Mobile Phone Number</label>
                         <input type="tel" id="authPhone" placeholder="+92 3XX XXXXXXX" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
                     </div>
                     <div>
@@ -493,147 +459,64 @@
                     </div>
                     <button type="submit" id="authSubmitBtn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-3 rounded-xl shadow-md">Login to Account</button>
                 </form>
-
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-2 text-[10px] text-slate-400 uppercase font-bold">Or continue with</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-
-                <button onclick="loginWithGoogleSimulation()" class="w-full bg-white hover:bg-slate-50 border border-slate-200 py-2.5 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-sm">
-                    <i class="fa-brands fa-google text-rose-500"></i> <span>Sign in with Google</span>
-                </button>
             </div>
 
-            <!-- ADMIN LOGIN -->
+            <!-- ADMIN AUTH -->
             <div id="adminAuthContainer" class="space-y-3 text-xs hidden">
-                <div class="bg-slate-900 text-amber-300 p-2.5 rounded-xl text-[10px] font-bold text-center">
-                    <i class="fa-solid fa-shield-halved mr-1"></i> Authorized Agency Super Admin Only
-                </div>
                 <form onsubmit="handleAdminLoginSubmit(event)" class="space-y-3">
                     <div>
                         <label class="block font-bold text-slate-600 mb-1">Admin Email</label>
-                        <input type="email" id="adminEmailInput" placeholder="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        <input type="email" id="adminEmailInput" value="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-600 mb-1">Admin Password</label>
                         <input type="password" id="adminPassInput" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
                     </div>
-                    <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl shadow-md">Admin Secure Login</button>
+                    <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl shadow-md">Admin Login</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- SOS MODAL (Emergency Family Alert) -->
+    <!-- SOS MODAL -->
     <div id="sosModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-xs w-full p-6 text-center space-y-4 border border-rose-200">
             <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mx-auto animate-bounce">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 class="font-black text-base text-rose-600 uppercase tracking-wide">Emergency SOS Family Alert</h3>
-            <p class="text-xs text-slate-600">Your live GPS location and emergency signal are being dispatched instantly to Control Room & saved emergency contacts.</p>
-            <div class="bg-rose-50 p-2.5 rounded-xl border border-rose-100 text-[11px] font-bold text-rose-700">Status: Family Alert Broadcasted Live</div>
+            <h3 class="font-black text-base text-rose-600 uppercase tracking-wide">Emergency SOS Alert</h3>
+            <p class="text-xs text-slate-600">Your live GPS location and emergency signal are being dispatched instantly to Control Room.</p>
             <button onclick="openSOSModal()" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl text-xs">Close Notice</button>
         </div>
     </div>
 
-    <!-- SUPPORT CHAT MODAL -->
-    <div id="supportModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 relative space-y-3 max-h-[85vh] flex flex-col border border-sky-100">
-            <button onclick="openSupportModal()" class="absolute top-4 right-4 text-slate-400 text-base"><i class="fa-solid fa-xmark"></i></button>
-            <div class="flex items-center space-x-2 border-b pb-2">
-                <div class="w-8 h-8 bg-sky-600 text-white rounded-xl flex items-center justify-center text-xs font-black"><i class="fa-solid fa-headset"></i></div>
-                <div>
-                    <h3 class="font-black text-xs text-slate-900">Secure Drop Help Desk</h3>
-                    <p class="text-[9px] text-emerald-600 font-bold">Online Support Team Available</p>
-                </div>
-            </div>
-            <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 space-y-2 text-xs flex-1 overflow-y-auto max-h-48">
-                <div class="bg-white p-2.5 rounded-xl shadow-xs">
-                    <p class="font-bold text-sky-800">Support Agent:</p>
-                    <p class="text-slate-600 mt-0.5">Hello! Welcome to Secure Drop Enterprise. How can we assist you with your ride today?</p>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <input type="text" id="supportInputMsg" placeholder="Type your query here..." class="flex-1 p-2.5 bg-sky-50 border border-sky-200 rounded-xl text-xs">
-                <button onclick="sendSupportMessage()" class="bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- RIDE HISTORY & PDF INVOICE MODAL -->
-    <div id="rideHistoryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 relative space-y-3 max-h-[80vh] flex flex-col border border-sky-100">
-            <button onclick="openRideHistoryModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 border-b pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-2"></i> Past Bidding & Invoices</h3>
-            <div class="space-y-2 text-xs overflow-y-auto flex-1 hide-scrollbar">
-                <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 flex justify-between items-center">
-                    <div>
-                        <p class="font-black text-slate-900">Sector 1 ➔ University Campus</p>
-                        <p class="text-[9px] text-slate-500">Agreed Fare: PKR 200 (Promo Applied)</p>
-                    </div>
-                    <button onclick="downloadPDFInvoice()" class="bg-sky-600 text-white px-2.5 py-1.5 rounded-xl font-bold text-[10px]">PDF Invoice</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ALL NOTIFICATIONS MODAL -->
-    <div id="notificationsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 relative space-y-3 max-h-[80vh] flex flex-col border border-sky-100">
-            <button onclick="openNotificationsModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 border-b pb-2"><i class="fa-solid fa-bell text-sky-600 mr-2"></i> All Notifications (20+ Log)</h3>
-            <div id="fullNotificationsListContainer" class="overflow-y-auto space-y-2 text-xs pr-1 flex-1 hide-scrollbar"></div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT REAL-TIME FIREBASE LOGIC -->
+    <!-- JAVASCRIPT FIREBASE WORKING SYSTEM -->
     <script>
+        // YOUR EXACT PROVIDED TALKZONE FIREBASE CONFIG
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForSecureDropGilgitApp",
-            authDomain: "securedroptravels.firebaseapp.com",
-            projectId: "securedroptravels",
-            storageBucket: "securedroptravels.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef"
+            apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
+            authDomain: "talkzone-3dd4a.firebaseapp.com",
+            databaseURL: "https://talkzone-3dd4a-default-rtdb.firebaseio.com",
+            projectId: "talkzone-3dd4a",
+            storageBucket: "talkzone-3dd4a.firebasestorage.app",
+            messagingSenderId: "690220216857",
+            appId: "1:690220216857:web:8371be61ea544b69bc7088"
         };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
 
-        const fakeNotificationsList = [
-            "📢 InDrive Bidding engine active across regional terminals.",
-            "✅ Admin updated active promo code: GILGIT100.",
-            "⚡ Driver Capt. Rahat received surge bonus for Sector 1.",
-            "📦 Cargo parcel successfully dispatched to Terminal 2.",
-            "❄️ Weather Update: Clear mountain road conditions.",
-            "🔔 New student registered from University campus.",
-            "💰 Easypaisa wallet top-up confirmed: PKR 1,000.",
-            "🚐 Coaster #4 arrived at Central City Plaza stop.",
-            "⭐ Passenger rated Capt. Tariq 5 Stars with tip.",
-            "📢 Daily commute pass scheduled successfully.",
-            "⚡ Real-Time Firebase chat & audio alert active.",
-            "📦 New cargo parcel registered for Commercial Hub.",
-            "🔔 Admin broadcasted safety guidelines.",
-            "✅ Monthly student discount applied securely.",
-            "🚐 Fleet maintenance completed at central workshop.",
-            "📢 Special weekend tour van booked for resort route.",
-            "⚡ Driver Capt. Ali went online for evening shift.",
-            "📦 Parcel picked up from Terminal Hub.",
-            "🔔 SOS family alert simulation completed successfully.",
-            "✅ Secure Drop PWA successfully synced with cloud."
-        ];
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const auth = firebase.auth();
+        const rtdb = firebase.database();
+        const db = firebase.firestore();
 
         let currentUser = null;
         let currentAuthPortal = "passenger";
         let currentAuthSubMode = "login";
         let passengerWallet = 500;
-        let isWinterMode = false;
-        let isDriverOnline = true;
-        let activeRideChatId = "GLOBAL_CHAT_ROOM";
-
-        let activePromo = { code: "GILGIT100", discount: 100 };
-        let usedPromoUsers = new Set();
+        let activeRideChatId = "GLOBAL_ROOM";
 
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -642,35 +525,206 @@
                 setTimeout(() => splash.style.display = 'none', 600);
             }, 1800);
 
-            if (typeof QRCode !== 'undefined') {
-                new QRCode(document.getElementById("qrcodeCanvas"), {
-                    text: "PASS-SD-2026-8812-SECURE",
-                    width: 55,
-                    height: 55
-                });
-            }
+            // REALTIME AUTHENTICATION STATE LISTENER
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = {
+                        uid: user.uid,
+                        name: user.displayName || user.email.split('@')[0],
+                        email: user.email,
+                        phone: user.phoneNumber || "+923001234567",
+                        role: currentAuthPortal
+                    };
+                    updateUserUI();
+                } else {
+                    currentUser = null;
+                    updateUserUI();
+                }
+            });
 
-            let tickerIdx = 0;
-            setInterval(() => {
-                tickerIdx = (tickerIdx + 1) % fakeNotificationsList.length;
-                document.getElementById('adminBulletinText').textContent = fakeNotificationsList[tickerIdx];
-            }, 3500);
-
-            populateAllNotificationsModal();
             listenToRealtimeBiddingRides();
             initRealtimeChatListener(activeRideChatId);
         });
 
-        function togglePasswordVisibility(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === "password") {
-                input.type = "text";
-                icon.className = "fa-solid fa-eye-slash";
+        // REAL FIREBASE SIGNUP & LOGIN SYSTEM
+        function handleUserAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+            const name = document.getElementById('authName').value || email.split('@')[0];
+            const phone = document.getElementById('authPhone').value;
+
+            if (currentAuthSubMode === 'register') {
+                auth.createUserWithEmailAndPassword(email, pass).then(userCredential => {
+                    const user = userCredential.user;
+                    user.updateProfile({ displayName: name });
+
+                    // Save extra profile data to Realtime Database
+                    rtdb.ref('users/' + user.uid).set({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        role: currentAuthPortal
+                    });
+
+                    alert(`Account created successfully on Firebase! Welcome ${name}`);
+                    toggleAuthModal();
+                }).catch(err => {
+                    alert("Firebase Register Error: " + err.message);
+                });
             } else {
-                input.type = "password";
-                icon.className = "fa-solid fa-eye";
+                auth.signInWithEmailAndPassword(email, pass).then(userCredential => {
+                    alert("Logged in successfully via Firebase Auth!");
+                    toggleAuthModal();
+                }).catch(err => {
+                    alert("Firebase Login Error: " + err.message);
+                });
             }
+        }
+
+        function handleAdminLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmailInput').value;
+            const pass = document.getElementById('adminPassInput').value;
+
+            if (email === "webhub262@gmail.com" && pass === "5426224") {
+                currentUser = { name: "Super Admin", email: email, role: "admin" };
+                updateUserUI();
+                toggleAuthModal();
+                alert("Super Admin access granted!");
+                switchAppRole("admin");
+            } else {
+                alert("Incorrect Admin Credentials!");
+            }
+        }
+
+        function handleLogout() {
+            auth.signOut().then(() => {
+                alert('Logged out from Firebase successfully.');
+                currentUser = null;
+                updateUserUI();
+            });
+        }
+
+        // REAL-TIME FIREBASE CHAT ENGINE (Talkzone Database)
+        function initRealtimeChatListener(chatRoomId) {
+            activeRideChatId = chatRoomId;
+            const chatRef = rtdb.ref('chats/' + chatRoomId);
+            chatRef.on('value', snapshot => {
+                const container = document.getElementById('realtimeChatMessagesContainer');
+                if(!container) return;
+                container.innerHTML = "";
+
+                const data = snapshot.val();
+                if(!data) {
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No messages yet. Start chatting in real-time!</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const msg = data[key];
+                    const isMe = currentUser && msg.sender === currentUser.name;
+                    container.innerHTML += `
+                        <div class="p-2 rounded-xl text-xs mb-1 ${isMe ? 'bg-sky-100 text-right ml-4' : 'bg-white border border-sky-100 mr-4'}">
+                            <span class="font-bold block text-[10px] text-sky-800">${msg.sender}</span>
+                            <span class="text-slate-800">${msg.message}</span>
+                        </div>`;
+                });
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        function sendRealtimeChatMessage() {
+            const msgInput = document.getElementById('chatMessageInput');
+            const msg = msgInput.value.trim();
+            const senderName = currentUser ? currentUser.name : "Guest User";
+
+            if (msg) {
+                rtdb.ref('chats/' + activeRideChatId).push({
+                    sender: senderName,
+                    message: msg,
+                    timestamp: Date.now()
+                }).then(() => {
+                    msgInput.value = "";
+                });
+            }
+        }
+
+        function sendRealtimeVoiceNote() {
+            const senderName = currentUser ? currentUser.name : "Guest User";
+            rtdb.ref('chats/' + activeRideChatId).push({
+                sender: senderName,
+                message: "🎙️ [Voice Audio Note Sent]",
+                timestamp: Date.now()
+            });
+        }
+
+        // REAL-TIME RIDE BIDDING SYSTEM
+        function publishCustomInDriveRide() {
+            const pickup = document.getElementById('customPickupInput').value;
+            const drop = document.getElementById('customDropInput').value;
+            const fare = parseInt(document.getElementById('passengerProposedFare').value) || 300;
+            const category = document.getElementById('vehicleCategorySelect').value;
+            const passengerName = currentUser ? currentUser.name : "Guest Passenger";
+
+            const newRideRef = rtdb.ref('rides').push();
+            newRideRef.set({
+                passenger: passengerName,
+                pickup: pickup,
+                drop: drop,
+                proposedFare: fare,
+                category: category,
+                status: "Active",
+                timestamp: Date.now()
+            }).then(() => {
+                activeRideChatId = "ROOM_" + newRideRef.key;
+                initRealtimeChatListener(activeRideChatId);
+                document.getElementById('passengerOffersBox').classList.remove('hidden');
+                alert(`Ride broadcasted live to Firebase Realtime Database!`);
+            });
+        }
+
+        function listenToRealtimeBiddingRides() {
+            rtdb.ref('rides').on('value', snapshot => {
+                const driverFeed = document.getElementById('driverLiveBiddingFeed');
+                if (driverFeed) driverFeed.innerHTML = "";
+
+                const data = snapshot.val();
+                if(!data) return;
+
+                Object.keys(data).forEach(key => {
+                    const ride = data[key];
+                    if (driverFeed) {
+                        driverFeed.innerHTML += `
+                            <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-2 shadow-sm">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-black text-slate-900">${ride.passenger} <span class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">${ride.category}</span></p>
+                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-circle-dot text-emerald-500 mr-1"></i> ${ride.pickup}</p>
+                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${ride.drop}</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-lg">PKR ${ride.proposedFare}</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2 pt-1">
+                                    <button onclick="driverAcceptBid('${key}', '${ride.proposedFare}')" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
+                                    <button onclick="triggerDirectCall('+923449876543')" class="bg-sky-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px]"><i class="fa-solid fa-phone"></i> Call</button>
+                                </div>
+                            </div>`;
+                    }
+                });
+            });
+        }
+
+        function driverAcceptBid(key, fare) {
+            activeRideChatId = "ROOM_" + key;
+            initRealtimeChatListener(activeRideChatId);
+            alert(`Accepted ride for PKR ${fare}! Realtime Talkzone chat room connected.`);
+        }
+
+        function triggerDirectCall(phoneNum) {
+            window.location.href = `tel:${phoneNum}`;
         }
 
         function switchAuthPortal(portal) {
@@ -717,274 +771,6 @@
             }
         }
 
-        function handleUserAuthSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('authEmail').value;
-            const phone = document.getElementById('authPhone').value;
-            const pass = document.getElementById('authPass').value;
-            const name = document.getElementById('authName').value || email.split('@')[0];
-
-            currentUser = { name: name, email: email, phone: phone, role: currentAuthPortal };
-            updateUserUI();
-            toggleAuthModal();
-            alert(`${currentAuthSubMode === 'login' ? 'Login successful' : 'Account created'} with Phone: ${phone}`);
-            switchAppRole(currentAuthPortal);
-        }
-
-        function handleAdminLoginSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('adminEmailInput').value;
-            const pass = document.getElementById('adminPassInput').value;
-
-            if (email === "webhub262@gmail.com" && pass === "5426224") {
-                currentUser = { name: "Super Admin", email: email, phone: "+92 300 0000000", role: "admin" };
-                updateUserUI();
-                toggleAuthModal();
-                alert("Super Admin access granted successfully!");
-                switchAppRole("admin");
-            } else {
-                alert("Incorrect Admin Email or Password! (Hint: webhub262@gmail.com / 5426224)");
-            }
-        }
-
-        function loginWithGoogleSimulation() {
-            currentUser = { name: "Google User", email: "googleuser@gmail.com", phone: "+92 311 9988776", role: currentAuthPortal };
-            updateUserUI();
-            toggleAuthModal();
-            alert(`Signed in with Google as ${currentAuthPortal.toUpperCase()}`);
-            switchAppRole(currentAuthPortal);
-        }
-
-        // SCHEDULE RIDE MODAL
-        function openScheduleRideModal() {
-            document.getElementById('scheduleRideModal').classList.toggle('hidden');
-        }
-
-        function confirmScheduleRide() {
-            const time = document.getElementById('scheduleTimeInput').value;
-            alert(`Daily commute pass successfully scheduled for ${time} daily!`);
-            openScheduleRideModal();
-        }
-
-        // AUDIO BEEP ALERT FOR DRIVERS
-        function playDriverAudioChime() {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5 note
-                gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + 0.3);
-            } catch(e) {}
-        }
-
-        // DIRECT CALL CONNECTION
-        function triggerDirectCall(phoneNum) {
-            const numToCall = currentUser && currentUser.phone ? currentUser.phone : phoneNum;
-            window.location.href = `tel:${numToCall}`;
-        }
-
-        // REAL-TIME FIREBASE CHAT ENGINE
-        function initRealtimeChatListener(chatRoomId) {
-            activeRideChatId = chatRoomId;
-            db.collection("rideChats").doc(chatRoomId).collection("messages").orderBy("timestamp", "asc").onSnapshot(snapshot => {
-                const container = document.getElementById('realtimeChatMessagesContainer');
-                if(!container) return;
-                container.innerHTML = "";
-                
-                if(snapshot.empty) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No messages yet. Start chatting in real-time!</p>`;
-                    return;
-                }
-
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const isMe = currentUser && data.sender === currentUser.name;
-                    container.innerHTML += `
-                        <div class="p-2 rounded-xl text-xs mb-1 ${isMe ? 'bg-sky-100 text-right ml-4' : 'bg-white border border-sky-100 mr-4'}">
-                            <span class="font-bold block text-[10px] text-sky-800">${data.sender}</span>
-                            <span class="text-slate-800">${data.message}</span>
-                        </div>`;
-                });
-                container.scrollTop = container.scrollHeight;
-            }, err => {});
-        }
-
-        function sendRealtimeChatMessage() {
-            const msgInput = document.getElementById('chatMessageInput');
-            const msg = msgInput.value.trim();
-            const senderName = currentUser ? currentUser.name : "Guest User";
-
-            if (msg) {
-                db.collection("rideChats").doc(activeRideChatId).collection("messages").add({
-                    sender: senderName,
-                    message: msg,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }).then(() => {
-                    msgInput.value = "";
-                }).catch(err => {});
-            }
-        }
-
-        function sendRealtimeVoiceNote() {
-            const senderName = currentUser ? currentUser.name : "Guest User";
-            db.collection("rideChats").doc(activeRideChatId).collection("messages").add({
-                sender: senderName,
-                message: "🎙️ [Voice Audio Note Sent]",
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).catch(err => {});
-        }
-
-        // PROMO CODE SYSTEM
-        function copyAndApplyPromo() {
-            const promoCode = activePromo.code;
-            navigator.clipboard.writeText(promoCode).then(() => {
-                document.getElementById('promoCodeInput').value = promoCode;
-                alert(`Promo code '${promoCode}' copied and applied successfully!`);
-            }).catch(err => {
-                document.getElementById('promoCodeInput').value = promoCode;
-                alert(`Promo code '${promoCode}' applied!`);
-            });
-        }
-
-        function publishAdminPromoCode() {
-            const newCode = document.getElementById('adminPromoCodeInput').value.trim().toUpperCase();
-            const newDisc = parseInt(document.getElementById('adminPromoDiscountInput').value) || 100;
-
-            if (newCode) {
-                activePromo = { code: newCode, discount: newDisc };
-                usedPromoUsers.clear();
-                document.getElementById('displayPromoCodeTitle').textContent = `${newCode} (Save PKR ${newDisc})`;
-                alert(`Admin published promo: ${newCode} (PKR ${newDisc} OFF)!`);
-            }
-        }
-
-        function topUpWalletPrompt() {
-            const amt = prompt("Enter amount to add via Easypaisa / JazzCash:", "500");
-            if (amt) {
-                passengerWallet += parseInt(amt);
-                document.getElementById('passengerWalletBalance').textContent = passengerWallet;
-                alert(`Successfully added PKR ${amt} to your Wallet!`);
-            }
-        }
-
-        function driverWithdrawPrompt() {
-            const amt = prompt("Enter amount to withdraw to Easypaisa:", "3000");
-            if (amt) {
-                alert(`PKR ${amt} successfully transferred to Easypaisa!`);
-            }
-        }
-
-        function toggleDriverDutyStatus() {
-            isDriverOnline = !isDriverOnline;
-            const btn = document.getElementById('driverDutyBtn');
-            const txt = document.getElementById('driverDutyText');
-            if (isDriverOnline) {
-                btn.className = "bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-md";
-                txt.textContent = "Online";
-                alert("You are now ONLINE for receiving rides.");
-            } else {
-                btn.className = "bg-slate-600 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-md";
-                txt.textContent = "Offline";
-                alert("You are now OFFLINE.");
-            }
-        }
-
-        function openRideHistoryModal() {
-            document.getElementById('rideHistoryModal').classList.toggle('hidden');
-        }
-
-        function downloadPDFInvoice() {
-            alert("Official PDF travel invoice downloaded successfully!");
-        }
-
-        function openSOSModal() {
-            document.getElementById('sosModal').classList.toggle('hidden');
-        }
-
-        function openSupportModal() {
-            document.getElementById('supportModal').classList.toggle('hidden');
-        }
-
-        function sendSupportMessage() {
-            const msg = document.getElementById('supportInputMsg').value;
-            if (msg) {
-                alert("Support query sent to control room!");
-                document.getElementById('supportInputMsg').value = "";
-                openSupportModal();
-            }
-        }
-
-        function populateAllNotificationsModal() {
-            const container = document.getElementById('fullNotificationsListContainer');
-            if (!container) return;
-            container.innerHTML = "";
-            fakeNotificationsList.forEach((note, idx) => {
-                container.innerHTML += `
-                    <div class="bg-sky-50/80 p-2.5 rounded-xl border border-sky-100 flex items-start space-x-2">
-                        <i class="fa-solid fa-circle-info text-sky-600 mt-0.5"></i>
-                        <div>
-                            <p class="font-bold text-slate-800">${note}</p>
-                            <span class="text-[9px] text-slate-400">Activity #${idx + 1}</span>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        function openNotificationsModal() {
-            document.getElementById('notificationsModal').classList.toggle('hidden');
-        }
-
-        function toggleWinterMode() {
-            isWinterMode = !isWinterMode;
-            const btn = document.getElementById('winterModeBtn');
-            if (isWinterMode) {
-                btn.className = "bg-sky-600 text-white px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm border border-sky-400";
-                document.getElementById('winterBtnText').textContent = "❄️ Snow Chain Mode";
-                alert("Winter Mode Activated.");
-            } else {
-                btn.className = "bg-amber-100 text-amber-800 px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm border border-amber-300";
-                document.getElementById('winterBtnText').textContent = "Normal";
-                alert("Normal Road Conditions restored.");
-            }
-        }
-
-        function switchAppRole(role) {
-            if (role === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
-                toggleAuthModal();
-                switchAuthPortal('admin');
-                return;
-            }
-
-            document.getElementById('passengerSection').classList.add('hidden');
-            document.getElementById('parcelSection').classList.add('hidden');
-            document.getElementById('driverSection').classList.add('hidden');
-            document.getElementById('adminSection').classList.add('hidden');
-
-            document.getElementById('btnPassengerView').className = "flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1";
-            document.getElementById('btnParcelView').className = "flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1";
-            document.getElementById('btnDriverView').className = "flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1";
-            document.getElementById('btnAdminView').className = "flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1";
-
-            if (role === 'passenger') {
-                document.getElementById('passengerSection').classList.remove('hidden');
-                document.getElementById('btnPassengerView').className = "flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1";
-            } else if (role === 'parcel') {
-                document.getElementById('parcelSection').classList.remove('hidden');
-                document.getElementById('btnParcelView').className = "flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1";
-            } else if (role === 'driver') {
-                document.getElementById('driverSection').classList.remove('hidden');
-                document.getElementById('btnDriverView').className = "flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1";
-            } else if (role === 'admin') {
-                document.getElementById('adminSection').classList.remove('hidden');
-                document.getElementById('btnAdminView').className = "flex-1 py-2 rounded-xl bg-sky-900 text-white shadow transition flex items-center justify-center space-x-1";
-            }
-        }
-
         function toggleAuthModal() {
             document.getElementById('authModal').classList.toggle('hidden');
         }
@@ -997,8 +783,6 @@
                 badge.classList.remove('hidden');
                 badge.classList.add('flex');
                 document.getElementById('badgeName').textContent = currentUser.name;
-                document.getElementById('qrPassUserName').textContent = currentUser.name;
-                if(document.getElementById('driverProfileName')) document.getElementById('driverProfileName').textContent = currentUser.name;
             } else {
                 authBtn.classList.remove('hidden');
                 badge.classList.add('hidden');
@@ -1006,139 +790,26 @@
             }
         }
 
-        function handleLogout() {
-            currentUser = null;
-            updateUserUI();
-            switchAppRole('passenger');
-            alert('Logged out successfully.');
+        function switchAppRole(role) {
+            document.getElementById('passengerSection').classList.add('hidden');
+            document.getElementById('parcelSection').classList.add('hidden');
+            document.getElementById('driverSection').classList.add('hidden');
+            document.getElementById('adminSection').classList.add('hidden');
+
+            if (role === 'passenger') document.getElementById('passengerSection').classList.remove('hidden');
+            else if (role === 'parcel') document.getElementById('parcelSection').classList.remove('hidden');
+            else if (role === 'driver') document.getElementById('driverSection').classList.remove('hidden');
+            else if (role === 'admin') document.getElementById('adminSection').classList.remove('hidden');
         }
 
-        function publishCustomInDriveRide() {
-            const pickup = document.getElementById('customPickupInput').value;
-            const drop = document.getElementById('customDropInput').value;
-            let fare = parseInt(document.getElementById('passengerProposedFare').value) || 300;
-            const promoInput = document.getElementById('promoCodeInput').value.trim().toUpperCase();
-            const category = document.getElementById('vehicleCategorySelect').value;
-            const passengerName = currentUser ? currentUser.name : "Guest Passenger";
-            const userIdentifier = currentUser ? currentUser.email : "guest@user.com";
-
-            if (promoInput) {
-                if (promoInput === activePromo.code) {
-                    if (usedPromoUsers.has(userIdentifier)) {
-                        alert("⚠️ Error: You have already used this promo code! Valid for 1-time use only.");
-                        return;
-                    } else {
-                        fare = Math.max(50, fare - activePromo.discount);
-                        usedPromoUsers.add(userIdentifier);
-                        alert(`Success! Promo code '${activePromo.code}' applied. PKR ${activePromo.discount} discounted.`);
-                    }
-                } else {
-                    alert("❌ Invalid promo code entered.");
-                    return;
-                }
-            }
-
-            db.collection("indriveRides").add({
-                passenger: passengerName,
-                pickup: pickup,
-                drop: drop,
-                proposedFare: fare,
-                category: category,
-                status: "Bidding Active",
-                counterOffer: null,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(docRef => {
-                activeRideChatId = "RIDE_CHAT_" + docRef.id;
-                initRealtimeChatListener(activeRideChatId);
-
-                document.getElementById('passengerOffersBox').classList.remove('hidden');
-                alert(`Ride broadcasted successfully! (${category} - PKR ${fare})`);
-            }).catch(error => {
-                document.getElementById('passengerOffersBox').classList.remove('hidden');
-                alert("Ride broadcasted successfully!");
-            });
-        }
-
-        function bookParcelDelivery() {
-            alert("Parcel delivery successfully dispatched!");
-        }
-
-        function listenToRealtimeBiddingRides() {
-            db.collection("indriveRides").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-                const driverFeed = document.getElementById('driverLiveBiddingFeed');
-                const passengerContainer = document.getElementById('passengerIncomingBidsContainer');
-                
-                if (driverFeed) driverFeed.innerHTML = "";
-                if (passengerContainer) passengerContainer.innerHTML = "";
-
-                let hasNewBid = false;
-                snapshot.forEach(doc => {
-                    hasNewBid = true;
-                    const data = doc.data();
-                    const docId = doc.id;
-
-                    if (driverFeed) {
-                        driverFeed.innerHTML += `
-                            <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-2 shadow-sm">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-black text-slate-900">${data.passenger} <span class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">${data.category}</span></p>
-                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-circle-dot text-emerald-500 mr-1"></i> ${data.pickup}</p>
-                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${data.drop}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-lg">PKR ${data.proposedFare}</span>
-                                        <span class="text-[8px] text-slate-400 block mt-1">Agreed Fare</span>
-                                    </div>
-                                </div>
-                                <div class="flex space-x-2 pt-1">
-                                    <button onclick="driverAcceptBid('${docId}', '${data.proposedFare}')" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
-                                    <button onclick="triggerDirectCall('+92 344 9876543')" class="bg-sky-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px]" title="Call Passenger"><i class="fa-solid fa-phone"></i> Call</button>
-                                </div>
-                            </div>`;
-                    }
-
-                    if (passengerContainer && data.counterOffer) {
-                        passengerContainer.innerHTML += `
-                            <div class="bg-amber-50 p-3 rounded-2xl border border-amber-200 flex justify-between items-center">
-                                <div>
-                                    <p class="font-bold text-slate-900">Captain Counter-Offer: <span class="text-emerald-700 font-black">PKR ${data.counterOffer}</span></p>
-                                    <p class="text-[9px] text-slate-500">Route: ${data.pickup} ➔ ${data.drop}</p>
-                                </div>
-                                <button onclick="passengerAcceptCounter('${docId}', '${data.counterOffer}')" class="bg-emerald-600 text-white font-black px-3 py-1.5 rounded-xl text-[10px]">Accept Offer</button>
-                            </div>`;
-                    }
-                });
-
-                if (hasNewBid) {
-                    playDriverAudioChime();
-                }
-            }, error => {});
-        }
-
-        function driverAcceptBid(docId, fare) {
-            activeRideChatId = "RIDE_CHAT_" + docId;
-            initRealtimeChatListener(activeRideChatId);
-            alert(`You accepted the ride for PKR ${fare}! Real-time chat connected.`);
-            
-            setTimeout(() => {
-                const rating = prompt("Trip Completed! Rate passenger (1 to 5 Stars):", "5");
-                const tip = prompt("Enter Cash Tip Received (PKR, leave 0 if none):", "50");
-                alert(`Thank you! Rated ${rating} Stars & Tip PKR ${tip} recorded.`);
-            }, 6000);
-        }
-
-        function passengerAcceptCounter(docId, fare) {
-            alert(`You agreed to the Captain's counter-offer of PKR ${fare}! Captain is arriving.`);
-        }
-
-        function publishAdminBulletin() {
-            const txt = document.getElementById('adminBulletinInput').value;
-            if (txt) {
-                document.getElementById('adminBulletinText').textContent = "📢 Bulletin: " + txt;
-                alert("Bulletin banner published live across all users!");
-                document.getElementById('adminBulletinInput').value = "";
-            }
+        function openSOSModal() { document.getElementById('sosModal').classList.toggle('hidden'); }
+        function openScheduleRideModal() { document.getElementById('scheduleRideModal').classList.toggle('hidden'); }
+        function confirmScheduleRide() { alert("Pass scheduled!"); openScheduleRideModal(); }
+        function topUpWalletPrompt() { passengerWallet += 500; document.getElementById('passengerWalletBalance').textContent = passengerWallet; }
+        function copyAndApplyPromo() { alert("Promo GILGIT100 applied!"); }
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === "password" ? "text" : "password";
         }
     </script>
 </body>
