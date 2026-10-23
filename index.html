@@ -2,14 +2,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Drop Enterprise - Live Transport & Communication Network</title>
+    <title>Secure Drop Enterprise - Live Transport Network</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- QR Code Library CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
+    <!-- Leaflet OpenStreetMap CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -37,68 +38,217 @@
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
         }
+        #leafletMapContainer {
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+        }
+        
+        @keyframes customPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .animate-custom-pulse {
+            animation: customPulse 2s infinite ease-in-out;
+        }
+        @keyframes slideDownFade {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-welcome-slide {
+            animation: slideDownFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-toast-in {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 text-slate-800 font-sans pb-32 min-h-screen relative">
 
-    <!-- APP INITIAL LOADING SCREEN -->
-    <div id="appSplashScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-sky-600 via-blue-700 to-sky-900 flex flex-col items-center justify-center text-white transition-opacity duration-700">
-        <div class="relative flex items-center justify-center mb-4">
-            <div class="w-24 h-24 bg-white/20 rounded-3xl animate-ping absolute"></div>
-            <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=300&q=80" alt="Logo" class="w-20 h-20 rounded-3xl object-cover shadow-2xl relative z-10 border-2 border-white">
+    <!-- MODERN ANIMATED SPLASH LOADING SCREEN -->
+    <div id="modernSplashScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center text-white transition-opacity duration-700 p-6">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="w-28 h-28 border-4 border-sky-500/30 border-t-sky-400 border-r-emerald-400 rounded-full animate-spin"></div>
+            <div class="w-20 h-20 bg-gradient-to-tr from-sky-600 to-emerald-500 rounded-3xl flex items-center justify-center absolute shadow-2xl animate-custom-pulse">
+                <i class="fa-solid fa-bolt text-3xl text-white"></i>
+            </div>
         </div>
-        <h1 class="text-2xl font-black tracking-tight">Secure Drop Enterprise</h1>
-        <p class="text-xs text-sky-200 font-semibold mt-1">Talkzone Firebase Live Cloud Engine</p>
-        <div class="mt-8 flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-            <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce"></div>
-            <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce delay-100"></div>
-            <div class="w-2 h-2 bg-amber-300 rounded-full animate-bounce delay-200"></div>
-            <span class="text-[11px] font-bold text-sky-100 ml-1">Connecting Talkzone Cloud...</span>
+        <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-teal-200">
+            SECURE DROP
+        </h1>
+        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Enterprise Cloud Live Engine</p>
+        
+        <div class="mt-8 w-48 bg-slate-800/80 rounded-full h-1.5 overflow-hidden border border-slate-700">
+            <div class="bg-gradient-to-r from-sky-500 to-emerald-400 h-full w-full rounded-full animate-pulse"></div>
+        </div>
+        <span class="text-[10px] text-slate-400 font-bold mt-2">Initializing Encrypted Portal...</span>
+    </div>
+
+    <!-- LIVE FAKE TRUST NOTIFICATION POPUP (BOTTOM-LEFT) -->
+    <div id="fakeTrustNotification" class="fixed bottom-20 left-4 z-40 bg-slate-900/95 text-white p-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-toast-in max-w-xs backdrop-blur-md">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i id="trustNotifIcon" class="fa-solid fa-circle-check text-sm"></i>
+        </div>
+        <div>
+            <p id="trustNotifText" class="text-[11px] font-bold leading-tight">Ali (Astore) ne 500 PKR ki ride book ki!</p>
+            <span id="trustNotifTime" class="text-[9px] text-slate-400 font-semibold">Abhi abhi • Verified</span>
         </div>
     </div>
 
-    <!-- Top Header Bar -->
-    <header class="sticky top-0 z-40 sky-glass border-b border-sky-200 px-4 py-3 flex items-center justify-between shadow-sm">
+    <!-- WELCOME BACK ANIMATED BANNER NOTIFICATION -->
+    <div id="welcomeBackToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-welcome-slide backdrop-blur-lg min-w-[280px]">
+        <img id="welcomeToastAvatar" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-xl object-cover border-2 border-emerald-400 shadow">
+        <div>
+            <span class="text-[9px] bg-emerald-500/20 text-emerald-300 font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Authenticated</span>
+            <h4 class="font-black text-xs text-white" id="welcomeToastName">Welcome Back, User!</h4>
+            <p class="text-[10px] text-slate-300">Logged in to Secure Drop Network</p>
+        </div>
+    </div>
+
+    <!-- MANDATORY SECURITY AUTH WALL -->
+    <div id="mandatoryAuthGate" class="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full border border-sky-100 max-h-[92vh] overflow-y-auto hide-scrollbar relative">
+            
+            <div class="relative h-36 bg-slate-900 overflow-hidden rounded-t-3xl">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80" alt="Transport Network" class="w-full h-full object-cover opacity-50">
+                <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-slate-950/60 p-4 flex flex-col justify-between">
+                    <div class="flex justify-between items-center text-white">
+                        <span class="bg-emerald-500/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase"><i class="fa-solid fa-shield-halved mr-1"></i> SSL 256-Bit Protected</span>
+                        <span class="text-[9px] text-sky-200 font-extrabold"><i class="fa-solid fa-circle text-emerald-400 text-[7px] mr-1"></i> Cloud Active</span>
+                    </div>
+                    <div>
+                        <h2 class="font-black text-slate-900 text-lg leading-tight">Secure Drop Enterprise</h2>
+                        <p class="text-[10px] text-slate-600 font-bold">Fast Transport, Live Fare Bidding & Instant Courier</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 space-y-4">
+                <div class="grid grid-cols-3 gap-1 bg-sky-100 p-1 rounded-xl text-[10px] font-black">
+                    <button id="gateTabPassenger" onclick="switchGateRole('passenger')" class="py-2 rounded-lg bg-sky-600 text-white shadow">Passenger</button>
+                    <button id="gateTabDriver" onclick="switchGateRole('driver')" class="py-2 rounded-lg text-slate-700">Driver</button>
+                    <button id="gateTabControl" onclick="switchGateRole('control')" class="py-2 rounded-lg text-slate-700">Admin</button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 text-center text-[9px] font-extrabold text-slate-600 py-1">
+                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
+                        <i class="fa-solid fa-map-location-dot text-sky-600 text-xs block mb-1"></i> Live GPS
+                    </div>
+                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
+                        <i class="fa-solid fa-handshake text-emerald-600 text-xs block mb-1"></i> Live Bidding
+                    </div>
+                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
+                        <i class="fa-solid fa-receipt text-amber-600 text-xs block mb-1"></i> Easy Payments
+                    </div>
+                </div>
+
+                <button onclick="handleGoogleSignInGate()" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center space-x-2 text-xs transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                </button>
+
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-2 text-[10px] text-slate-400 font-bold uppercase">Or Email Login</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div id="gateUserAuthFormContainer" class="space-y-3 text-xs">
+                    <div class="flex border-b border-sky-100 pb-1.5">
+                        <button id="gateSubTabLogin" onclick="switchGateSubTab('login')" class="flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1">Login</button>
+                        <button id="gateSubTabRegister" onclick="switchGateSubTab('register')" class="flex-1 text-center font-bold text-slate-400 pb-1">Sign Up</button>
+                    </div>
+
+                    <form onsubmit="handleGateAuthSubmit(event)" class="space-y-3">
+                        <div id="gateNameContainer" class="hidden">
+                            <label class="block font-bold text-slate-600 mb-1">Full Name</label>
+                            <input type="text" id="gateAuthName" placeholder="Muhammad Nazim" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Mobile Phone Number</label>
+                            <input type="tel" id="gateAuthPhone" placeholder="+92 3XX XXXXXXX" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Email Address</label>
+                            <input type="email" id="gateAuthEmail" placeholder="user@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Password</label>
+                            <input type="password" id="gateAuthPass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        
+                        <div class="flex justify-between items-center text-[10px]">
+                            <button type="button" onclick="triggerForgotPassword()" class="text-sky-600 font-bold hover:underline">Forgot Password?</button>
+                        </div>
+
+                        <button type="submit" id="gateSubmitBtn" class="w-full bg-gradient-to-r from-sky-600 to-blue-700 text-white font-black py-3 rounded-xl shadow-md">Login to Enterprise</button>
+                    </form>
+                </div>
+
+                <div id="gateAdminAuthFormContainer" class="space-y-3 text-xs hidden">
+                    <form onsubmit="handleAdminGateLogin(event)" class="space-y-3">
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Console Email</label>
+                            <input type="email" id="adminGateEmail" value="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Console Security Key</label>
+                            <input type="password" id="adminGatePass" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                        </div>
+                        <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl shadow-md">Unlock Operations Console</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Bar -->
+    <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
-            <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-2xl object-cover border border-sky-400 shadow-md">
+            <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-sky-500 shadow-md">
             <div>
-                <h1 class="text-base font-black tracking-tight text-slate-900 flex items-center">
-                    Secure Drop <span class="ml-1.5 text-[9px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">Enterprise</span>
+                <h1 class="text-sm font-black tracking-tight text-slate-900 flex items-center">
+                    Secure Drop <span class="ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">Enterprise</span>
                 </h1>
-                <p class="text-[10px] text-sky-600 font-bold flex items-center">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Firebase Live Sync
+                <p class="text-[10px] text-sky-600 font-bold flex items-center" id="headerProfileSubtitle">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> Authentic Sync
                 </p>
             </div>
         </div>
-        
-        <div class="flex items-center space-x-1.5">
-            <button onclick="toggleWinterMode()" id="winterModeBtn" class="bg-amber-100 text-amber-800 px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm border border-amber-300">
-                <i class="fa-solid fa-snowflake mr-1"></i> <span id="winterBtnText">Normal</span>
+
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleProfileModal()" class="bg-sky-100 text-sky-800 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200" title="Edit Profile Details">
+                <i class="fa-solid fa-user-gear"></i>
             </button>
-            <button onclick="openSOSModal()" class="bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl text-xs font-black shadow-md animate-pulse" title="Emergency Family SOS">
-                <i class="fa-solid fa-triangle-exclamation"></i>
+            <button onclick="openDirectAdminChatModal()" class="bg-amber-500 text-slate-950 px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm" title="Direct Chat with Admin">
+                <i class="fa-solid fa-headset mr-1"></i> Admin Chat
             </button>
-            <button id="headerAuthBtn" onclick="toggleAuthModal()" class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-1.5 rounded-xl text-xs font-extrabold shadow-sm">
-                Login / Signup
+            <button onclick="handleLogoutSystem()" class="bg-rose-500 text-white p-2 rounded-xl text-xs font-black shadow-sm" title="Logout">
+                <i class="fa-solid fa-power-off"></i>
             </button>
-            <div id="headerUserBadge" class="hidden items-center space-x-1.5 bg-white/90 border border-sky-200 p-1 pr-2 rounded-xl shadow-sm text-xs">
-                <span class="font-black text-slate-900" id="badgeName">User</span>
-                <button onclick="handleLogout()" class="text-rose-500 ml-1"><i class="fa-solid fa-power-off"></i></button>
-            </div>
         </div>
     </header>
 
-    <!-- Bulletin Banner -->
-    <div class="bg-slate-900 text-amber-300 px-3 py-2 text-[11px] font-bold flex items-center justify-between border-b border-slate-800 overflow-hidden shadow-inner">
-        <div class="flex items-center space-x-2 truncate">
-            <span class="bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black uppercase animate-bounce">Live Bulletin</span>
-            <span id="announcementBulletinText" class="truncate">📢 Talkzone Engine: Google Authentication & Live Voice Chat Active!</span>
-        </div>
-        <button onclick="openNotificationsModal()" class="text-xs text-sky-300 hover:underline shrink-0 ml-2 font-black">All (20+)</button>
-    </div>
-
-    <!-- Main Container -->
+    <!-- Main Workspace -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
+
+        <!-- LIVE TRUST STATS BANNER -->
+        <div class="bg-slate-900 text-white px-3 py-2 rounded-2xl flex justify-between items-center text-xs shadow-md">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                <span class="font-extrabold text-[11px]">48 Drivers Online</span>
+            </div>
+            <span class="text-[10px] text-amber-300 font-bold">320+ Rides Completed</span>
+        </div>
 
         <!-- Role Selector Switch -->
         <div class="bg-sky-200/80 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 shadow-inner">
@@ -112,404 +262,194 @@
                 <i class="fa-solid fa-van-shuttle"></i><span>Driver</span>
             </button>
             <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-shield-halved"></i><span>Control Panel</span>
+                <i class="fa-solid fa-shield-halved"></i><span>Admin Hub</span>
             </button>
         </div>
 
-        <!-- ================= PASSENGER HUB ================= -->
+        <!-- PASSENGER SECTION -->
         <div id="passengerSection" class="space-y-5 transition-all duration-300">
-            <!-- Live Radar Map Animation Banner -->
-            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-40 bg-slate-900">
-                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80" alt="Map" class="w-full h-full object-cover opacity-60">
-                <div class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-bounce">
-                    <span id="liveVehicleETA" class="bg-emerald-500 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-lg mb-1">Capt. Fleet (2 mins away)</span>
-                    <div class="w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl border-2 border-white">
-                        <i class="fa-solid fa-van-shuttle text-xs"></i>
-                    </div>
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent flex flex-col justify-between p-4 pointer-events-none">
-                    <div class="flex justify-between items-center">
-                        <span class="bg-emerald-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Live Radar Map</span>
-                        <span class="text-[10px] text-amber-300 font-bold"><i class="fa-solid fa-location-crosshairs mr-1"></i> GPS Active</span>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black text-white">Select Destination & Propose Fare</h2>
-                    </div>
-                </div>
+            <!-- Leaflet Map -->
+            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-44 bg-slate-900">
+                <div id="leafletMapContainer"></div>
             </div>
 
-            <!-- Wallet Bar -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 flex justify-between items-center shadow-sm">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-base font-bold">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-bold text-slate-500 uppercase">My Wallet Balance</p>
-                        <h4 class="font-black text-sm text-slate-900">PKR <span id="passengerWalletBalance">500</span></h4>
-                    </div>
+            <!-- MANUAL ONLINE PAYMENT -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> Manual Fare Online Payment</h3>
+                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">Easypaisa / JazzCash</span>
                 </div>
-                <button onclick="topUpWalletPrompt()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-black shadow transition">
-                    <i class="fa-solid fa-plus mr-1"></i> Top-Up
-                </button>
-            </div>
-
-            <!-- Promo Banner -->
-            <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 p-4 rounded-3xl shadow-md flex justify-between items-center">
-                <div class="space-y-0.5">
-                    <span class="bg-slate-950 text-amber-300 text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Active Promo</span>
-                    <h4 class="font-black text-sm" id="displayPromoCodeTitle">GILGIT100 (Save PKR 100)</h4>
-                    <p class="text-[10px] opacity-90">Tap copy button to apply instantly!</p>
-                </div>
-                <button onclick="copyAndApplyPromo()" class="bg-slate-950 hover:bg-slate-900 text-amber-300 font-black px-4 py-2.5 rounded-2xl text-xs shadow transition active:scale-95">
-                    <i class="fa-solid fa-copy mr-1"></i> Copy Code
+                <p class="text-[11px] text-slate-500 font-medium">Send fare payment directly to assigned driver and upload Transaction Proof (TID) for driver approval.</p>
+                <button onclick="openManualPaymentModal()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-2.5 rounded-xl text-xs shadow transition active:scale-95">
+                    <i class="fa-solid fa-upload mr-1"></i> Pay Driver & Send Proof (TID)
                 </button>
             </div>
 
             <!-- Ride Request Widget -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <div class="flex justify-between items-center">
-                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">Propose Fare & Ride</span>
-                    <button onclick="openScheduleRideModal()" class="text-[10px] bg-sky-100 text-sky-800 font-extrabold px-2 py-1 rounded-xl"><i class="fa-solid fa-calendar-days mr-1"></i> Schedule Pass</button>
-                </div>
-
-                <div class="space-y-2.5 text-xs">
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Pickup Location</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-circle-dot text-emerald-500 absolute left-3.5 top-3.5"></i>
-                            <input type="text" id="customPickupInput" value="Sector 1, Main Hub" class="w-full pl-9 pr-3 py-2.5 bg-white border border-sky-200 rounded-xl font-semibold text-slate-800">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Drop Location</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-location-dot text-rose-500 absolute left-3.5 top-3.5"></i>
-                            <input type="text" id="customDropInput" value="University Campus Gate" class="w-full pl-9 pr-3 py-2.5 bg-white border border-sky-200 rounded-xl font-semibold text-slate-800">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Vehicle Category</label>
-                        <select id="vehicleCategorySelect" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-bold text-slate-800">
-                            <option value="Economy Hiace">Economy Hiace Van (Standard)</option>
-                            <option value="Luxury Coaster">Luxury AC Coaster Bus (Comfort)</option>
-                            <option value="VIP Private Car">VIP Private Car (Direct)</option>
+                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Fare</h3>
+                <div class="space-y-2 text-xs">
+                    <input type="text" id="customPickupInput" value="Astore Central Station" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                    <input type="text" id="customDropInput" value="Gilgit City Hub" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="passengerProposedFare" value="600" class="p-2.5 bg-white border border-sky-200 rounded-xl font-black text-slate-900">
+                        <select id="vehicleCategorySelect" class="p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
+                            <option>Hiace Van</option>
+                            <option>Coaster Bus</option>
+                            <option>Private Car</option>
                         </select>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-sky-50 p-2.5 rounded-2xl border border-sky-100 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-600 block">Proposed Fare (PKR)</span>
-                            <input type="number" id="passengerProposedFare" value="300" class="w-full text-center py-1.5 bg-white border border-sky-200 rounded-xl text-xs font-black text-slate-900 focus:outline-none">
-                        </div>
-                        <div class="bg-sky-50 p-2.5 rounded-2xl border border-sky-100 space-y-1">
-                            <span class="text-[10px] font-bold text-slate-600 block">Promo Code</span>
-                            <input type="text" id="promoCodeInput" placeholder="Paste Code Here" class="w-full text-center py-1.5 bg-white border border-sky-200 rounded-xl text-xs font-bold text-slate-900 uppercase">
-                        </div>
-                    </div>
                 </div>
-
-                <button onclick="publishCustomInDriveRide()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-3 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center justify-center">
-                    <i class="fa-solid fa-paper-plane mr-2"></i> Broadcast Ride Request
+                <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
+                    Broadcast Ride Request
                 </button>
             </div>
 
-            <!-- Real-Time Driver Offers & Live Firebase Chat Box -->
+            <!-- Live Chat Room -->
             <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
-                <div class="flex justify-between items-center border-b pb-2">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-handshake text-emerald-600 mr-1"></i> Live Driver Offers</h3>
-                    <button onclick="triggerDirectCall('+923551234567')" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px] shadow flex items-center">
-                        <i class="fa-solid fa-phone-volume mr-1"></i> Call Captain
-                    </button>
+                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Live Ride Chat Room</h3>
+                <div id="realtimeChatMessagesContainer" class="bg-white p-2.5 rounded-xl space-y-1 max-h-44 overflow-y-auto hide-scrollbar border border-sky-100 text-xs"></div>
+                <div class="flex space-x-2">
+                    <input type="text" id="chatMessageInput" placeholder="Type message..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl text-xs">
+                    <button onclick="sendRealtimeChatMessage()" class="bg-sky-600 text-white px-3 py-2 rounded-xl font-bold text-xs">Send</button>
                 </div>
-                <div id="passengerIncomingBidsContainer" class="space-y-2 text-xs"></div>
-                
-                <!-- Real-Time Firebase Chat Engine -->
-                <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 space-y-2 text-xs">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-slate-700"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Talkzone Live Chat Room</span>
-                        <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Firebase Synced</span>
-                    </div>
-                    <div id="realtimeChatMessagesContainer" class="bg-white p-2.5 rounded-xl shadow-xs space-y-1 max-h-36 overflow-y-auto hide-scrollbar">
-                        <p class="text-slate-400 text-center py-2">Loading live chat messages...</p>
-                    </div>
-                    <div class="flex space-x-2 items-center">
-                        <input type="text" id="chatMessageInput" placeholder="Type message to driver..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl text-xs">
-                        <button onclick="sendRealtimeChatMessage()" class="bg-sky-600 text-white px-3 py-2 rounded-xl font-bold">Send</button>
-                        <button id="voiceRecordBtn" onclick="toggleAudioRecording()" class="bg-amber-500 text-slate-950 px-3 py-2 rounded-xl font-bold transition" title="Hold/Tap to Record Audio">
-                            <i id="micIcon" class="fa-solid fa-microphone"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <button onclick="openRideHistoryModal()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">View Past Ride History & Invoices</button>
             </div>
         </div>
 
-        <!-- ================= PARCEL HUB ================= -->
+        <!-- CARGO SECTION -->
         <div id="parcelSection" class="space-y-5 hidden transition-all duration-300">
-            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200">
-                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80" alt="Parcel" class="w-full h-40 object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-sky-900/50 to-transparent flex flex-col justify-end p-4">
-                    <span class="bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider w-fit mb-1">City-Wide Cargo & Courier</span>
-                    <h2 class="text-base font-black text-white">Secure Drop Parcel Delivery</h2>
-                </div>
-            </div>
-
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900 tracking-wider">Book Parcel Pickup</h3>
-                <div class="space-y-2 text-xs">
-                    <input type="text" id="parcelItemName" placeholder="Item Name (e.g. Documents, Gift Box)" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                    <input type="text" id="parcelSender" placeholder="Sender Name & Phone (+92...)" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                    <input type="text" id="parcelReceiver" placeholder="Receiver Name & Phone (+92...)" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                    <select id="parcelDropArea" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                        <option>Drop Area: Commercial Hub 1</option>
-                        <option>Drop Area: Sector 2 Terminal</option>
-                        <option>Drop Area: University Main Gate</option>
-                        <option>Drop Area: Central City Plaza</option>
-                    </select>
-                    <button onclick="bookParcelDelivery()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Parcel Now</button>
-                </div>
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900">Cargo & Courier Booking</h3>
+                <input type="text" id="parcelItemName" placeholder="Item Name / Package" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                <input type="text" id="parcelReceiver" placeholder="Receiver Name & Phone" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                <button onclick="alert('Cargo Courier Dispatched!')" class="w-full bg-amber-500 text-slate-950 font-black py-2.5 rounded-xl">Dispatch Courier</button>
             </div>
         </div>
 
-        <!-- ================= DRIVER HUB ================= -->
+        <!-- DRIVER SECTION -->
         <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
-            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200">
-                <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=800&q=80" alt="Driver" class="w-full h-40 object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-sky-900/70 to-transparent flex flex-col justify-end p-4">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <div class="flex items-center space-x-1 mb-1">
-                                <span class="bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Driver Console</span>
-                                <span class="bg-amber-300 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-full"><i class="fa-solid fa-medal mr-1"></i> Gold Captain</span>
-                            </div>
-                            <h2 class="text-base font-black text-white" id="driverProfileName">Capt. Fleet Driver</h2>
-                        </div>
-                        <button onclick="toggleDriverDutyStatus()" id="driverDutyBtn" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-md">
-                            <i class="fa-solid fa-power-off mr-1"></i> <span id="driverDutyText">Online</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings Analytics Ledger -->
+            <!-- Manual Payment Approvals -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <div class="space-y-1.5 bg-sky-50 p-3 rounded-2xl border border-sky-100 text-xs">
-                    <div class="flex justify-between items-center font-bold">
-                        <span>Weekly Earnings & Profit Ledger</span>
-                        <span class="text-emerald-700 font-black">PKR 24,500</span>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 h-10 items-end pt-2">
-                        <div class="bg-sky-200 h-[40%] rounded-t-md"></div>
-                        <div class="bg-sky-300 h-[60%] rounded-t-md"></div>
-                        <div class="bg-sky-400 h-[75%] rounded-t-md"></div>
-                        <div class="bg-sky-500 h-[50%] rounded-t-md"></div>
-                        <div class="bg-emerald-500 h-[90%] rounded-t-md"></div>
-                        <div class="bg-emerald-600 h-[100%] rounded-t-md"></div>
-                        <div class="bg-teal-600 h-[85%] rounded-t-md"></div>
-                    </div>
-                    <div class="flex justify-between text-[9px] text-slate-400 pt-1 font-bold">
-                        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
-                    </div>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Manual Passenger Payment Approvals</h3>
+                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
                 </div>
-
-                <button onclick="driverWithdrawPrompt()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs shadow">Withdraw Balance to Easypaisa</button>
+                <div id="driverPaymentApprovalFeed" class="space-y-2 text-xs">
+                    <p class="text-slate-400 text-center py-2">Listening for incoming manual passenger payment receipts...</p>
+                </div>
             </div>
 
-            <!-- Live Passenger Bidding Feed -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3">
-                <div class="flex justify-between items-center">
-                    <h4 class="text-xs font-black uppercase text-slate-900 tracking-wider">Live Passenger Bidding Feed</h4>
-                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Firebase Live Sync</span>
-                </div>
-                <div id="driverLiveBiddingFeed" class="space-y-2 text-xs">
-                    <p class="text-[11px] text-slate-400 text-center py-2">Listening for incoming passenger fare offers...</p>
-                </div>
+            <!-- Bidding Feed -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+                <h3 class="text-xs font-black uppercase text-slate-900">Passenger Bidding Feed</h3>
+                <div id="driverLiveBiddingFeed" class="space-y-2 text-xs"></div>
             </div>
         </div>
 
-        <!-- ================= CONTROL PANEL HUB ================= -->
+        <!-- ADMIN HUB SECTION -->
         <div id="controlSection" class="space-y-5 hidden transition-all duration-300">
             <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                    <div>
-                        <span class="bg-sky-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Enterprise Hub</span>
-                        <h3 class="font-black text-base text-white mt-1">Operations Console</h3>
-                    </div>
-                    <span class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> Talkzone Console</span>
+                    <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Admin Operations Hub</h3>
+                    <span class="text-[9px] bg-emerald-500 text-white px-2 py-0.5 rounded-full font-bold">FULL ACCESS</span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                    <div class="bg-slate-800 p-3 rounded-2xl border border-slate-700">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Agency Commission (10%)</p>
-                        <p class="text-lg font-black text-emerald-400 mt-0.5">PKR 11,240</p>
-                    </div>
-                    <div class="bg-slate-800 p-3 rounded-2xl border border-slate-700">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Live Bidding Active</p>
-                        <p class="text-lg font-black text-amber-400 mt-0.5">8 Units Online</p>
+                <div class="space-y-2 text-xs">
+                    <h4 class="font-bold text-amber-300 uppercase">Registered System Users & Drivers</h4>
+                    <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-48 overflow-y-auto hide-scrollbar">
+                        <p class="text-slate-400 text-center py-2">Loading Firebase registered user profiles...</p>
                     </div>
                 </div>
 
-                <!-- PROMO CODE MANAGER -->
-                <div class="space-y-2.5 bg-slate-800 p-3 rounded-2xl border border-slate-700 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-ticket mr-1"></i> Promo Code Manager</h4>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Promo Code Name</label>
-                        <input type="text" id="promoCodeNameInput" value="GILGIT100" class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-bold uppercase">
+                <div class="space-y-2 text-xs">
+                    <h4 class="font-bold text-amber-300 uppercase">All Manual Payment Proof Logs</h4>
+                    <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-48 overflow-y-auto hide-scrollbar">
+                        <p class="text-slate-400 text-center py-2">Loading payment transactions...</p>
                     </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Discount Amount (PKR)</label>
-                        <input type="number" id="promoDiscountInput" value="100" class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-white font-bold">
-                    </div>
-                    <button onclick="publishPromoCodeLive()" class="w-full bg-amber-500 text-slate-950 font-black py-2.5 rounded-xl">Publish Promo Code Live</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Bottom Mobile Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 sky-glass border-t border-sky-200 z-40 py-2.5 px-6 shadow-lg">
-        <div class="max-w-md mx-auto flex justify-between items-center text-center">
-            <a href="#" class="text-sky-600 flex flex-col items-center">
-                <i class="fa-solid fa-house text-base"></i>
-                <span class="text-[9px] font-extrabold mt-0.5">Home</span>
-            </a>
-            <button onclick="switchAppRole('parcel')" class="text-slate-500 hover:text-sky-600 flex flex-col items-center">
-                <i class="fa-solid fa-box text-base"></i>
-                <span class="text-[9px] font-bold mt-0.5">Cargo</span>
-            </button>
-            <button onclick="publishCustomInDriveRide()" class="bg-gradient-to-tr from-emerald-500 to-teal-600 text-white w-11 h-11 rounded-2xl flex items-center justify-center -mt-6 shadow-lg border-2 border-white font-bold active:scale-95 transition">
-                <i class="fa-solid fa-plus text-lg"></i>
-            </button>
-            <button onclick="toggleAuthModal()" class="text-slate-500 hover:text-sky-600 flex flex-col items-center">
-                <i class="fa-solid fa-id-card text-base"></i>
-                <span class="text-[9px] font-bold mt-0.5">My Pass</span>
-            </button>
-            <button onclick="openSupportModal()" class="text-slate-500 hover:text-sky-600 flex flex-col items-center">
-                <i class="fa-solid fa-headset text-base"></i>
-                <span class="text-[9px] font-bold mt-0.5">Support</span>
-            </button>
-        </div>
-    </nav>
+    <!-- MANUAL PAYMENT MODAL -->
+    <div id="manualPaymentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[90vh] overflow-y-auto hide-scrollbar text-xs">
+            <button onclick="openManualPaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+            
+            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-emerald-600 mr-1"></i> Manual Payment to Driver</h3>
 
-    <!-- SCHEDULE RIDE MODAL -->
-    <div id="scheduleRideModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100">
-            <button onclick="openScheduleRideModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-calendar-check text-sky-600 mr-2"></i> Schedule Daily Pass</h3>
-            <div class="space-y-3 text-xs">
+            <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl space-y-1">
+                <p class="font-bold text-amber-900">Driver Payment Account Info:</p>
+                <p class="text-slate-700">Account: <strong>Easypaisa / JazzCash</strong></p>
+                <p class="text-slate-700">Title: <strong>Captain Fleet Driver</strong></p>
+                <p class="text-slate-700">Number: <strong class="text-emerald-700">+92 344 9876543</strong></p>
+            </div>
+
+            <form onsubmit="handleManualPaymentSubmit(event)" class="space-y-3">
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Select Pickup Time</label>
-                    <input type="time" id="scheduleTimeInput" value="08:00" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                    <label class="block font-bold text-slate-600 mb-1">Fare Amount (PKR)</label>
+                    <input type="number" id="payFareAmount" value="600" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-black text-slate-900">
                 </div>
-                <button onclick="confirmScheduleRide()" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow">Confirm Pass</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- AUTHENTICATION MODAL (REAL FIREBASE & GOOGLE LOGIN / SIGNUP) -->
-    <div id="authModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[90vh] overflow-y-auto hide-scrollbar">
-            <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="text-center pb-1">
-                <h3 class="font-black text-sm text-slate-900 uppercase">Secure Drop Enterprise</h3>
-                <p class="text-[10px] text-slate-500">Firebase & Google Authentication</p>
-            </div>
-
-            <div class="grid grid-cols-3 gap-1 bg-sky-100 p-1 rounded-xl text-[10px] font-black">
-                <button id="authTabPassenger" onclick="switchAuthPortal('passenger')" class="py-1.5 rounded-lg bg-sky-600 text-white shadow">Passenger</button>
-                <button id="authTabDriver" onclick="switchAuthPortal('driver')" class="py-1.5 rounded-lg text-slate-700">Driver</button>
-                <button id="authTabControl" onclick="switchAuthPortal('control')" class="py-1.5 rounded-lg text-slate-700">Console</button>
-            </div>
-
-            <!-- GOOGLE SIGN IN BUTTON -->
-            <button onclick="handleGoogleSignIn()" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center space-x-2 text-xs transition">
-                <svg class="w-4 h-4" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span>Continue with Google</span>
-            </button>
-
-            <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-slate-200"></div>
-                <span class="flex-shrink mx-2 text-[10px] text-slate-400 font-bold uppercase">Or Email Login</span>
-                <div class="flex-grow border-t border-slate-200"></div>
-            </div>
-
-            <div id="userAuthContainer" class="space-y-3 text-xs">
-                <div class="flex border-b border-sky-100 pb-1.5">
-                    <button id="subTabLogin" onclick="switchLoginRegisterSubTab('login')" class="flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1">Login</button>
-                    <button id="subTabRegister" onclick="switchLoginRegisterSubTab('register')" class="flex-1 text-center font-bold text-slate-400 pb-1">Sign Up</button>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Payment Method Used</label>
+                    <select id="payMethodSelect" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                        <option value="Easypaisa">Easypaisa Mobile Account</option>
+                        <option value="JazzCash">JazzCash Wallet</option>
+                        <option value="Bank Transfer">Bank Transfer (1LINK)</option>
+                    </select>
                 </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Transaction ID (TID Reference)</label>
+                    <input type="text" id="payTIDNumber" placeholder="e.g. 02938475610" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold uppercase">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Upload Payment Receipt Proof (Image Base64/Link)</label>
+                    <input type="text" id="payProofImageUrl" placeholder="Paste Image URL or Screenshot Link" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow-md">Dispatch Payment Proof to Driver</button>
+            </form>
+        </div>
+    </div>
 
-                <form id="formUserAuth" onsubmit="handleUserAuthSubmit(event)" class="space-y-3">
-                    <div id="nameFieldContainer" class="hidden">
-                        <label class="block font-bold text-slate-600 mb-1">Full Name</label>
-                        <input type="text" id="authName" placeholder="Your Full Name" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Mobile Phone Number</label>
-                        <input type="tel" id="authPhone" placeholder="+92 3XX XXXXXXX" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Email Address</label>
-                        <input type="email" id="authEmail" placeholder="user@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Password</label>
-                        <div class="relative">
-                            <input type="password" id="authPass" placeholder="••••••••" required class="w-full p-2.5 pr-9 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                            <button type="button" onclick="togglePasswordVisibility('authPass', 'eyeAuthIcon')" class="absolute right-3 top-3 text-slate-400 hover:text-slate-600">
-                                <i id="eyeAuthIcon" class="fa-solid fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button type="submit" id="authSubmitBtn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-3 rounded-xl shadow-md">Login to Account</button>
-                </form>
-            </div>
+    <!-- PROFILE MODAL -->
+    <div id="profileEditModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 text-xs">
+            <button onclick="toggleProfileModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-user-pen text-sky-600 mr-1"></i> Update Profile Details</h3>
 
-            <!-- CONTROL CONSOLE AUTH -->
-            <div id="controlAuthContainer" class="space-y-3 text-xs hidden">
-                <form onsubmit="handleControlConsoleLoginSubmit(event)" class="space-y-3">
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Console Email</label>
-                        <input type="email" id="controlEmailInput" value="webhub262@gmail.com" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-600 mb-1">Console Security Key</label>
-                        <input type="password" id="controlPassInput" placeholder="••••••••" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
-                    </div>
-                    <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl shadow-md">Access Console</button>
-                </form>
+            <form onsubmit="handleUpdateProfileSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Display Name</label>
+                    <input type="text" id="editProfileName" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Mobile Number</label>
+                    <input type="tel" id="editProfilePhone" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 mb-1">Profile Picture URL (Avatar)</label>
+                    <input type="text" id="editProfileAvatarUrl" placeholder="https://..." class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                </div>
+                <button type="submit" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl shadow-md">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DIRECT ADMIN LIVE CHAT MODAL -->
+    <div id="directAdminChatModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-3 border border-sky-100 text-xs">
+            <button onclick="openDirectAdminChatModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-headset text-amber-500 mr-1"></i> Direct Support Chat with Admin</h3>
+            <div id="adminDirectChatRoomContainer" class="bg-sky-50 p-2.5 rounded-xl space-y-1 max-h-52 overflow-y-auto hide-scrollbar border border-sky-100"></div>
+            <div class="flex space-x-2">
+                <input type="text" id="adminDirectChatMessageInput" placeholder="Message Admin Support..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl">
+                <button onclick="sendDirectAdminChatMessage()" class="bg-amber-500 text-slate-950 px-3 py-2 rounded-xl font-black">Send</button>
             </div>
         </div>
     </div>
 
-    <!-- SOS MODAL -->
-    <div id="sosModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-xs w-full p-6 text-center space-y-4 border border-rose-200">
-            <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mx-auto animate-bounce">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3 class="font-black text-base text-rose-600 uppercase tracking-wide">Emergency SOS Alert</h3>
-            <p class="text-xs text-slate-600">Your live GPS location and emergency signal are being dispatched instantly to Control Room.</p>
-            <button onclick="openSOSModal()" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl text-xs">Close Notice</button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT FIREBASE SYSTEM -->
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
@@ -527,22 +467,46 @@
 
         const auth = firebase.auth();
         const rtdb = firebase.database();
-        const db = firebase.firestore();
 
         let currentUser = null;
-        let currentAuthPortal = "passenger";
-        let currentAuthSubMode = "login";
-        let passengerWallet = 500;
+        let currentGateRole = "passenger";
+        let currentGateSubMode = "login";
         let activeRideChatId = "GLOBAL_ROOM";
-        let mediaRecorder = null;
-        let audioChunks = [];
-        let isRecordingAudio = false;
+
+        const fakeTrustList = [
+            { text: "Ali (Astore) ne 500 PKR ki ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
+            { text: "Driver Akbar ne 1,200 PKR Payment Approve kiya!", icon: "fa-shield-halved", color: "text-sky-400" },
+            { text: "Sajid (Gilgit) ne 800 PKR Fare offer kiya!", icon: "fa-handshake", color: "text-amber-400" },
+            { text: "New Driver Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" },
+            { text: "User Ahsam: Verified via Easypaisa Payment", icon: "fa-receipt", color: "text-purple-400" }
+        ];
+
+        function startFakeTrustNotifications() {
+            setInterval(() => {
+                const randomItem = fakeTrustList[Math.floor(Math.random() * fakeTrustList.length)];
+                const toast = document.getElementById('fakeTrustNotification');
+                const textEl = document.getElementById('trustNotifText');
+                const iconEl = document.getElementById('trustNotifIcon');
+
+                if (toast && textEl) {
+                    textEl.textContent = randomItem.text;
+                    iconEl.className = `fa-solid ${randomItem.icon} text-sm ${randomItem.color}`;
+                    toast.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        toast.classList.add('hidden');
+                    }, 4000);
+                }
+            }, 10000);
+        }
 
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const splash = document.getElementById('appSplashScreen');
-                splash.classList.add('opacity-0');
-                setTimeout(() => splash.style.display = 'none', 600);
+                const splash = document.getElementById('modernSplashScreen');
+                if (splash) {
+                    splash.classList.add('opacity-0');
+                    setTimeout(() => splash.style.display = 'none', 700);
+                }
             }, 1800);
 
             auth.onAuthStateChanged(user => {
@@ -552,308 +516,398 @@
                         name: user.displayName || user.email.split('@')[0],
                         email: user.email,
                         phone: user.phoneNumber || "+923001234567",
-                        role: currentAuthPortal
+                        photoURL: user.photoURL || "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80",
+                        role: currentGateRole
                     };
+                    document.getElementById('mandatoryAuthGate').classList.add('hidden');
                     updateUserUI();
+                    triggerWelcomeToast(currentUser.name, currentUser.photoURL);
+                    listenToManualPaymentApprovals();
+                    listenToAdminUserRegistry();
+                    listenToAdminPaymentLogs();
+                    initAdminDirectChatListener();
                 } else {
                     currentUser = null;
-                    updateUserUI();
+                    document.getElementById('mandatoryAuthGate').classList.remove('hidden');
                 }
             });
 
+            startFakeTrustNotifications();
+            initLeafletMap();
             listenToRealtimeBiddingRides();
             initRealtimeChatListener(activeRideChatId);
         });
 
-        // GOOGLE SIGN-IN HANDLER
-        function handleGoogleSignIn() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(result => {
-                const user = result.user;
-                alert(`Welcome ${user.displayName}! Signed in via Google.`);
-                toggleAuthModal();
-            }).catch(error => {
-                alert("Google Sign-In Error: " + error.message);
-            });
+        function triggerWelcomeToast(name, photo) {
+            const toast = document.getElementById('welcomeBackToast');
+            const nameEl = document.getElementById('welcomeToastName');
+            const avatarEl = document.getElementById('welcomeToastAvatar');
+
+            if (toast) {
+                nameEl.textContent = `Welcome Back, ${name}!`;
+                avatarEl.src = photo;
+                toast.classList.remove('hidden');
+
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'transition-opacity');
+                    setTimeout(() => toast.classList.add('hidden'), 700);
+                }, 4000);
+            }
         }
 
-        // REAL FIREBASE SIGNUP & LOGIN SYSTEM
-        function handleUserAuthSubmit(e) {
+        function initLeafletMap() {
+            if (document.getElementById('leafletMapContainer')) {
+                const map = L.map('leafletMapContainer').setView([35.3012, 74.8581], 11);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                L.marker([35.3012, 74.8581]).addTo(map).bindPopup('<b>Secure Drop Fleet</b>').openPopup();
+            }
+        }
+
+        function switchGateRole(role) {
+            currentGateRole = role;
+            const btnP = document.getElementById('gateTabPassenger');
+            const btnD = document.getElementById('gateTabDriver');
+            const btnA = document.getElementById('gateTabControl');
+            const formU = document.getElementById('gateUserAuthFormContainer');
+            const formA = document.getElementById('gateAdminAuthFormContainer');
+
+            btnP.className = "py-2 rounded-lg text-slate-700";
+            btnD.className = "py-2 rounded-lg text-slate-700";
+            btnA.className = "py-2 rounded-lg text-slate-700";
+
+            if (role === 'control') {
+                formU.classList.add('hidden');
+                formA.classList.remove('hidden');
+                btnA.className = "py-2 rounded-lg bg-slate-900 text-white shadow";
+            } else {
+                formU.classList.remove('hidden');
+                formA.classList.add('hidden');
+                if (role === 'passenger') btnP.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                else btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+            }
+        }
+
+        function switchGateSubTab(mode) {
+            currentGateSubMode = mode;
+            const subL = document.getElementById('gateSubTabLogin');
+            const subR = document.getElementById('gateSubTabRegister');
+            const nameC = document.getElementById('gateNameContainer');
+            const subBtn = document.getElementById('gateSubmitBtn');
+
+            if (mode === 'login') {
+                subL.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
+                subR.className = "flex-1 text-center font-bold text-slate-400 pb-1";
+                nameC.classList.add('hidden');
+                subBtn.textContent = "Login to Enterprise";
+            } else {
+                subR.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
+                subL.className = "flex-1 text-center font-bold text-slate-400 pb-1";
+                nameC.classList.remove('hidden');
+                subBtn.textContent = "Create Account";
+            }
+        }
+
+        function handleGoogleSignInGate() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then(res => {
+                rtdb.ref('users/' + res.user.uid).set({
+                    name: res.user.displayName,
+                    email: res.user.email,
+                    phone: res.user.phoneNumber || "+923001234567",
+                    photoURL: res.user.photoURL,
+                    role: currentGateRole
+                });
+            }).catch(err => alert("Google Auth Error: " + err.message));
+        }
+
+        function handleGateAuthSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('authEmail').value;
-            const pass = document.getElementById('authPass').value;
-            const name = document.getElementById('authName').value || email.split('@')[0];
-            const phone = document.getElementById('authPhone').value;
+            const email = document.getElementById('gateAuthEmail').value;
+            const pass = document.getElementById('gateAuthPass').value;
+            const name = document.getElementById('gateAuthName').value || email.split('@')[0];
+            const phone = document.getElementById('gateAuthPhone').value;
 
-            if (currentAuthSubMode === 'register') {
-                auth.createUserWithEmailAndPassword(email, pass).then(userCredential => {
-                    const user = userCredential.user;
-                    user.updateProfile({ displayName: name });
-
-                    rtdb.ref('users/' + user.uid).set({
+            if (currentGateSubMode === 'register') {
+                auth.createUserWithEmailAndPassword(email, pass).then(cred => {
+                    cred.user.updateProfile({ displayName: name });
+                    rtdb.ref('users/' + cred.user.uid).set({
                         name: name,
                         email: email,
                         phone: phone,
-                        role: currentAuthPortal
+                        role: currentGateRole
                     });
-
-                    alert(`Account created successfully! Welcome ${name}`);
-                    toggleAuthModal();
-                }).catch(err => {
-                    alert("Firebase Register Error: " + err.message);
-                });
+                }).catch(err => alert("Register Error: " + err.message));
             } else {
-                auth.signInWithEmailAndPassword(email, pass).then(userCredential => {
-                    alert("Logged in successfully!");
-                    toggleAuthModal();
-                }).catch(err => {
-                    alert("Firebase Login Error: " + err.message);
-                });
+                auth.signInWithEmailAndPassword(email, pass).catch(err => alert("Login Error: " + err.message));
             }
         }
 
-        function handleControlConsoleLoginSubmit(e) {
+        function handleAdminGateLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('controlEmailInput').value;
-            const pass = document.getElementById('controlPassInput').value;
+            const email = document.getElementById('adminGateEmail').value;
+            const pass = document.getElementById('adminGatePass').value;
 
             if (email === "webhub262@gmail.com" && pass === "5426224") {
-                currentUser = { name: "Console Manager", email: email, role: "control" };
+                currentUser = { name: "Console Manager", email: email, role: "control", photoURL: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" };
+                document.getElementById('mandatoryAuthGate').classList.add('hidden');
                 updateUserUI();
-                toggleAuthModal();
-                alert("Control Console access granted!");
-                switchAppRole("control");
+                triggerWelcomeToast(currentUser.name, currentUser.photoURL);
+                switchAppRole('control');
             } else {
-                alert("Incorrect Console Credentials!");
+                alert("Incorrect Security Credentials!");
             }
         }
 
-        function handleLogout() {
+        function triggerForgotPassword() {
+            const email = prompt("Enter your registered email for password reset:");
+            if (email) {
+                auth.sendPasswordResetEmail(email).then(() => {
+                    alert("Password reset email sent!");
+                }).catch(err => alert("Reset Error: " + err.message));
+            }
+        }
+
+        function handleLogoutSystem() {
             auth.signOut().then(() => {
-                alert('Logged out successfully.');
-                currentUser = null;
-                updateUserUI();
+                location.reload();
             });
         }
 
-        // REAL MIC AUDIO VOICE RECORDING & SEND
-        function toggleAudioRecording() {
-            const btn = document.getElementById('voiceRecordBtn');
-            const icon = document.getElementById('micIcon');
-
-            if (!isRecordingAudio) {
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                        mediaRecorder = new MediaRecorder(stream);
-                        audioChunks = [];
-                        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                        mediaRecorder.onstop = () => {
-                            const senderName = currentUser ? currentUser.name : "Guest User";
-                            rtdb.ref('chats/' + activeRideChatId).push({
-                                sender: senderName,
-                                message: "🎙️ [Voice Audio Note Recorded]",
-                                timestamp: Date.now()
-                            });
-                        };
-                        mediaRecorder.start();
-                        isRecordingAudio = true;
-                        btn.className = "bg-rose-600 text-white px-3 py-2 rounded-xl font-bold animate-pulse";
-                        icon.className = "fa-solid fa-stop";
-                    }).catch(err => {
-                        sendRealtimeVoiceNote();
-                    });
-                } else {
-                    sendRealtimeVoiceNote();
-                }
-            } else {
-                if (mediaRecorder) mediaRecorder.stop();
-                isRecordingAudio = false;
-                btn.className = "bg-amber-500 text-slate-950 px-3 py-2 rounded-xl font-bold transition";
-                icon.className = "fa-solid fa-microphone";
+        function updateUserUI() {
+            if (currentUser) {
+                document.getElementById('headerUserAvatar').src = currentUser.photoURL;
+                document.getElementById('headerProfileSubtitle').innerHTML = `<span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> ${currentUser.name} (${currentUser.role})`;
             }
         }
 
-        // REAL-TIME CHAT LISTENER
-        function initRealtimeChatListener(chatRoomId) {
-            activeRideChatId = chatRoomId;
-            const chatRef = rtdb.ref('chats/' + chatRoomId);
-            chatRef.on('value', snapshot => {
-                const container = document.getElementById('realtimeChatMessagesContainer');
+        function openManualPaymentModal() {
+            document.getElementById('manualPaymentModal').classList.toggle('hidden');
+        }
+
+        function handleManualPaymentSubmit(e) {
+            e.preventDefault();
+            const fare = document.getElementById('payFareAmount').value;
+            const method = document.getElementById('payMethodSelect').value;
+            const tid = document.getElementById('payTIDNumber').value;
+            const proof = document.getElementById('payProofImageUrl').value;
+
+            const newPayRef = rtdb.ref('manual_payments').push();
+            newPayRef.set({
+                passenger: currentUser ? currentUser.name : "Passenger",
+                passengerPhone: currentUser ? currentUser.phone : "+923001234567",
+                fare: fare,
+                method: method,
+                tid: tid,
+                proofUrl: proof,
+                status: "Pending Driver Approval",
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Payment proof dispatched live to Driver!");
+                openManualPaymentModal();
+            });
+        }
+
+        function listenToManualPaymentApprovals() {
+            rtdb.ref('manual_payments').on('value', snapshot => {
+                const container = document.getElementById('driverPaymentApprovalFeed');
                 if(!container) return;
                 container.innerHTML = "";
 
                 const data = snapshot.val();
                 if(!data) {
-                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No messages yet. Start chatting in real-time!</p>`;
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No pending manual payment receipts.</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const pay = data[key];
+                    container.innerHTML += `
+                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-1.5 shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-black text-slate-900">${pay.passenger} (${pay.passengerPhone})</p>
+                                    <p class="text-[10px] text-slate-500 font-bold">Method: ${pay.method} | TID: ${pay.tid}</p>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2 py-0.5 rounded">PKR ${pay.fare}</span>
+                            </div>
+                            <div class="text-[10px] bg-slate-50 p-1.5 rounded-lg border border-slate-200">
+                                <a href="${pay.proofUrl}" target="_blank" class="text-sky-600 underline font-bold">View Receipt Screenshot</a>
+                            </div>
+                            <div class="flex space-x-2 pt-1">
+                                <button onclick="updatePaymentStatus('${key}', 'Approved')" class="flex-1 bg-emerald-600 text-white font-black py-1 rounded-xl text-[10px]">Approve Payment</button>
+                                <button onclick="updatePaymentStatus('${key}', 'Rejected')" class="flex-1 bg-rose-600 text-white font-black py-1 rounded-xl text-[10px]">Reject</button>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+
+        function updatePaymentStatus(key, status) {
+            rtdb.ref('manual_payments/' + key).update({ status: status }).then(() => {
+                alert(`Payment receipt ${status}!`);
+            });
+        }
+
+        function toggleProfileModal() {
+            document.getElementById('profileEditModal').classList.toggle('hidden');
+            if (currentUser) {
+                document.getElementById('editProfileName').value = currentUser.name;
+                document.getElementById('editProfilePhone').value = currentUser.phone;
+                document.getElementById('editProfileAvatarUrl').value = currentUser.photoURL;
+            }
+        }
+
+        function handleUpdateProfileSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('editProfileName').value;
+            const phone = document.getElementById('editProfilePhone').value;
+            const avatar = document.getElementById('editProfileAvatarUrl').value;
+
+            if (auth.currentUser) {
+                auth.currentUser.updateProfile({ displayName: name, photoURL: avatar });
+                rtdb.ref('users/' + auth.currentUser.uid).update({ name: name, phone: phone, photoURL: avatar });
+            }
+
+            currentUser.name = name;
+            currentUser.phone = phone;
+            currentUser.photoURL = avatar;
+            updateUserUI();
+            toggleProfileModal();
+            alert("Profile details updated!");
+        }
+
+        function openDirectAdminChatModal() {
+            document.getElementById('directAdminChatModal').classList.toggle('hidden');
+        }
+
+        function initAdminDirectChatListener() {
+            rtdb.ref('admin_direct_chats').on('value', snapshot => {
+                const container = document.getElementById('adminDirectChatRoomContainer');
+                if(!container) return;
+                container.innerHTML = "";
+
+                const data = snapshot.val();
+                if(!data) {
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">Start conversation with Admin Support...</p>`;
                     return;
                 }
 
                 Object.keys(data).forEach(key => {
                     const msg = data[key];
-                    const isMe = currentUser && msg.sender === currentUser.name;
                     container.innerHTML += `
-                        <div class="p-2 rounded-xl text-xs mb-1 ${isMe ? 'bg-sky-100 text-right ml-4' : 'bg-white border border-sky-100 mr-4'}">
-                            <span class="font-bold block text-[10px] text-sky-800">${msg.sender}</span>
+                        <div class="p-2 rounded-xl text-xs mb-1 bg-white border border-sky-100">
+                            <span class="font-bold text-amber-700 text-[10px] block">${msg.sender}</span>
                             <span class="text-slate-800">${msg.message}</span>
                         </div>`;
                 });
-                container.scrollTop = container.scrollHeight;
             });
         }
 
-        function sendRealtimeChatMessage() {
-            const msgInput = document.getElementById('chatMessageInput');
-            const msg = msgInput.value.trim();
-            const senderName = currentUser ? currentUser.name : "Guest User";
-
+        function sendDirectAdminChatMessage() {
+            const input = document.getElementById('adminDirectChatMessageInput');
+            const msg = input.value.trim();
             if (msg) {
-                rtdb.ref('chats/' + activeRideChatId).push({
-                    sender: senderName,
+                rtdb.ref('admin_direct_chats').push({
+                    sender: currentUser ? currentUser.name : "Guest",
                     message: msg,
                     timestamp: Date.now()
-                }).then(() => {
-                    msgInput.value = "";
-                });
+                }).then(() => input.value = "");
             }
         }
 
-        function sendRealtimeVoiceNote() {
-            const senderName = currentUser ? currentUser.name : "Guest User";
-            rtdb.ref('chats/' + activeRideChatId).push({
-                sender: senderName,
-                message: "🎙️ [Voice Note Sent]",
-                timestamp: Date.now()
+        function listenToAdminUserRegistry() {
+            rtdb.ref('users').on('value', snapshot => {
+                const container = document.getElementById('adminUserRegistryList');
+                if(!container) return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) return;
+
+                Object.keys(data).forEach(key => {
+                    const u = data[key];
+                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-slate-300 font-medium">👤 ${u.name} | 📱 ${u.phone} | ✉️ ${u.email} [${u.role}]</div>`;
+                });
             });
         }
 
-        // REAL-TIME RIDE BIDDING SYSTEM
+        function listenToAdminPaymentLogs() {
+            rtdb.ref('manual_payments').on('value', snapshot => {
+                const container = document.getElementById('adminPaymentLogsContainer');
+                if(!container) return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) return;
+
+                Object.keys(data).forEach(key => {
+                    const p = data[key];
+                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} Paid PKR ${p.fare} via ${p.method} (TID: ${p.tid}) [${p.status}]</div>`;
+                });
+            });
+        }
+
         function publishCustomInDriveRide() {
             const pickup = document.getElementById('customPickupInput').value;
             const drop = document.getElementById('customDropInput').value;
-            const fare = parseInt(document.getElementById('passengerProposedFare').value) || 300;
-            const category = document.getElementById('vehicleCategorySelect').value;
-            const passengerName = currentUser ? currentUser.name : "Guest Passenger";
+            const fare = document.getElementById('passengerProposedFare').value;
+            const cat = document.getElementById('vehicleCategorySelect').value;
 
-            const newRideRef = rtdb.ref('rides').push();
-            newRideRef.set({
-                passenger: passengerName,
+            rtdb.ref('rides').push().set({
+                passenger: currentUser ? currentUser.name : "Passenger",
+                phone: currentUser ? currentUser.phone : "+923001234567",
                 pickup: pickup,
                 drop: drop,
                 proposedFare: fare,
-                category: category,
-                status: "Active",
+                category: cat,
                 timestamp: Date.now()
             }).then(() => {
-                activeRideChatId = "ROOM_" + newRideRef.key;
-                initRealtimeChatListener(activeRideChatId);
                 document.getElementById('passengerOffersBox').classList.remove('hidden');
-                alert(`Ride broadcasted live to Firebase Realtime Database!`);
+                alert("Ride broadcasted!");
             });
         }
 
         function listenToRealtimeBiddingRides() {
             rtdb.ref('rides').on('value', snapshot => {
-                const driverFeed = document.getElementById('driverLiveBiddingFeed');
-                if (driverFeed) driverFeed.innerHTML = "";
-
+                const feed = document.getElementById('driverLiveBiddingFeed');
+                if(!feed) return;
+                feed.innerHTML = "";
                 const data = snapshot.val();
                 if(!data) return;
 
                 Object.keys(data).forEach(key => {
-                    const ride = data[key];
-                    if (driverFeed) {
-                        driverFeed.innerHTML += `
-                            <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-2 shadow-sm">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <p class="font-black text-slate-900">${ride.passenger} <span class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">${ride.category}</span></p>
-                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-circle-dot text-emerald-500 mr-1"></i> ${ride.pickup}</p>
-                                        <p class="text-[10px] text-slate-500 font-semibold"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${ride.drop}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-lg">PKR ${ride.proposedFare}</span>
-                                    </div>
-                                </div>
-                                <div class="flex space-x-2 pt-1">
-                                    <button onclick="driverAcceptBid('${key}', '${ride.proposedFare}')" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
-                                    <button onclick="triggerDirectCall('+923449876543')" class="bg-sky-600 text-white px-3 py-1.5 rounded-xl font-bold text-[10px]"><i class="fa-solid fa-phone"></i> Call</button>
-                                </div>
-                            </div>`;
-                    }
+                    const r = data[key];
+                    feed.innerHTML += `
+                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-1 shadow-sm">
+                            <p class="font-black text-slate-900">${r.passenger} (${r.phone})</p>
+                            <p class="text-[10px] text-slate-500">${r.pickup} ➔ ${r.drop}</p>
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.proposedFare}</span>
+                        </div>`;
                 });
             });
         }
 
-        function driverAcceptBid(key, fare) {
-            activeRideChatId = "ROOM_" + key;
-            initRealtimeChatListener(activeRideChatId);
-            alert(`Accepted ride for PKR ${fare}! Realtime Talkzone chat room connected.`);
+        function initRealtimeChatListener(chatId) {
+            rtdb.ref('chats/' + chatId).on('value', snapshot => {
+                const container = document.getElementById('realtimeChatMessagesContainer');
+                if(!container) return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) return;
+
+                Object.keys(data).forEach(key => {
+                    const m = data[key];
+                    container.innerHTML += `<div class="p-1.5 bg-sky-50 rounded-lg"><span class="font-bold text-sky-800">${m.sender}:</span> ${m.message}</div>`;
+                });
+            });
         }
 
-        function triggerDirectCall(phoneNum) {
-            window.location.href = `tel:${phoneNum}`;
-        }
-
-        function switchAuthPortal(portal) {
-            currentAuthPortal = portal;
-            const btnPass = document.getElementById('authTabPassenger');
-            const btnDriver = document.getElementById('authTabDriver');
-            const btnControl = document.getElementById('authTabControl');
-            const userContainer = document.getElementById('userAuthContainer');
-            const controlContainer = document.getElementById('controlAuthContainer');
-
-            btnPass.className = "py-1.5 rounded-lg text-slate-700";
-            btnDriver.className = "py-1.5 rounded-lg text-slate-700";
-            btnControl.className = "py-1.5 rounded-lg text-slate-700";
-
-            if (portal === 'passenger' || portal === 'driver') {
-                userContainer.classList.remove('hidden');
-                controlContainer.classList.add('hidden');
-                if (portal === 'passenger') btnPass.className = "py-1.5 rounded-lg bg-sky-600 text-white shadow";
-                else btnDriver.className = "py-1.5 rounded-lg bg-sky-600 text-white shadow";
-            } else if (portal === 'control') {
-                userContainer.classList.add('hidden');
-                controlContainer.classList.remove('hidden');
-                btnControl.className = "py-1.5 rounded-lg bg-slate-900 text-white shadow";
-            }
-        }
-
-        function switchLoginRegisterSubTab(mode) {
-            currentAuthSubMode = mode;
-            const subLogin = document.getElementById('subTabLogin');
-            const subReg = document.getElementById('subTabRegister');
-            const nameField = document.getElementById('nameFieldContainer');
-            const submitBtn = document.getElementById('authSubmitBtn');
-
-            if (mode === 'login') {
-                subLogin.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
-                subReg.className = "flex-1 text-center font-bold text-slate-400 pb-1";
-                nameField.classList.add('hidden');
-                submitBtn.textContent = "Login to Account";
-            } else {
-                subReg.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
-                subLogin.className = "flex-1 text-center font-bold text-slate-400 pb-1";
-                nameField.classList.remove('hidden');
-                submitBtn.textContent = "Create Account";
-            }
-        }
-
-        function toggleAuthModal() {
-            document.getElementById('authModal').classList.toggle('hidden');
-        }
-
-        function updateUserUI() {
-            const authBtn = document.getElementById('headerAuthBtn');
-            const badge = document.getElementById('headerUserBadge');
-            if (currentUser) {
-                authBtn.classList.add('hidden');
-                badge.classList.remove('hidden');
-                badge.classList.add('flex');
-                document.getElementById('badgeName').textContent = currentUser.name;
-            } else {
-                authBtn.classList.remove('hidden');
-                badge.classList.add('hidden');
-                badge.classList.remove('flex');
+        function sendRealtimeChatMessage() {
+            const input = document.getElementById('chatMessageInput');
+            if (input.value.trim()) {
+                rtdb.ref('chats/' + activeRideChatId).push({
+                    sender: currentUser ? currentUser.name : "User",
+                    message: input.value.trim(),
+                    timestamp: Date.now()
+                }).then(() => input.value = "");
             }
         }
 
@@ -867,17 +921,6 @@
             else if (role === 'parcel') document.getElementById('parcelSection').classList.remove('hidden');
             else if (role === 'driver') document.getElementById('driverSection').classList.remove('hidden');
             else if (role === 'control') document.getElementById('controlSection').classList.remove('hidden');
-        }
-
-        function openSOSModal() { document.getElementById('sosModal').classList.toggle('hidden'); }
-        function openScheduleRideModal() { document.getElementById('scheduleRideModal').classList.toggle('hidden'); }
-        function confirmScheduleRide() { alert("Pass scheduled!"); openScheduleRideModal(); }
-        function topUpWalletPrompt() { passengerWallet += 500; document.getElementById('passengerWalletBalance').textContent = passengerWallet; }
-        function copyAndApplyPromo() { alert("Promo GILGIT100 applied!"); }
-        function publishPromoCodeLive() { alert("Promo published live!"); }
-        function togglePasswordVisibility(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            input.type = input.type === "password" ? "text" : "password";
         }
     </script>
 </body>
