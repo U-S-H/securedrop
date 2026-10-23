@@ -240,6 +240,35 @@
         </div>
     </div>
 
+    <!-- SOUND & TONE SETTINGS MODAL -->
+    <div id="soundSettingsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 space-y-4 border border-sky-100 dark:border-slate-800 text-xs">
+            <div class="flex justify-between items-center border-b dark:border-slate-800 pb-2">
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase"><i class="fa-solid fa-music text-sky-600 mr-1"></i> Sound & Tone Settings</h3>
+                <button onclick="toggleSoundSettingsModal()" class="text-slate-400 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center bg-sky-50 dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700">
+                    <div>
+                        <p class="font-black text-slate-900 dark:text-white">Mute / Silent Mode</p>
+                        <p class="text-[10px] text-slate-500">Disable all audio notifications</p>
+                    </div>
+                    <input type="checkbox" id="silentModeCheckbox" onchange="toggleSilentModeStatus()" class="w-5 h-5 accent-sky-600 cursor-pointer">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Select Alert Tone</label>
+                    <select id="selectedNotificationToneSelect" onchange="changeNotificationTone(this.value)" class="w-full p-2.5 bg-sky-50 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
+                        <option value="chime">Standard Chime</option>
+                        <option value="ringtone">Loud Ringtone</option>
+                        <option value="soft">Soft Bell</option>
+                        <option value="siren">Urgent Siren</option>
+                    </select>
+                </div>
+                <button onclick="testSelectedAudioTone()" class="w-full bg-sky-600 text-white font-black py-2.5 rounded-xl shadow-md">Test Selected Tone</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SIDEBAR MENU DRAWER -->
     <div id="sidebarMenuDrawer" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden transition-opacity duration-300">
         <div class="w-72 bg-white dark:bg-slate-900 h-full shadow-2xl p-5 flex flex-col justify-between space-y-4 overflow-y-auto hide-scrollbar text-xs">
@@ -399,6 +428,9 @@
         </div>
 
         <div class="flex items-center space-x-2">
+            <button onclick="toggleSoundSettingsModal()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Sound Tones">
+                <i id="soundToggleIcon" class="fa-solid fa-volume-high"></i>
+            </button>
             <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Toggle Dark/Light Mode">
                 <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
             </button>
@@ -587,7 +619,7 @@
             </div>
 
             <!-- Live Chat & In-App Voice Call Room -->
-            <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm hidden">
+            <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center border-b dark:border-slate-800 pb-2">
                     <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Deal Chat & Call Room</h3>
                     <button onclick="triggerInitiateInAppVoiceCall()" class="bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-xl text-[10px] font-black"><i class="fa-solid fa-phone mr-1"></i> Call Captain</button>
@@ -724,12 +756,12 @@
             </div>
         </div>
 
-        <!-- ADMIN HUB SECTION -->
+        <!-- ADMIN HUB SECTION (ALL DATA SHOWCASE) -->
         <div id="controlSection" class="space-y-5 hidden transition-all duration-300">
             <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center pb-3 border-b border-slate-800">
                     <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Gilgit Admin Portal (Free Mode)</h3>
-                    <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">ZERO COMMISSION</span>
+                    <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">ALL DATA ACTIVE</span>
                 </div>
 
                 <div class="bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-500/40 text-center text-xs space-y-1">
@@ -746,40 +778,26 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 space-y-3 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-ticket mr-1"></i> Manage Active Promo Code</h4>
-                    <form onsubmit="handleAdminUpdatePromoCode(event)" class="space-y-2">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-slate-400 mb-0.5 font-bold">Promo Code</label>
-                                <input type="text" id="adminPromoCodeInput" placeholder="e.g. GILGITFREE" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold uppercase text-white">
-                            </div>
-                            <div>
-                                <label class="block text-slate-400 mb-0.5 font-bold">Discount (PKR)</label>
-                                <input type="number" id="adminPromoDiscountInput" placeholder="100" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold text-white">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-0.5 font-bold">Promo Description</label>
-                            <input type="text" id="adminPromoDescInput" placeholder="e.g. Flat 100 PKR off on Gilgit rides" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-medium text-white">
-                        </div>
-                        <button type="submit" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl shadow">Update & Broadcast Promo</button>
-                    </form>
+                <!-- MASTER RIDES DATABASE -->
+                <div class="space-y-2 text-xs">
+                    <h4 class="font-bold text-sky-300 uppercase"><i class="fa-solid fa-route mr-1"></i> Master Rides Database</h4>
+                    <div id="adminMasterRidesFeed" class="bg-slate-800 p-2.5 rounded-xl space-y-2 max-h-48 overflow-y-auto hide-scrollbar border border-slate-700">
+                        <p class="text-slate-400 text-center py-2">Loading rides data...</p>
+                    </div>
                 </div>
 
+                <!-- MASTER USERS DIRECTORY -->
                 <div class="space-y-2 text-xs">
-                    <div class="flex justify-between items-center">
-                        <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-users mr-1"></i> Gilgit User Directory</h4>
-                        <span class="text-[9px] text-slate-400 font-bold" id="adminTotalUserCount">0 Registered</span>
-                    </div>
-                    <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-2 max-h-52 overflow-y-auto hide-scrollbar">
+                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-users mr-1"></i> Master User Accounts Directory</h4>
+                    <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-2 max-h-52 overflow-y-auto hide-scrollbar border border-slate-700">
                         <p class="text-slate-400 text-center py-2">Loading Firebase registered user profiles...</p>
                     </div>
                 </div>
 
+                <!-- PAYMENT PROOF LOGS -->
                 <div class="space-y-2 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Direct Payment Proof Logs</h4>
-                    <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-40 overflow-y-auto hide-scrollbar">
+                    <h4 class="font-bold text-emerald-300 uppercase"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Direct Payment Proof Logs</h4>
+                    <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-40 overflow-y-auto hide-scrollbar border border-slate-700">
                         <p class="text-slate-400 text-center py-2">Loading payment transactions...</p>
                     </div>
                 </div>
@@ -1069,6 +1087,8 @@
         let loyaltyCoins = 250;
         let selectedVehicleType = "Car";
         let connectedDriverPhoneGlobal = "+923449876543";
+        let isSilentMode = false;
+        let activeAudioTone = "chime";
 
         const popularGilgitLocations = [
             "Gilgit City Center (Jamia Masjid)", "Jutial Main Road", "Danyor Bridge", 
@@ -1083,24 +1103,60 @@
             { text: "New Gilgit Captain Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" }
         ];
 
-        // AUDIO NOTIFICATION TONE SYNTHESIZER (WEB AUDIO API)
-        function playNotificationChime() {
+        // WEB AUDIO API MULTI-TONE SYNTHESIZER
+        function playNotificationChime(overrideType) {
+            if (isSilentMode) return;
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2); // A5 note
+                const toneType = overrideType || activeAudioTone;
+
+                if (toneType === 'chime') {
+                    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+                } else if (toneType === 'ringtone') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15);
+                } else if (toneType === 'soft') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(329.63, audioCtx.currentTime);
+                } else if (toneType === 'siren') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(900, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(400, audioCtx.currentTime + 0.3);
+                }
+
                 gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
                 osc.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.4);
             } catch(e) {
-                console.log("Audio Context prevented:", e);
+                console.log("Audio Context Error:", e);
             }
+        }
+
+        function toggleSoundSettingsModal() {
+            document.getElementById('soundSettingsModal').classList.toggle('hidden');
+        }
+
+        function toggleSilentModeStatus() {
+            isSilentMode = document.getElementById('silentModeCheckbox').checked;
+            const icon = document.getElementById('soundToggleIcon');
+            icon.className = isSilentMode ? "fa-solid fa-volume-xmark text-rose-500" : "fa-solid fa-volume-high text-sky-600";
+        }
+
+        function changeNotificationTone(val) {
+            activeAudioTone = val;
+            playNotificationChime(val);
+        }
+
+        function testSelectedAudioTone() {
+            playNotificationChime();
         }
 
         window.addEventListener('online', () => document.getElementById('offlineFallbackBanner').classList.add('hidden'));
@@ -1128,22 +1184,22 @@
             const activeClass = "flex flex-col items-center space-y-1 text-sky-600 dark:text-sky-400 font-black text-[10px] transition";
             const normalClass = "flex flex-col items-center space-y-1 text-slate-500 dark:text-slate-400 font-bold text-[10px] transition";
 
-            btnHome.className = normalClass;
-            btnCargo.className = normalClass;
-            btnWallet.className = normalClass;
-            btnProfile.className = normalClass;
+            if(btnHome) btnHome.className = normalClass;
+            if(btnCargo) btnCargo.className = normalClass;
+            if(btnWallet) btnWallet.className = normalClass;
+            if(btnProfile) btnProfile.className = normalClass;
 
             if (tab === 'home') {
-                btnHome.className = activeClass;
+                if(btnHome) btnHome.className = activeClass;
                 switchAppRole('passenger');
             } else if (tab === 'cargo') {
-                btnCargo.className = activeClass;
+                if(btnCargo) btnCargo.className = activeClass;
                 switchAppRole('parcel');
             } else if (tab === 'wallet') {
-                btnWallet.className = activeClass;
+                if(btnWallet) btnWallet.className = activeClass;
                 openMenuModal('wallet');
             } else if (tab === 'profile') {
-                btnProfile.className = activeClass;
+                if(btnProfile) btnProfile.className = activeClass;
                 toggleProfileModal();
             }
         }
@@ -1300,20 +1356,9 @@
             closeSosModal();
         }
 
-        function redeemLoyaltyCoins() {
-            if (loyaltyCoins >= 100) {
-                loyaltyCoins -= 100;
-                document.getElementById('userWalletCoinsDisplay').textContent = `${loyaltyCoins} Coins`;
-                const fareInput = document.getElementById('passengerProposedFare');
-                fareInput.value = Math.max(100, parseInt(fareInput.value) - 100);
-                alert("Successfully redeemed 100 loyalty coins! Flat PKR 100 discount applied to your ride.");
-            } else {
-                alert("Insufficient loyalty coins! Complete more free Gilgit rides to earn coins.");
-            }
-        }
-
         function copyUserReferralLink() {
             const input = document.getElementById('userReferralLinkInput');
+            if(!input) return;
             input.select();
             input.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(input.value);
@@ -1321,7 +1366,7 @@
         }
 
         function shareOnSocialMedia(platform) {
-            const refLink = document.getElementById('userReferralLinkInput').value || "https://u-s-h.github.io/securedrop/";
+            const refLink = document.getElementById('userReferralLinkInput')?.value || "https://u-s-h.github.io/securedrop/";
             const shareText = `Book 100% free rides and cargo delivery in Gilgit with zero commission! Join via my link: ${refLink}`;
 
             let url = "";
@@ -1451,7 +1496,7 @@
 
                 if (toast && textEl) {
                     textEl.textContent = randomItem.text;
-                    iconEl.className = `fa-solid ${randomItem.icon} text-sm ${randomItem.color}`;
+                    if(iconEl) iconEl.className = `fa-solid ${randomItem.icon} text-sm ${randomItem.color}`;
                     toast.classList.remove('hidden');
 
                     setTimeout(() => {
@@ -1478,7 +1523,8 @@
         window.addEventListener('load', () => {
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.getElementById('themeToggleIcon').className = "fa-solid fa-sun";
+                const tIcon = document.getElementById('themeToggleIcon');
+                if(tIcon) tIcon.className = "fa-solid fa-sun";
             }
 
             setTimeout(() => {
@@ -1510,12 +1556,14 @@
                             usedPromos: userData ? (userData.usedPromos || {}) : {}
                         };
 
-                        document.getElementById('mandatoryAuthGate').classList.add('hidden');
+                        const authGate = document.getElementById('mandatoryAuthGate');
+                        if(authGate) authGate.classList.add('hidden');
                         applyUserRolePermissions(currentUser.role);
                         updateUserUI();
 
                         const generatedRefLink = `https://u-s-h.github.io/securedrop/?ref=${encodeURIComponent(currentUser.name.replace(/\s+/g, '_'))}`;
-                        document.getElementById('userReferralLinkInput').value = generatedRefLink;
+                        const refInput = document.getElementById('userReferralLinkInput');
+                        if(refInput) refInput.value = generatedRefLink;
 
                         if (currentUser.role === 'driver') {
                             loadDriverAccountSettings(currentUser.uid);
@@ -1536,10 +1584,12 @@
                         listenToLiveDriverTrackingOnMap();
                         listenToIncomingCalls();
                         loadUserHistoryAndActivity();
+                        listenToMasterDataForAdmin();
                     });
                 } else {
                     currentUser = null;
-                    document.getElementById('mandatoryAuthGate').classList.remove('hidden');
+                    const authGate = document.getElementById('mandatoryAuthGate');
+                    if(authGate) authGate.classList.remove('hidden');
                 }
             });
 
@@ -1558,8 +1608,10 @@
                 Object.keys(data).forEach(key => {
                     const r = data[key];
                     if (r.passengerUid === passengerUid && r.status === "Accepted" && r.driverName) {
-                        document.getElementById('displayConnectedDriverName').textContent = r.driverName;
-                        document.getElementById('displayConnectedDriverPhone').textContent = r.driverPhone || "+923449876543";
+                        const dNameEl = document.getElementById('displayConnectedDriverName');
+                        const dPhoneEl = document.getElementById('displayConnectedDriverPhone');
+                        if(dNameEl) dNameEl.textContent = r.driverName;
+                        if(dPhoneEl) dPhoneEl.textContent = r.driverPhone || "+923449876543";
                         connectedDriverPhoneGlobal = r.driverPhone || "+923449876543";
 
                         rtdb.ref('driver_accounts').once('value').then(accSnap => {
@@ -1569,30 +1621,15 @@
                             Object.keys(accounts).forEach(accKey => {
                                 const acc = accounts[accKey];
                                 if (acc.driverName === r.driverName) {
-                                    document.getElementById('displayConnectedAccType').textContent = acc.accType;
-                                    document.getElementById('displayConnectedAccTitle').textContent = acc.accTitle;
-                                    document.getElementById('displayConnectedAccNumber').textContent = acc.accNumber;
-
-                                    document.getElementById('modalDriverAccType').textContent = acc.accType;
-                                    document.getElementById('modalDriverAccTitle').textContent = acc.accTitle;
-                                    document.getElementById('modalDriverAccNumber').textContent = acc.accNumber;
+                                    const accTypeEl = document.getElementById('displayConnectedAccType');
+                                    const accTitleEl = document.getElementById('displayConnectedAccTitle');
+                                    const accNumEl = document.getElementById('displayConnectedAccNumber');
+                                    if(accTypeEl) accTypeEl.textContent = acc.accType;
+                                    if(accTitleEl) accTitleEl.textContent = acc.accTitle;
+                                    if(accNumEl) accNumEl.textContent = acc.accNumber;
                                 }
                             });
                         });
-                    }
-                });
-            });
-
-            rtdb.ref('manual_payments').on('value', snapshot => {
-                const data = snapshot.val();
-                if (!data) return;
-                const badge = document.getElementById('passengerPaymentApprovalStatusBadge');
-                Object.keys(data).forEach(key => {
-                    const pay = data[key];
-                    if (pay.passenger === currentUser.name) {
-                        badge.textContent = `Status: ${pay.status}`;
-                        if (pay.status === 'Approved') badge.className = "text-[9px] bg-emerald-500 text-white font-extrabold px-2 py-0.5 rounded-full";
-                        else if (pay.status === 'Rejected') badge.className = "text-[9px] bg-rose-500 text-white font-extrabold px-2 py-0.5 rounded-full";
                     }
                 });
             });
@@ -1667,11 +1704,11 @@
 
         function dispatchCargoCourierPackage() {
             const itemName = document.getElementById('parcelItemName').value;
-            const receiver = document.getElementById('parcelReceiver').value;
-            const stops = document.getElementById('parcelStopsInput').value;
+            const receiver = document.getElementById('parcelReceiver')?.value || "General Receiver";
+            const stops = document.getElementById('parcelStopsInput')?.value || "Gilgit Direct";
 
-            if (!itemName || !receiver) {
-                alert("Please fill item name and receiver details.");
+            if (!itemName) {
+                alert("Please fill item name.");
                 return;
             }
 
@@ -1679,13 +1716,14 @@
             rtdb.ref('cargo_parcels/' + trackingCode).set({
                 itemName: itemName,
                 receiver: receiver,
-                stops: stops || "Gilgit City Direct",
+                stops: stops,
                 status: "Dispatched & In Transit",
                 timestamp: Date.now()
             }).then(() => {
                 playNotificationChime();
                 alert(`Gilgit Free Cargo Dispatched! Live Tracking Code: ${trackingCode}`);
-                document.getElementById('trackCargoCodeInput').value = trackingCode;
+                const trkInput = document.getElementById('trackCargoCodeInput');
+                if(trkInput) trkInput.value = trackingCode;
             });
         }
 
@@ -1718,13 +1756,13 @@
             if (btn.textContent === "Online") {
                 btn.textContent = "Offline";
                 btn.className = "bg-rose-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
-                sub.textContent = "You are currently Offline";
+                if(sub) sub.textContent = "You are currently Offline";
                 rtdb.ref('users/' + currentUser.uid).update({ status: "Offline" });
                 if (shiftTimerInterval) clearInterval(shiftTimerInterval);
             } else {
                 btn.textContent = "Online";
                 btn.className = "bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
-                sub.innerHTML = `Shift Timer: <span id="driverShiftTimerDisplay" class="font-mono text-emerald-600">00:00:00</span>`;
+                if(sub) sub.innerHTML = `Shift Timer: <span id="driverShiftTimerDisplay" class="font-mono text-emerald-600">00:00:00</span>`;
                 rtdb.ref('users/' + currentUser.uid).update({ status: "Active" });
                 startDriverShiftTimer();
             }
@@ -1758,7 +1796,6 @@
             }
         }
 
-        // LIVE MAP GPS TRACKING WITH ROUTE POLYLINE VISUALIZATION
         function listenToLiveDriverTrackingOnMap() {
             rtdb.ref('driver_locations').on('value', snapshot => {
                 if (!leafletMap || !currentUser) return;
@@ -1810,21 +1847,13 @@
                 Object.keys(data).forEach(key => {
                     const r = data[key];
                     if (r.driverName === driverName && r.status === "Completed") {
-                        totalEarnings += parseInt(r.finalFare || r.proposedFare || 0);
+                        totalEarnings += parseInt(r.finalFare || r.fare || 0);
                         completedRides++;
                     }
                 });
 
-                document.getElementById('driverTodayEarnings').textContent = `PKR ${totalEarnings}`;
-
-                const badgeTag = document.getElementById('driverTierBadgeTag');
-                if (badgeTag) {
-                    if (completedRides >= 10) {
-                        badgeTag.textContent = "0% Commission (Gold) 🥇";
-                    } else {
-                        badgeTag.textContent = "0% Commission Free Captain 🚀";
-                    }
-                }
+                const dEarn = document.getElementById('driverTodayEarnings');
+                if(dEarn) dEarn.textContent = `PKR ${totalEarnings}`;
             });
         }
 
@@ -1833,40 +1862,25 @@
         }
 
         function openRatingModal() {
-            document.getElementById('driverRatingModal').classList.remove('hidden');
+            const modal = document.getElementById('driverRatingModal');
+            if(modal) modal.classList.remove('hidden');
         }
 
         function closeRatingModal() {
-            document.getElementById('driverRatingModal').classList.add('hidden');
+            const modal = document.getElementById('driverRatingModal');
+            if(modal) modal.classList.add('hidden');
         }
 
         function submitDriverRating(stars) {
-            const comment = document.getElementById('driverReviewComment').value;
+            const comment = document.getElementById('driverReviewComment')?.value || "";
             rtdb.ref('driver_reviews').push({
-                passenger: currentUser.name,
+                passenger: currentUser ? currentUser.name : "Passenger",
                 stars: stars,
                 comment: comment,
                 timestamp: Date.now()
             }).then(() => {
                 alert(`Thank you! Rated Gilgit Captain ${stars} stars successfully.`);
                 closeRatingModal();
-            });
-        }
-
-        function handleAdminUpdatePromoCode(e) {
-            e.preventDefault();
-            const code = document.getElementById('adminPromoCodeInput').value.trim().toUpperCase();
-            const discount = document.getElementById('adminPromoDiscountInput').value;
-            const desc = document.getElementById('adminPromoDescInput').value;
-
-            rtdb.ref('active_promo').set({
-                code: code,
-                discount: discount,
-                description: desc,
-                timestamp: Date.now()
-            }).then(() => {
-                playNotificationChime();
-                showPushNotificationToast("Gilgit Free Promo Broadcast!", `Code ${code}: Save PKR ${discount}`);
             });
         }
 
@@ -1891,7 +1905,8 @@
         function copyActivePromoCode() {
             if (currentActivePromo) {
                 navigator.clipboard.writeText(currentActivePromo.code);
-                document.getElementById('passengerPromoCodeInput').value = currentActivePromo.code;
+                const pInput = document.getElementById('passengerPromoCodeInput');
+                if(pInput) pInput.value = currentActivePromo.code;
                 alert(`Promo Code "${currentActivePromo.code}" copied to input!`);
             }
         }
@@ -1908,7 +1923,7 @@
             }
 
             if (currentUser.usedPromos && currentUser.usedPromos[currentActivePromo.code]) {
-                alert("You have already used this promo code! Each promo code can only be used once.");
+                alert("You have already used this promo code!");
                 return;
             }
 
@@ -1923,82 +1938,35 @@
 
         function publishCustomInDriveRide() {
             const pickup = document.getElementById('customPickupInput').value;
-            const waypoint = document.getElementById('customWaypointInput').value;
             const drop = document.getElementById('customDropInput').value;
             const fare = document.getElementById('passengerProposedFare').value;
-            const mode = document.getElementById('passengerBookingMode').value;
+            const mode = document.getElementById('passengerBookingMode')?.value || "Private Ride";
 
             if (!pickup || !drop) {
                 alert("Please enter both pickup and drop areas within Gilgit city.");
                 return;
             }
 
-            const fullRoute = waypoint ? `${pickup} ➔ Stop: ${waypoint} ➔ ${drop}` : `${pickup} ➔ ${drop}`;
-
             const newRideRef = rtdb.ref('rides').push();
             newRideRef.set({
                 rideId: newRideRef.key,
-                passengerUid: currentUser.uid,
-                passenger: currentUser.name,
-                phone: currentUser.phone,
+                passengerUid: currentUser ? currentUser.uid : "GUEST",
+                passenger: currentUser ? currentUser.name : "Guest",
+                phone: currentUser ? currentUser.phone : "+923001234567",
                 vehicleType: selectedVehicleType,
                 pickup: pickup,
-                waypoint: waypoint || "",
                 drop: drop,
-                proposedFare: fare,
+                fare: fare,
                 bookingMode: mode,
                 status: "Pending",
                 timestamp: Date.now()
             }).then(() => {
-                document.getElementById('passengerIncomingBidsBox').classList.remove('hidden');
-                document.getElementById('passengerOffersBox').classList.remove('hidden');
+                const bidsBox = document.getElementById('passengerIncomingBidsBox');
+                if(bidsBox) bidsBox.classList.remove('hidden');
                 
                 playNotificationChime();
-                startFullScreenBroadcastCountdown(newRideRef.key);
-                showPushNotificationToast("Free Ride Broadcasted!", `Route: ${fullRoute} (PKR ${fare})`);
+                showPushNotificationToast("Free Ride Broadcasted!", `Route: ${pickup} ➔ ${drop} (PKR ${fare})`);
             });
-        }
-
-        function startFullScreenBroadcastCountdown(rideKey) {
-            const modal = document.getElementById('fullScreenBroadcastModal');
-            const timerEl = document.getElementById('broadcastTimerDisplay');
-            const titleEl = document.getElementById('broadcastModalTitle');
-            const descEl = document.getElementById('broadcastModalDesc');
-
-            modal.classList.remove('hidden');
-            let timeLeft = 10;
-            timerEl.textContent = `${timeLeft}s`;
-            titleEl.textContent = `Searching ${selectedVehicleType} Captains...`;
-            descEl.textContent = `Broadcasting ride across Gilgit network.`;
-
-            if (broadcastTimerInterval) clearInterval(broadcastTimerInterval);
-
-            broadcastTimerInterval = setInterval(() => {
-                timeLeft--;
-                timerEl.textContent = `${timeLeft}s`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(broadcastTimerInterval);
-                    rtdb.ref('rides/' + rideKey).once('value', snap => {
-                        const rData = snap.val();
-                        if (rData && rData.status === "Pending") {
-                            titleEl.textContent = "Retrying Broadcast...";
-                            descEl.textContent = "Broadcasting to wider Gilgit captain radius...";
-                            setTimeout(() => {
-                                modal.classList.add('hidden');
-                                showPushNotificationToast("Retry Broadcast Active", "Your ride request has been re-submitted for faster captain acceptance.");
-                            }, 1500);
-                        } else {
-                            modal.classList.add('hidden');
-                        }
-                    });
-                }
-            }, 1000);
-        }
-
-        function dismissBroadcastModal() {
-            if (broadcastTimerInterval) clearInterval(broadcastTimerInterval);
-            document.getElementById('fullScreenBroadcastModal').classList.add('hidden');
         }
 
         function listenToDriverBiddingFeed() {
@@ -2020,32 +1988,19 @@
                     if (r.status === "Pending") {
                         actionButtons = `
                             <div class="flex space-x-1 pt-1">
-                                <button onclick="driverAcceptRide('${r.rideId}', ${r.proposedFare})" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
-                                <button onclick="driverSendCounterOffer('${r.rideId}', ${r.proposedFare})" class="flex-1 bg-amber-500 text-slate-950 font-black py-1.5 rounded-xl text-[10px]">Counter Offer</button>
-                                <button onclick="driverRefuseRide('${r.rideId}')" class="bg-rose-600 text-white font-black px-2.5 py-1.5 rounded-xl text-[10px]">Refuse</button>
-                            </div>`;
-                    } else if (r.status === "Accepted" && r.driverName === currentUser.name) {
-                        actionButtons = `
-                            <div class="pt-1">
-                                <button onclick="driverCompleteRide('${r.rideId}')" class="w-full bg-blue-600 text-white font-black py-2 rounded-xl text-[10px]">Complete Ride & Keep 100%</button>
+                                <button onclick="driverAcceptRide('${key}', ${r.fare})" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
+                                <button onclick="driverRefuseRide('${key}')" class="bg-rose-600 text-white font-black px-2.5 py-1.5 rounded-xl text-[10px]">Refuse</button>
                             </div>`;
                     }
 
-                    const routeStr = r.waypoint ? `${r.pickup} ➔ ${r.waypoint} ➔ ${r.drop}` : `${r.pickup} ➔ ${r.drop}`;
-
                     feed.innerHTML += `
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-2 shadow-sm">
+                        <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-2 shadow-sm text-xs">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="font-black text-slate-900 dark:text-white flex items-center space-x-2">
-                                        <span>${r.passenger}</span>
-                                        <a href="tel:${r.phone}" class="text-emerald-600 text-xs ml-1" title="Call Passenger"><i class="fa-solid fa-phone"></i></a>
-                                        <a href="https://api.whatsapp.com/send?phone=${r.phone.replace(/[^0-9+]/g, '')}&text=Hello%20Passenger" target="_blank" class="text-emerald-500 text-xs ml-1" title="WhatsApp Passenger"><i class="fa-brands fa-whatsapp"></i></a>
-                                    </p>
-                                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">${routeStr}</p>
-                                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded">${r.vehicleType || 'Car'} • ${r.bookingMode} • 0% Commission</span>
+                                    <p class="font-black text-slate-900 dark:text-white">${r.passenger} (${r.phone || '+923001234567'})</p>
+                                    <p class="text-[10px] text-slate-500">${r.pickup} ➔ ${r.drop}</p>
                                 </div>
-                                <span class="bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.finalFare || r.proposedFare}</span>
+                                <span class="bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.fare}</span>
                             </div>
                             ${actionButtons}
                         </div>`;
@@ -2053,80 +2008,56 @@
             });
         }
 
-        function driverAcceptRide(rideId, fare) {
+        function driverAcceptRide(rideKey, fare) {
             playNotificationChime();
-            rtdb.ref(`rides/${rideId}`).update({
+            rtdb.ref(`rides/${rideKey}`).update({
                 status: "Accepted",
-                driverName: currentUser.name,
-                driverPhone: currentUser.phone,
-                finalFare: fare
+                driverName: currentUser ? currentUser.name : "Captain",
+                driverPhone: currentUser ? currentUser.phone : "+923449876543"
             }).then(() => {
-                dismissBroadcastModal();
                 showPushNotificationToast("Gilgit Ride Accepted!", "Passenger connected successfully.");
             });
         }
 
-        function driverCompleteRide(rideId) {
-            playNotificationChime();
-            rtdb.ref(`rides/${rideId}`).update({
-                status: "Completed"
-            }).then(() => {
-                loyaltyCoins += 25;
-                showPushNotificationToast("Ride Completed!", "100% earnings kept & +25 Loyalty Coins credited!");
-            });
-        }
-
-        function driverSendCounterOffer(rideId, currentFare) {
-            const newFare = prompt("Enter your counter-offer fare in PKR:", currentFare);
-            if (newFare && !isNaN(newFare)) {
-                rtdb.ref(`driver_bids/${rideId}`).push({
-                    driverName: currentUser.name,
-                    driverPhone: currentUser.phone,
-                    offeredFare: newFare,
-                    timestamp: Date.now()
-                }).then(() => {
-                    playNotificationChime();
-                    showPushNotificationToast("Counter Offer Sent!", `Captain offered PKR ${newFare}`);
-                });
-            }
-        }
-
-        function driverRefuseRide(rideId) {
-            rtdb.ref(`rides/${rideId}`).update({ status: "Refused" }).then(() => alert("Ride refused."));
+        function driverRefuseRide(rideKey) {
+            rtdb.ref(`rides/${rideKey}`).update({ status: "Refused" }).then(() => alert("Ride refused."));
         }
 
         function toggleSidebarMenu() {
             const drawer = document.getElementById('sidebarMenuDrawer');
-            drawer.classList.toggle('hidden');
+            if(drawer) drawer.classList.toggle('hidden');
         }
 
         function openMenuModal(view) {
             toggleSidebarMenu();
             if (view === 'sossettings') {
-                document.getElementById('sosSettingsModal').classList.remove('hidden');
+                const sosModal = document.getElementById('sosSettingsModal');
+                if(sosModal) sosModal.classList.remove('hidden');
                 return;
             }
 
-            document.getElementById('menuContentModal').classList.remove('hidden');
-            document.getElementById('menuViewHistory').classList.add('hidden');
-            document.getElementById('menuViewReferral').classList.add('hidden');
-            document.getElementById('menuViewLeaderboard').classList.add('hidden');
-            document.getElementById('menuViewCompany').classList.add('hidden');
-            document.getElementById('menuViewFAQ').classList.add('hidden');
+            const menuModal = document.getElementById('menuContentModal');
+            if(menuModal) menuModal.classList.remove('hidden');
+            
+            ['menuViewHistory', 'menuViewReferral', 'menuViewLeaderboard', 'menuViewCompany', 'menuViewFAQ'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
 
-            if (view === 'history') document.getElementById('menuViewHistory').classList.remove('hidden');
-            else if (view === 'referral') document.getElementById('menuViewReferral').classList.remove('hidden');
+            if (view === 'history') document.getElementById('menuViewHistory')?.classList.remove('hidden');
+            else if (view === 'referral') document.getElementById('menuViewReferral')?.classList.remove('hidden');
             else if (view === 'wallet') {
-                document.getElementById('menuContentModal').classList.add('hidden');
+                if(menuModal) menuModal.classList.add('hidden');
                 alert(`Digital Wallet Balance: ${loyaltyCoins} Coins available for discount redemption!`);
             }
-            else if (view === 'leaderboard') document.getElementById('menuViewLeaderboard').classList.remove('hidden');
-            else if (view === 'company') document.getElementById('menuViewCompany').classList.remove('hidden');
-            else if (view === 'faq') document.getElementById('menuViewFAQ').classList.remove('hidden');
+            else if (view === 'leaderboard') document.getElementById('menuViewLeaderboard')?.classList.remove('hidden');
+            else if (view === 'company') document.getElementById('menuViewCompany')?.classList.remove('hidden');
+            else if (view === 'faq') document.getElementById('menuViewFAQ')?.classList.remove('hidden');
         }
 
         function closeMenuModal() {
-            document.getElementById('menuContentModal').classList.add('hidden');
+            const menuModal = document.getElementById('menuContentModal');
+            if(menuModal) menuModal.classList.add('hidden');
         }
 
         function previewSelectedImage(event, targetImgId) {
@@ -2135,9 +2066,10 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imgEl = document.getElementById(targetImgId);
-                    imgEl.src = e.target.result;
-                    imgEl.classList.remove('hidden');
-
+                    if(imgEl) {
+                        imgEl.src = e.target.result;
+                        imgEl.classList.remove('hidden');
+                    }
                     if (targetImgId === 'payProofPreviewImg') {
                         tempBase64Proof = e.target.result;
                     } else if (targetImgId === 'profileAvatarPreviewImg') {
@@ -2149,12 +2081,15 @@
         }
 
         function viewFullScreenProof(base64Data) {
-            document.getElementById('fullScreenProofImage').src = base64Data;
-            document.getElementById('fullScreenImageModal').classList.remove('hidden');
+            const proofImg = document.getElementById('fullScreenProofImage');
+            const imgModal = document.getElementById('fullScreenImageModal');
+            if(proofImg) proofImg.src = base64Data;
+            if(imgModal) imgModal.classList.remove('hidden');
         }
 
         function closeFullScreenImageModal() {
-            document.getElementById('fullScreenImageModal').classList.add('hidden');
+            const imgModal = document.getElementById('fullScreenImageModal');
+            if(imgModal) imgModal.classList.add('hidden');
         }
 
         function applyUserRolePermissions(role) {
@@ -2162,23 +2097,20 @@
             const btnControl = document.getElementById('btnControlPanelView');
             const roleBadge = document.getElementById('roleBadgeHeader');
 
-            btnDriver.classList.add('hidden');
-            btnControl.classList.add('hidden');
+            if(btnDriver) btnDriver.classList.add('hidden');
+            if(btnControl) btnControl.classList.add('hidden');
 
             if (role === 'passenger') {
-                roleBadge.textContent = "PASSENGER";
-                roleBadge.className = "ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                if(roleBadge) { roleBadge.textContent = "PASSENGER"; roleBadge.className = "ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase"; }
                 switchAppRole('passenger');
             } else if (role === 'driver') {
-                btnDriver.classList.remove('hidden');
-                roleBadge.textContent = "GILGIT CAPTAIN (FREE)";
-                roleBadge.className = "ml-1 text-[8px] bg-amber-500 text-slate-950 font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                if(btnDriver) btnDriver.classList.remove('hidden');
+                if(roleBadge) { roleBadge.textContent = "GILGIT CAPTAIN (FREE)"; roleBadge.className = "ml-1 text-[8px] bg-amber-500 text-slate-950 font-extrabold px-1.5 py-0.5 rounded-full uppercase"; }
                 switchAppRole('driver');
             } else if (role === 'control') {
-                btnDriver.classList.remove('hidden');
-                btnControl.classList.remove('hidden');
-                roleBadge.textContent = "GILGIT ADMIN";
-                roleBadge.className = "ml-1 text-[8px] bg-rose-600 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                if(btnDriver) btnDriver.classList.remove('hidden');
+                if(btnControl) btnControl.classList.remove('hidden');
+                if(roleBadge) { roleBadge.textContent = "GILGIT ADMIN"; roleBadge.className = "ml-1 text-[8px] bg-rose-600 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase"; }
                 switchAppRole('control');
             }
         }
@@ -2205,19 +2137,18 @@
             rtdb.ref('driver_accounts/' + uid).once('value').then(snapshot => {
                 const data = snapshot.val();
                 if (data) {
-                    document.getElementById('driverAccType').value = data.accType || "Easypaisa";
-                    document.getElementById('driverAccTitle').value = data.accTitle || "";
-                    document.getElementById('driverAccNumber').value = data.accNumber || "";
-                    
-                    document.getElementById('modalDriverAccType').textContent = data.accType;
-                    document.getElementById('modalDriverAccTitle').textContent = data.accTitle;
-                    document.getElementById('modalDriverAccNumber').textContent = data.accNumber;
+                    const dAccType = document.getElementById('driverAccType');
+                    const dAccTitle = document.getElementById('driverAccTitle');
+                    const dAccNumber = document.getElementById('driverAccNumber');
+                    if(dAccType) dAccType.value = data.accType || "Easypaisa";
+                    if(dAccTitle) dAccTitle.value = data.accTitle || "";
+                    if(dAccNumber) dAccNumber.value = data.accNumber || "";
                 }
             });
         }
 
         function initLeafletMap() {
-            if (document.getElementById('leafletMapContainer')) {
+            if (document.getElementById('leafletMapContainer') && !leafletMap) {
                 leafletMap = L.map('leafletMapContainer').setView([35.9208, 74.3087], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
                 L.marker([35.9208, 74.3087]).addTo(leafletMap).bindPopup('<b>Secure Drop Gilgit City HQ (Free)</b>').openPopup();
@@ -2233,22 +2164,22 @@
             const formA = document.getElementById('gateAdminAuthFormContainer');
             const label = document.getElementById('authRoleLabel');
 
-            btnP.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
-            btnD.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
-            btnA.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
+            if(btnP) btnP.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
+            if(btnD) btnD.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
+            if(btnA) btnA.className = "py-2 rounded-lg text-slate-700 dark:text-slate-300";
 
             if (role === 'control') {
-                formU.classList.add('hidden');
-                formA.classList.remove('hidden');
-                btnA.className = "py-2 rounded-lg bg-slate-900 text-white shadow";
+                if(formU) formU.classList.add('hidden');
+                if(formA) formA.classList.remove('hidden');
+                if(btnA) btnA.className = "py-2 rounded-lg bg-slate-900 text-white shadow";
             } else {
-                formU.classList.remove('hidden');
-                formA.classList.add('hidden');
+                if(formU) formU.classList.remove('hidden');
+                if(formA) formA.classList.add('hidden');
                 if (role === 'passenger') {
-                    btnP.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                    if(btnP) btnP.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
                     if(label) label.textContent = "Passenger";
                 } else {
-                    btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                    if(btnD) btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
                     if(label) label.textContent = "Captain";
                 }
             }
@@ -2262,15 +2193,15 @@
             const subBtn = document.getElementById('gateSubmitBtn');
 
             if (mode === 'login') {
-                subL.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
-                subR.className = "flex-1 text-center font-bold text-slate-400 pb-1";
-                nameC.classList.add('hidden');
-                subBtn.textContent = `Login as ${currentGateRole.toUpperCase()}`;
+                if(subL) subL.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
+                if(subR) subR.className = "flex-1 text-center font-bold text-slate-400 pb-1";
+                if(nameC) nameC.classList.add('hidden');
+                if(subBtn) subBtn.textContent = `Login as ${currentGateRole.toUpperCase()}`;
             } else {
-                subR.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
-                subL.className = "flex-1 text-center font-bold text-slate-400 pb-1";
-                nameC.classList.remove('hidden');
-                subBtn.textContent = `Create Free ${currentGateRole.toUpperCase()} Account`;
+                if(subR) subR.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
+                if(subL) subL.className = "flex-1 text-center font-bold text-slate-400 pb-1";
+                if(nameC) nameC.classList.remove('hidden');
+                if(subBtn) subBtn.textContent = `Create Free ${currentGateRole.toUpperCase()} Account`;
             }
         }
 
@@ -2278,7 +2209,7 @@
             e.preventDefault();
             const email = document.getElementById('gateAuthEmail').value;
             const pass = document.getElementById('gateAuthPass').value;
-            const name = document.getElementById('gateAuthName').value || email.split('@')[0];
+            const name = document.getElementById('gateAuthName')?.value || email.split('@')[0];
             const phone = document.getElementById('gateAuthPhone').value;
 
             if (currentGateSubMode === 'register') {
@@ -2304,7 +2235,8 @@
 
             if (email === "webhub262@gmail.com" && pass === "5426224") {
                 currentUser = { name: "Gilgit Manager", email: email, role: "control", photoURL: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" };
-                document.getElementById('mandatoryAuthGate').classList.add('hidden');
+                const gate = document.getElementById('mandatoryAuthGate');
+                if(gate) gate.classList.add('hidden');
                 applyUserRolePermissions('control');
                 updateUserUI();
             } else {
@@ -2344,13 +2276,16 @@
 
         function updateUserUI() {
             if (currentUser) {
-                document.getElementById('headerUserAvatar').src = currentUser.photoURL;
-                document.getElementById('headerProfileSubtitle').innerHTML = `<span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> ${currentUser.name}`;
+                const avatar = document.getElementById('headerUserAvatar');
+                const subtitle = document.getElementById('headerProfileSubtitle');
+                if(avatar) avatar.src = currentUser.photoURL;
+                if(subtitle) subtitle.innerHTML = `<span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> ${currentUser.name}`;
             }
         }
 
         function openManualPaymentModal() {
-            document.getElementById('manualPaymentModal').classList.toggle('hidden');
+            const modal = document.getElementById('manualPaymentModal');
+            if(modal) modal.classList.toggle('hidden');
         }
 
         function handleManualPaymentSubmit(e) {
@@ -2450,10 +2385,13 @@
         }
 
         function toggleProfileModal() {
-            document.getElementById('profileEditModal').classList.toggle('hidden');
+            const modal = document.getElementById('profileEditModal');
+            if(modal) modal.classList.toggle('hidden');
             if (currentUser) {
-                document.getElementById('editProfileName').value = currentUser.name;
-                document.getElementById('editProfilePhone').value = currentUser.phone;
+                const eName = document.getElementById('editProfileName');
+                const ePhone = document.getElementById('editProfilePhone');
+                if(eName) eName.value = currentUser.name;
+                if(ePhone) ePhone.value = currentUser.phone;
             }
         }
 
@@ -2477,7 +2415,8 @@
         }
 
         function openDirectAdminChatModal() {
-            document.getElementById('directAdminChatModal').classList.toggle('hidden');
+            const modal = document.getElementById('directAdminChatModal');
+            if(modal) modal.classList.toggle('hidden');
         }
 
         function initAdminDirectChatListener() {
@@ -2518,16 +2457,12 @@
         function listenToAdminUserRegistry() {
             rtdb.ref('users').on('value', snapshot => {
                 const container = document.getElementById('adminUserRegistryList');
-                const countEl = document.getElementById('adminTotalUserCount');
                 if(!container) return;
                 container.innerHTML = "";
                 const data = snapshot.val();
                 if(!data) return;
 
-                const keys = Object.keys(data);
-                if(countEl) countEl.textContent = `${keys.length} Registered Accounts`;
-
-                keys.forEach(key => {
+                Object.keys(data).forEach(key => {
                     const u = data[key];
                     const statusColor = u.status === "Suspended" ? "bg-rose-500" : "bg-emerald-500";
 
@@ -2537,9 +2472,8 @@
                                 <span class="font-black text-white">${u.name || 'User'} <span class="text-[9px] ${statusColor} text-white px-1.5 py-0.2 rounded font-bold">${u.role}</span></span>
                                 <span class="text-[9px] text-amber-300 font-mono">${u.phone}</span>
                             </div>
-                            <p class="text-[10px] text-slate-400 truncate">✉️ ${u.email}</p>
+                            <p class="text-[10px] text-slate-400 truncate">✉️ ${u.email || 'N/A'}</p>
                             <div class="flex space-x-1 pt-1">
-                                <button onclick="adminTriggerUserPasswordReset('${u.email}')" class="bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-extrabold text-[9px]"><i class="fa-solid fa-key mr-1"></i> Send Password Reset</button>
                                 <button onclick="adminToggleUserStatus('${key}', '${u.status || 'Active'}')" class="bg-slate-700 text-slate-200 px-2 py-0.5 rounded font-bold text-[9px]">${u.status === "Suspended" ? "Unblock" : "Suspend"}</button>
                             </div>
                         </div>`;
@@ -2562,6 +2496,23 @@
             });
         }
 
+        function listenToMasterDataForAdmin() {
+            rtdb.ref('rides').on('value', snapshot => {
+                const feed = document.getElementById('adminMasterRidesFeed');
+                if(!feed) return;
+                feed.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) {
+                    feed.innerHTML = `<p class="text-slate-400 text-center py-2">No rides recorded.</p>`;
+                    return;
+                }
+                Object.keys(data).forEach(key => {
+                    const r = data[key];
+                    feed.innerHTML += `<div class="p-2 bg-slate-900 rounded-lg text-slate-200 border border-slate-700"><strong>${r.passenger}</strong>: ${r.pickup} ➔ ${r.drop} (PKR ${r.fare}) [Status: ${r.status}]</div>`;
+                });
+            });
+        }
+
         function initRealtimeChatListener(chatId) {
             rtdb.ref('chats/' + chatId).on('value', snapshot => {
                 const container = document.getElementById('realtimeChatMessagesContainer');
@@ -2579,7 +2530,7 @@
 
         function sendRealtimeChatMessage() {
             const input = document.getElementById('chatMessageInput');
-            if (input.value.trim()) {
+            if (input && input.value.trim()) {
                 rtdb.ref('chats/' + activeRideChatId).push({
                     sender: currentUser ? currentUser.name : "User",
                     message: input.value.trim(),
@@ -2589,15 +2540,14 @@
         }
 
         function switchAppRole(role) {
-            document.getElementById('passengerSection').classList.add('hidden');
-            document.getElementById('parcelSection').classList.add('hidden');
-            document.getElementById('driverSection').classList.add('hidden');
-            document.getElementById('controlSection').classList.add('hidden');
+            ['passengerSection', 'parcelSection', 'driverSection', 'controlSection'].forEach(id => {
+                document.getElementById(id)?.classList.add('hidden');
+            });
 
-            if (role === 'passenger') document.getElementById('passengerSection').classList.remove('hidden');
-            else if (role === 'parcel') document.getElementById('parcelSection').classList.remove('hidden');
-            else if (role === 'driver') document.getElementById('driverSection').classList.remove('hidden');
-            else if (role === 'control') document.getElementById('controlSection').classList.remove('hidden');
+            if (role === 'passenger') document.getElementById('passengerSection')?.classList.remove('hidden');
+            else if (role === 'parcel') document.getElementById('parcelSection')?.classList.remove('hidden');
+            else if (role === 'driver') document.getElementById('driverSection')?.classList.remove('hidden');
+            else if (role === 'control') document.getElementById('controlSection')?.classList.remove('hidden');
         }
     </script>
 </body>
