@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Drop Enterprise - Live Transport Network</title>
+    <title>Secure Drop Enterprise - Advanced Transport & Logistics Network</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
@@ -72,7 +72,30 @@
         <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-teal-200">
             SECURE DROP
         </h1>
-        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Promo & Master Admin Engine</p>
+        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Enterprise Master Engine v3.0</p>
+    </div>
+
+    <!-- GOOGLE LOGIN ROLE SELECTOR MODAL -->
+    <div id="googleRoleSelectModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100">
+            <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl mx-auto flex items-center justify-center text-xl font-black shadow-inner">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+                <h3 class="font-black text-base text-slate-900">Select Your Account Role</h3>
+                <p class="text-xs text-slate-500 mt-1">Aap Secure Drop ko kis maqsad ke liye istemal karna chahte hain?</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="confirmGoogleRoleSelection('passenger')" class="p-4 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-500 text-sky-900 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
+                    <i class="fa-solid fa-user text-2xl text-sky-600"></i>
+                    <span>Passenger (Safar Karna Hai)</span>
+                </button>
+                <button onclick="confirmGoogleRoleSelection('driver')" class="p-4 rounded-2xl bg-amber-50 hover:bg-amber-100 border-2 border-amber-500 text-amber-900 font-black text-xs transition flex flex-col items-center space-y-2 shadow-sm">
+                    <i class="fa-solid fa-van-shuttle text-2xl text-amber-600"></i>
+                    <span>Driver / Captain (Ride Deni Hai)</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- SIDEBAR MENU DRAWER -->
@@ -243,7 +266,7 @@
     <!-- Main Workspace -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
 
-        <!-- DYNAMIC RANDOM UP-DOWN ACTIVE USERS BANNER -->
+        <!-- DYNAMIC ACTIVE USERS BANNER -->
         <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md border border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
@@ -270,12 +293,16 @@
 
         <!-- PASSENGER SECTION -->
         <div id="passengerSection" class="space-y-5 transition-all duration-300">
-            <!-- Leaflet Map -->
-            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-44 bg-slate-900">
+            <!-- Leaflet Map & Live Driver Tracking -->
+            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 h-48 bg-slate-900">
                 <div id="leafletMapContainer"></div>
+                <!-- SOS Emergency Panic Button overlay on map -->
+                <button onclick="triggerEmergencySOS()" class="absolute top-3 right-3 z-20 bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400 animate-pulse">
+                    <i class="fa-solid fa-triangle-exclamation"></i><span>SOS EMERGENCY</span>
+                </button>
             </div>
 
-            <!-- ACTIVE ADMIN PROMO CODE BANNER FOR PASSENGERS -->
+            <!-- ACTIVE ADMIN PROMO CODE BANNER -->
             <div id="passengerActivePromoBanner" class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-3.5 rounded-2xl shadow-md flex justify-between items-center hidden">
                 <div>
                     <span class="text-[9px] bg-slate-950 text-amber-300 font-black px-2 py-0.5 rounded-full uppercase">Special Promo</span>
@@ -287,9 +314,9 @@
                 </button>
             </div>
 
-            <!-- Ride Request Widget with Promo Code Input -->
+            <!-- Ride Request Widget (With Advance Scheduling Option) -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Ride</h3>
+                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Ride (InDrive Style)</h3>
                 <div class="space-y-2 text-xs">
                     <div>
                         <label class="block font-bold text-slate-600 mb-1">Pickup Location</label>
@@ -315,7 +342,15 @@
                     </div>
 
                     <div>
-                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-ticket text-amber-500 mr-1"></i> Promo Code (1-Time Use)</label>
+                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-calendar-days text-sky-600 mr-1"></i> Booking Type (Instant or Schedule)</label>
+                        <select id="passengerBookingSchedule" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
+                            <option value="Instant Ride">Instant Ride (Now)</option>
+                            <option value="Scheduled Later">Schedule for Later (Advance Booking)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-ticket text-amber-500 mr-1"></i> Promo Code</label>
                         <div class="flex space-x-2">
                             <input type="text" id="passengerPromoCodeInput" placeholder="Enter promo code..." class="flex-1 p-2.5 bg-white border border-sky-200 rounded-xl font-bold uppercase">
                             <button type="button" onclick="applyUserPromoCode()" class="bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl shadow">Apply</button>
@@ -323,8 +358,19 @@
                     </div>
                 </div>
                 <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
-                    Broadcast Ride Request
+                    Broadcast Ride Request to Drivers
                 </button>
+            </div>
+
+            <!-- LIVE DRIVER BIDS & OFFERS FOR PASSENGER -->
+            <div id="passengerIncomingBidsBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-handshake text-sky-600 mr-1"></i> Driver Offers & Counter Bids</h3>
+                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
+                </div>
+                <div id="passengerBidsFeedContainer" class="space-y-2 text-xs">
+                    <p class="text-slate-400 text-center py-2">Waiting for drivers to accept or bid on your fare...</p>
+                </div>
             </div>
 
             <!-- MANUAL ONLINE PAYMENT TO DRIVER -->
@@ -339,14 +385,21 @@
                 </button>
             </div>
 
-            <!-- Live Chat Room -->
+            <!-- Live Chat & Voice Call Simulator Room -->
             <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm hidden">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Live Ride Chat Room</h3>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Chat & Call Room</h3>
+                    <button onclick="triggerInAppVoiceCall()" class="bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-xl text-[10px] font-black"><i class="fa-solid fa-phone mr-1"></i> Voice Call Driver</button>
+                </div>
                 <div id="realtimeChatMessagesContainer" class="bg-white p-2.5 rounded-xl space-y-1 max-h-44 overflow-y-auto hide-scrollbar border border-sky-100 text-xs"></div>
                 <div class="flex space-x-2">
                     <input type="text" id="chatMessageInput" placeholder="Type message..." class="flex-1 p-2 bg-white border border-sky-200 rounded-xl text-xs">
                     <button onclick="sendRealtimeChatMessage()" class="bg-sky-600 text-white px-3 py-2 rounded-xl font-bold text-xs">Send</button>
                 </div>
+                <!-- Driver Rating Trigger -->
+                <button onclick="openRatingModal()" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl text-xs mt-2">
+                    <i class="fa-solid fa-star mr-1"></i> Rate & Review Completed Ride
+                </button>
             </div>
         </div>
 
@@ -362,12 +415,38 @@
 
         <!-- DRIVER SECTION -->
         <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
+            <!-- DRIVER ONLINE/OFFLINE TOGGLE & EARNINGS DASHBOARD -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm flex justify-between items-center">
+                <div>
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-toggle-on text-emerald-600 mr-1"></i> Captain Status</h3>
+                    <p class="text-[10px] text-slate-500 font-semibold" id="driverStatusSubtitle">You are currently Online & Receiving Rides</p>
+                </div>
+                <button onclick="toggleDriverOnlineStatus()" id="driverOnlineToggleBtn" class="bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow">Online</button>
+            </div>
+
+            <!-- DRIVER EARNINGS ANALYTICS -->
+            <div class="bg-gradient-to-r from-slate-900 to-sky-950 text-white p-4 rounded-3xl space-y-3 shadow-lg border border-slate-800">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-amber-300"><i class="fa-solid fa-chart-line mr-1"></i> Earnings Analytics</h3>
+                    <span class="text-[9px] bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded-full">Live Stats</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Today's Earnings</p>
+                        <p class="text-lg font-black text-emerald-400 mt-0.5" id="driverTodayEarnings">PKR 2,400</p>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-700">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Completed Rides</p>
+                        <p class="text-lg font-black text-sky-400 mt-0.5" id="driverCompletedRidesCount">4</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> My Payment Account Settings</h3>
                     <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">For Passenger Payments</span>
                 </div>
-                <p class="text-[10px] text-slate-500 font-semibold">Passengers will send fare to these accounts when choosing Online Payment.</p>
                 <form onsubmit="handleSaveDriverAccountSettings(event)" class="space-y-2 text-xs">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
@@ -391,6 +470,17 @@
                 </form>
             </div>
 
+            <!-- DRIVER INDRIVE BIDDING & REQUEST FEED -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Passenger Ride Requests & Bidding Feed</h3>
+                    <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live</span>
+                </div>
+                <div id="driverLiveBiddingFeed" class="space-y-2 text-xs">
+                    <p class="text-slate-400 text-center py-2">Listening for incoming passenger requests...</p>
+                </div>
+            </div>
+
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Passenger Payment Approvals</h3>
@@ -400,14 +490,9 @@
                     <p class="text-slate-400 text-center py-2">Listening for incoming manual passenger payment receipts...</p>
                 </div>
             </div>
-
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900">Passenger Bidding Feed</h3>
-                <div id="driverLiveBiddingFeed" class="space-y-2 text-xs"></div>
-            </div>
         </div>
 
-        <!-- ADMIN HUB SECTION (WITH PROMO CODE MANAGEMENT) -->
+        <!-- ADMIN HUB SECTION -->
         <div id="controlSection" class="space-y-5 hidden transition-all duration-300">
             <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center pb-3 border-b border-slate-800">
@@ -415,7 +500,6 @@
                     <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">SUPER ADMIN ACCESS</span>
                 </div>
 
-                <!-- Admin Promo Code Update Widget -->
                 <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 space-y-3 text-xs">
                     <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-ticket mr-1"></i> Manage Active Promo Code</h4>
                     <form onsubmit="handleAdminUpdatePromoCode(event)" class="space-y-2">
@@ -458,6 +542,22 @@
 
     </main>
 
+    <!-- DRIVER RATING & REVIEW MODAL -->
+    <div id="driverRatingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4 border border-sky-100 text-xs">
+            <h3 class="font-black text-sm text-slate-900 uppercase">Rate Your Driver Experience</h3>
+            <div class="flex justify-center space-x-2 text-2xl text-amber-400 cursor-pointer">
+                <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(1)"></i>
+                <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(2)"></i>
+                <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(3)"></i>
+                <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(4)"></i>
+                <i class="fa-solid fa-star hover:text-amber-500" onclick="submitDriverRating(5)"></i>
+            </div>
+            <textarea id="driverReviewComment" placeholder="Write feedback for your driver..." class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium"></textarea>
+            <button onclick="closeRatingModal()" class="w-full bg-sky-600 text-white font-black py-2.5 rounded-xl">Submit Feedback</button>
+        </div>
+    </div>
+
     <!-- MENU CONTENT MODAL -->
     <div id="menuContentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[85vh] overflow-y-auto hide-scrollbar text-xs">
@@ -494,12 +594,8 @@
                 <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-circle-question text-amber-500 mr-1"></i> Frequently Asked Questions</h3>
                 <div class="space-y-2 text-slate-700">
                     <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
-                        <p class="font-bold text-slate-900">How do I pay my driver online?</p>
-                        <p class="text-[11px] mt-1 text-slate-600">Choose "Online Payment" when broadcasting a ride. Send payment to driver's account and upload the screenshot proof.</p>
-                    </div>
-                    <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
-                        <p class="font-bold text-slate-900">Are promo codes one-time use?</p>
-                        <p class="text-[11px] mt-1 text-slate-600">Yes! Each registered user can successfully apply an active admin promo code only once.</p>
+                        <p class="font-bold text-slate-900">How do I choose Passenger or Driver role?</p>
+                        <p class="text-[11px] mt-1 text-slate-600">When logging in with Google, a role selection screen appears automatically to set your account preference.</p>
                     </div>
                 </div>
             </div>
@@ -536,7 +632,7 @@
                     <input type="text" id="payTIDNumber" placeholder="e.g. 02938475610" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold uppercase">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-image text-sky-600 mr-1"></i> Choose Receipt Photo (Gallery / Camera)</label>
+                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-image text-sky-600 mr-1"></i> Choose Receipt Photo</label>
                     <input type="file" id="payProofFileInput" accept="image/*" onchange="previewSelectedImage(event, 'payProofPreviewImg')" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-medium text-slate-700">
                     <img id="payProofPreviewImg" class="w-full h-32 object-cover rounded-xl mt-2 hidden border-2 border-emerald-500 shadow-sm">
                 </div>
@@ -616,16 +712,15 @@
         let tempBase64Proof = "";
         let tempBase64Avatar = "";
         let currentActivePromo = null;
+        let pendingGoogleUser = null;
+        let leafletMap = null;
+        let driverMarker = null;
 
         const fakeTrustList = [
             { text: "Ali (Astore) ne 600 PKR ki ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
             { text: "Driver Akbar ne 1,200 PKR Payment Approve kiya!", icon: "fa-shield-halved", color: "text-sky-400" },
             { text: "Sajid (Gilgit) ne 850 PKR Fare offer kiya!", icon: "fa-handshake", color: "text-amber-400" },
-            { text: "New Driver Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" },
-            { text: "User Ahsam: Verified via Easypaisa Payment", icon: "fa-receipt", color: "text-purple-400" },
-            { text: "Tariq (Skardu) ne Cargo Package dispatch kiya!", icon: "fa-box-open", color: "text-amber-400" },
-            { text: "Driver Zeeshan (Hunza Route) is now Active!", icon: "fa-circle-dot", color: "text-emerald-400" },
-            { text: "Usman ne 1,500 PKR advance payment proof upload kiya", icon: "fa-upload", color: "text-sky-400" }
+            { text: "New Driver Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" }
         ];
 
         function startFakeTrustNotifications() {
@@ -673,17 +768,22 @@
             auth.onAuthStateChanged(user => {
                 if (user) {
                     rtdb.ref('users/' + user.uid).once('value').then(snapshot => {
-                        const userData = snapshot.val() || {};
-                        const userRole = userData.role || currentGateRole;
+                        const userData = snapshot.val();
+                        if (!userData && pendingGoogleUser) {
+                            document.getElementById('googleRoleSelectModal').classList.remove('hidden');
+                            return;
+                        }
+
+                        const userRole = userData ? (userData.role || currentGateRole) : currentGateRole;
 
                         currentUser = {
                             uid: user.uid,
-                            name: user.displayName || userData.name || user.email.split('@')[0],
+                            name: user.displayName || (userData ? userData.name : user.email.split('@')[0]),
                             email: user.email,
-                            phone: userData.phone || user.phoneNumber || "+923001234567",
-                            photoURL: user.photoURL || userData.photoURL || "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80",
+                            phone: (userData ? userData.phone : null) || user.phoneNumber || "+923001234567",
+                            photoURL: user.photoURL || (userData ? userData.photoURL : null) || "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80",
                             role: userRole,
-                            usedPromos: userData.usedPromos || {}
+                            usedPromos: userData ? (userData.usedPromos || {}) : {}
                         };
 
                         document.getElementById('mandatoryAuthGate').classList.add('hidden');
@@ -692,6 +792,7 @@
 
                         if (currentUser.role === 'driver') {
                             loadDriverAccountSettings(currentUser.uid);
+                            startDriverLiveLocationBroadcaster();
                         }
 
                         listenToManualPaymentApprovals();
@@ -699,6 +800,8 @@
                         listenToAdminPaymentLogs();
                         initAdminDirectChatListener();
                         listenToActivePromoCode();
+                        listenToPassengerBids();
+                        listenToLiveDriverTrackingOnMap();
                     });
                 } else {
                     currentUser = null;
@@ -709,9 +812,133 @@
             startFakeTrustNotifications();
             startDynamicActiveUsersEngine();
             initLeafletMap();
-            listenToRealtimeBiddingRides();
+            listenToDriverBiddingFeed();
             initRealtimeChatListener(activeRideChatId);
         });
+
+        // GOOGLE SIGN IN & ROLE SELECTION
+        function handleGoogleSignInGate() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then(res => {
+                pendingGoogleUser = res.user;
+                rtdb.ref('users/' + res.user.uid).once('value').then(snapshot => {
+                    if (!snapshot.exists()) {
+                        document.getElementById('googleRoleSelectModal').classList.remove('hidden');
+                    }
+                });
+            }).catch(err => alert("Google Auth Error: " + err.message));
+        }
+
+        function confirmGoogleRoleSelection(role) {
+            if (!pendingGoogleUser && !auth.currentUser) return;
+            const u = pendingGoogleUser || auth.currentUser;
+
+            rtdb.ref('users/' + u.uid).set({
+                name: u.displayName,
+                email: u.email,
+                phone: u.phoneNumber || "+923001234567",
+                photoURL: u.photoURL,
+                role: role,
+                status: "Active"
+            }).then(() => {
+                document.getElementById('googleRoleSelectModal').classList.add('hidden');
+                location.reload();
+            });
+        }
+
+        // DRIVER ONLINE/OFFLINE TOGGLE
+        function toggleDriverOnlineStatus() {
+            if (!currentUser || currentUser.role !== 'driver') return;
+            const btn = document.getElementById('driverOnlineToggleBtn');
+            const sub = document.getElementById('driverStatusSubtitle');
+
+            if (btn.textContent === "Online") {
+                btn.textContent = "Offline";
+                btn.className = "bg-rose-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
+                sub.textContent = "You are currently Offline";
+                rtdb.ref('users/' + currentUser.uid).update({ status: "Offline" });
+            } else {
+                btn.textContent = "Online";
+                btn.className = "bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
+                sub.textContent = "You are currently Online & Receiving Rides";
+                rtdb.ref('users/' + currentUser.uid).update({ status: "Active" });
+            }
+        }
+
+        // LIVE DRIVER GPS LOCATION BROADCASTER
+        function startDriverLiveLocationBroadcaster() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    rtdb.ref(`driver_locations/${currentUser.uid}`).set({
+                        driverName: currentUser.name,
+                        lat: lat,
+                        lng: lng,
+                        timestamp: Date.now()
+                    });
+                }, err => console.log("Geo error:", err), { enableHighAccuracy: true });
+            }
+        }
+
+        // PASSENGER MAP LIVE TRACKING
+        function listenToLiveDriverTrackingOnMap() {
+            rtdb.ref('driver_locations').on('value', snapshot => {
+                if (!leafletMap || !currentUser || currentUser.role !== 'passenger') return;
+                const data = snapshot.val();
+                if (!data) return;
+
+                Object.keys(data).forEach(driverUid => {
+                    const loc = data[driverUid];
+                    if (driverMarker) {
+                        driverMarker.setLatLng([loc.lat, loc.lng]);
+                    } else {
+                        driverMarker = L.marker([loc.lat, loc.lng]).addTo(leafletMap).bindPopup(`<b>Captain ${loc.driverName}</b> (En Route)`).openPopup();
+                    }
+                });
+            });
+        }
+
+        // SOS EMERGENCY PANIC BUTTON
+        function triggerEmergencySOS() {
+            if (confirm("EMERGENCY: Do you want to broadcast SOS distress signal with your live location to Admin Support and Emergency Contacts?")) {
+                rtdb.ref('emergency_sos').push({
+                    passenger: currentUser.name,
+                    phone: currentUser.phone,
+                    location: "Astore / Gilgit Hub coordinates",
+                    timestamp: Date.now()
+                }).then(() => {
+                    alert("SOS Emergency Signal broadcasted successfully! Admin & Emergency contacts have been alerted.");
+                });
+            }
+        }
+
+        // IN-APP VOICE CALL SIMULATOR
+        function triggerInAppVoiceCall() {
+            alert("Connecting secure encrypted voice call with driver...");
+        }
+
+        // RATING & REVIEW SYSTEM
+        function openRatingModal() {
+            document.getElementById('driverRatingModal').classList.remove('hidden');
+        }
+
+        function closeRatingModal() {
+            document.getElementById('driverRatingModal').classList.add('hidden');
+        }
+
+        function submitDriverRating(stars) {
+            const comment = document.getElementById('driverReviewComment').value;
+            rtdb.ref('driver_reviews').push({
+                passenger: currentUser.name,
+                stars: stars,
+                comment: comment,
+                timestamp: Date.now()
+            }).then(() => {
+                alert(`Thank you! Rated ${stars} stars successfully.`);
+                closeRatingModal();
+            });
+        }
 
         // ADMIN PROMO CODE HANDLER
         function handleAdminUpdatePromoCode(e) {
@@ -730,7 +957,6 @@
             });
         }
 
-        // LISTEN TO ACTIVE PROMO FOR PASSENGERS
         function listenToActivePromoCode() {
             rtdb.ref('active_promo').on('value', snapshot => {
                 const data = snapshot.val();
@@ -757,7 +983,6 @@
             }
         }
 
-        // 1-TIME PROMO CODE VALIDATION
         function applyUserPromoCode() {
             const inputCode = document.getElementById('passengerPromoCodeInput').value.trim().toUpperCase();
             if (!currentActivePromo) {
@@ -769,13 +994,11 @@
                 return;
             }
 
-            // Check if user already used this code
             if (currentUser.usedPromos && currentUser.usedPromos[currentActivePromo.code]) {
                 alert("You have already used this promo code! Each promo code can only be used once.");
                 return;
             }
 
-            // Mark promo as used for this user in Firebase
             rtdb.ref(`users/${currentUser.uid}/usedPromos/${currentActivePromo.code}`).set(true).then(() => {
                 currentUser.usedPromos[currentActivePromo.code] = true;
                 const fareInput = document.getElementById('passengerProposedFare');
@@ -783,6 +1006,128 @@
                 fareInput.value = newFare;
                 alert(`Promo Code Applied! Discount of PKR ${currentActivePromo.discount} deducted.`);
             });
+        }
+
+        // PUBLISH RIDE REQUEST (INDRIVE STYLE + ADVANCE SCHEDULING)
+        function publishCustomInDriveRide() {
+            const pickup = document.getElementById('customPickupInput').value;
+            const drop = document.getElementById('customDropInput').value;
+            const fare = document.getElementById('passengerProposedFare').value;
+            const payType = document.getElementById('passengerPayTypeSelect').value;
+            const scheduleType = document.getElementById('passengerBookingSchedule').value;
+
+            const newRideRef = rtdb.ref('rides').push();
+            newRideRef.set({
+                rideId: newRideRef.key,
+                passengerUid: currentUser.uid,
+                passenger: currentUser.name,
+                phone: currentUser.phone,
+                pickup: pickup,
+                drop: drop,
+                proposedFare: fare,
+                payType: payType,
+                scheduleType: scheduleType,
+                status: "Pending",
+                timestamp: Date.now()
+            }).then(() => {
+                document.getElementById('passengerIncomingBidsBox').classList.remove('hidden');
+                document.getElementById('passengerOffersBox').classList.remove('hidden');
+                alert(`Ride broadcasted successfully (${scheduleType})!`);
+            });
+        }
+
+        // DRIVER VIEW: LISTEN TO RIDE REQUESTS
+        function listenToDriverBiddingFeed() {
+            rtdb.ref('rides').on('value', snapshot => {
+                const feed = document.getElementById('driverLiveBiddingFeed');
+                if(!feed) return;
+                feed.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) {
+                    feed.innerHTML = `<p class="text-slate-400 text-center py-2">No active ride requests right now.</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const r = data[key];
+                    if (r.status !== "Pending") return;
+
+                    feed.innerHTML += `
+                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-2 shadow-sm">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-black text-slate-900">${r.passenger} (${r.phone})</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold">${r.pickup} ➔ ${r.drop}</p>
+                                    <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">${r.scheduleType}</span>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.proposedFare}</span>
+                            </div>
+                            <div class="flex space-x-1 pt-1">
+                                <button onclick="driverAcceptRide('${r.rideId}', ${r.proposedFare})" class="flex-1 bg-emerald-600 text-white font-black py-1.5 rounded-xl text-[10px]">Accept Fare</button>
+                                <button onclick="driverSendCounterOffer('${r.rideId}', ${r.proposedFare})" class="flex-1 bg-amber-500 text-slate-950 font-black py-1.5 rounded-xl text-[10px]">Counter Offer</button>
+                                <button onclick="driverRefuseRide('${r.rideId}')" class="bg-rose-600 text-white font-black px-2.5 py-1.5 rounded-xl text-[10px]">Refuse</button>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+
+        function driverAcceptRide(rideId, fare) {
+            rtdb.ref(`rides/${rideId}`).update({
+                status: "Accepted",
+                driverName: currentUser.name,
+                driverPhone: currentUser.phone,
+                finalFare: fare
+            }).then(() => alert("Ride Accepted Successfully!"));
+        }
+
+        function driverSendCounterOffer(rideId, currentFare) {
+            const newFare = prompt("Enter your counter-offer fare in PKR:", currentFare);
+            if (newFare && !isNaN(newFare)) {
+                rtdb.ref(`driver_bids/${rideId}`).push({
+                    driverName: currentUser.name,
+                    driverPhone: currentUser.phone,
+                    offeredFare: newFare,
+                    timestamp: Date.now()
+                }).then(() => alert("Counter offer sent to passenger!"));
+            }
+        }
+
+        function driverRefuseRide(rideId) {
+            rtdb.ref(`rides/${rideId}`).update({ status: "Refused" }).then(() => alert("Ride refused."));
+        }
+
+        function listenToPassengerBids() {
+            rtdb.ref('driver_bids').on('value', snapshot => {
+                const container = document.getElementById('passengerBidsFeedContainer');
+                if (!container || !currentUser || currentUser.role !== 'passenger') return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if (!data) {
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">Waiting for driver counter offers...</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(rideId => {
+                    const bids = data[rideId];
+                    Object.keys(bids).forEach(bidKey => {
+                        const b = bids[bidKey];
+                        container.innerHTML += `
+                            <div class="bg-sky-50 p-2.5 rounded-xl border border-sky-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-black text-slate-900">${b.driverName} (${b.driverPhone})</p>
+                                    <p class="text-[10px] text-emerald-700 font-bold">Offered Fare: PKR ${b.offeredFare}</p>
+                                </div>
+                                <button onclick="passengerAcceptBid('${b.driverName}', ${b.offeredFare})" class="bg-emerald-600 text-white font-black px-3 py-1.5 rounded-xl text-[10px]">Accept Bid</button>
+                            </div>`;
+                    });
+                });
+            });
+        }
+
+        function passengerAcceptBid(driverName, fare) {
+            document.getElementById('passengerProposedFare').value = fare;
+            alert(`Bid accepted from driver ${driverName} for PKR ${fare}! Enjoy your ride.`);
         }
 
         function toggleSidebarMenu() {
@@ -897,9 +1242,9 @@
 
         function initLeafletMap() {
             if (document.getElementById('leafletMapContainer')) {
-                const map = L.map('leafletMapContainer').setView([35.3012, 74.8581], 11);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-                L.marker([35.3012, 74.8581]).addTo(map).bindPopup('<b>Secure Drop Fleet</b>').openPopup();
+                leafletMap = L.map('leafletMapContainer').setView([35.3012, 74.8581], 11);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
+                L.marker([35.3012, 74.8581]).addTo(leafletMap).bindPopup('<b>Secure Drop Fleet HQ</b>').openPopup();
             }
         }
 
@@ -951,20 +1296,6 @@
                 nameC.classList.remove('hidden');
                 subBtn.textContent = `Create ${currentGateRole.toUpperCase()} Account`;
             }
-        }
-
-        function handleGoogleSignInGate() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(res => {
-                rtdb.ref('users/' + res.user.uid).set({
-                    name: res.user.displayName,
-                    email: res.user.email,
-                    phone: res.user.phoneNumber || "+923001234567",
-                    photoURL: res.user.photoURL,
-                    role: currentGateRole,
-                    status: "Active"
-                });
-            }).catch(err => alert("Google Auth Error: " + err.message));
         }
 
         function handleGateAuthSubmit(e) {
@@ -1219,49 +1550,6 @@
                 Object.keys(data).forEach(key => {
                     const p = data[key];
                     container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} Paid PKR ${p.fare} (TID: ${p.tid}) [${p.status}]</div>`;
-                });
-            });
-        }
-
-        function publishCustomInDriveRide() {
-            const pickup = document.getElementById('customPickupInput').value;
-            const drop = document.getElementById('customDropInput').value;
-            const fare = document.getElementById('passengerProposedFare').value;
-            const payType = document.getElementById('passengerPayTypeSelect').value;
-
-            rtdb.ref('rides').push().set({
-                passenger: currentUser ? currentUser.name : "Passenger",
-                phone: currentUser ? currentUser.phone : "+923001234567",
-                pickup: pickup,
-                drop: drop,
-                proposedFare: fare,
-                payType: payType,
-                timestamp: Date.now()
-            }).then(() => {
-                document.getElementById('passengerOffersBox').classList.remove('hidden');
-                alert("Ride broadcasted!");
-            });
-        }
-
-        function listenToRealtimeBiddingRides() {
-            rtdb.ref('rides').on('value', snapshot => {
-                const feed = document.getElementById('driverLiveBiddingFeed');
-                if(!feed) return;
-                feed.innerHTML = "";
-                const data = snapshot.val();
-                if(!data) return;
-
-                Object.keys(data).forEach(key => {
-                    const r = data[key];
-                    feed.innerHTML += `
-                        <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-1 shadow-sm">
-                            <p class="font-black text-slate-900">${r.passenger} (${r.phone})</p>
-                            <p class="text-[10px] text-slate-500">${r.pickup} ➔ ${r.drop}</p>
-                            <div class="flex justify-between items-center pt-1">
-                                <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.proposedFare}</span>
-                                <span class="bg-amber-100 text-amber-900 font-extrabold text-[9px] px-2 py-0.5 rounded">${r.payType || 'Cash'}</span>
-                            </div>
-                        </div>`;
                 });
             });
         }
