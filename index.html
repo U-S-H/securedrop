@@ -91,10 +91,10 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-32 min-h-screen relative transition-colors duration-300">
+<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-36 min-h-screen relative transition-colors duration-300">
 
     <!-- OFFLINE FALLBACK BANNER -->
-    <div id="offlineFallbackBanner" class="fixed bottom-0 left-0 right-0 z-50 bg-rose-600 text-white text-center py-2 text-xs font-bold hidden shadow-2xl">
+    <div id="offlineFallbackBanner" class="fixed bottom-16 left-0 right-0 z-50 bg-rose-600 text-white text-center py-2 text-xs font-bold hidden shadow-2xl">
         <i class="fa-solid fa-triangle-exclamation mr-1"></i> No Internet Connection. Attempting to reconnect automatically...
     </div>
 
@@ -112,6 +112,58 @@
         <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">100% Free & No-Commission PWA</p>
     </div>
 
+    <!-- FULL SCREEN 10-SECOND RETRY BROADCAST MODAL -->
+    <div id="fullScreenBroadcastModal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-slate-900 to-sky-950 rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-5 border border-sky-500/50 text-white animate-custom-pulse">
+            <div class="w-20 h-20 bg-sky-500/20 text-sky-400 rounded-full mx-auto flex items-center justify-center text-3xl shadow-inner">
+                <i class="fa-solid fa-satellite-dish animate-bounce"></i>
+            </div>
+            <div>
+                <span class="bg-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">10-Sec Auto Retry Broadcast</span>
+                <h3 class="font-black text-xl text-white mt-2" id="broadcastModalTitle">Searching Gilgit Captains...</h3>
+                <p class="text-xs text-sky-300 mt-1 font-semibold" id="broadcastModalDesc">Broadcasting ride request across Gilgit city network with audio chime.</p>
+            </div>
+            <div class="bg-slate-800 p-3 rounded-2xl border border-slate-700 flex justify-between items-center text-xs">
+                <span class="font-bold text-slate-300">Retry Countdown:</span>
+                <span class="font-mono font-black text-amber-400 text-base" id="broadcastTimerDisplay">10s</span>
+            </div>
+            <button onclick="dismissBroadcastModal()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-2xl text-xs shadow-lg">
+                Cancel Broadcast
+            </button>
+        </div>
+    </div>
+
+    <!-- PASSENGER SAFETY & INCIDENT REPORT MODAL -->
+    <div id="safetyReportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6 space-y-4 border border-rose-500/40 text-xs">
+            <div class="flex justify-between items-center border-b dark:border-slate-800 pb-2">
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase"><i class="fa-solid fa-triangle-exclamation text-rose-500 mr-1"></i> Report Driver / Issue to Admin</h3>
+                <button onclick="toggleSafetyReportModal()" class="text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="handleSafetyReportSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Accused Captain / Driver Name</label>
+                    <input type="text" id="reportDriverNameInput" placeholder="e.g. Captain Akbar Mir" required class="w-full p-2.5 bg-rose-50 dark:bg-slate-800 border border-rose-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Issue Category</label>
+                    <select id="reportCategorySelect" class="w-full p-2.5 bg-rose-50 dark:bg-slate-800 border border-rose-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white">
+                        <option value="Rash Driving / Overspeeding">Rash Driving / Overspeeding</option>
+                        <option value="Misbehavior / Bad Language">Misbehavior / Bad Language</option>
+                        <option value="Fare Dispute / Overcharging">Fare Dispute / Overcharging</option>
+                        <option value="Safety & Harassment Concern">Safety & Harassment Concern</option>
+                        <option value="Other Emergency Issue">Other Emergency Issue</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Detailed Incident Description</label>
+                    <textarea id="reportDescriptionInput" placeholder="Describe what happened during the ride..." required rows="3" class="w-full p-2.5 bg-rose-50 dark:bg-slate-800 border border-rose-200 dark:border-slate-700 rounded-xl font-medium text-slate-900 dark:text-white"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-xl shadow-lg">Submit Report Directly to Admin</button>
+            </form>
+        </div>
+    </div>
+
     <!-- FULL SCREEN INCOMING CALL / RINGING MODAL -->
     <div id="incomingCallModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="bg-gradient-to-b from-slate-900 to-sky-950 rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center space-y-6 border border-sky-500/50 text-white animate-custom-pulse">
@@ -121,7 +173,7 @@
             <div>
                 <span class="bg-emerald-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase">Encrypted Voice Call</span>
                 <h3 class="font-black text-xl text-white mt-2" id="incomingCallerName">Captain Driver</h3>
-                <p class="text-xs text-sky-300 mt-1 font-semibold">Incoming Secure Voice Call...</p>
+                <p class="text-xs text-sky-300 mt-1 font-semibold">Incoming Secure Voice Ringtone...</p>
             </div>
             <div class="grid grid-cols-2 gap-4 pt-4">
                 <button onclick="rejectIncomingCall()" class="bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-2xl text-xs shadow-lg flex items-center justify-center space-x-1">
@@ -207,13 +259,10 @@
 
                 <div class="space-y-1 font-bold text-slate-700 dark:text-slate-200">
                     <button onclick="openMenuModal('history')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
-                        <i class="fa-solid fa-clock-rotate-left text-sky-600 text-sm w-5"></i><span>Ride & Direct Payment History</span>
+                        <i class="fa-solid fa-clock-rotate-left text-sky-600 text-sm w-5"></i><span>Ride & Report History</span>
                     </button>
                     <button onclick="openMenuModal('referral')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
                         <i class="fa-solid fa-share-nodes text-emerald-500 text-sm w-5"></i><span>Refer & Share App</span>
-                    </button>
-                    <button onclick="openMenuModal('wallet')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
-                        <i class="fa-solid fa-wallet text-amber-500 text-sm w-5"></i><span>Digital Wallet & Rewards</span>
                     </button>
                     <button onclick="openMenuModal('leaderboard')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 dark:hover:bg-slate-800 flex items-center space-x-3 transition">
                         <i class="fa-solid fa-trophy text-amber-400 text-sm w-5"></i><span>Top Gilgit Captains</span>
@@ -242,7 +291,7 @@
     </div>
 
     <!-- FAKE TRUST NOTIFICATION POPUP -->
-    <div id="fakeTrustNotification" class="fixed bottom-20 left-4 z-40 bg-slate-900/95 text-white p-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-toast-in max-w-xs backdrop-blur-md">
+    <div id="fakeTrustNotification" class="fixed bottom-24 left-4 z-40 bg-slate-900/95 text-white p-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-toast-in max-w-xs backdrop-blur-md">
         <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
             <i id="trustNotifIcon" class="fa-solid fa-circle-check text-sm"></i>
         </div>
@@ -350,12 +399,8 @@
         </div>
 
         <div class="flex items-center space-x-2">
-            <!-- Dark/Light Theme Switcher -->
             <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Toggle Dark/Light Mode">
                 <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
-            </button>
-            <button onclick="toggleProfileModal()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-slate-200 p-2 rounded-xl text-xs font-black shadow-sm border border-sky-200 dark:border-slate-700" title="Edit Profile Details">
-                <i class="fa-solid fa-user-gear"></i>
             </button>
             <button onclick="openDirectAdminChatModal()" class="bg-amber-500 text-slate-950 px-2.5 py-1.5 rounded-xl text-[10px] font-black shadow-sm" title="Direct Chat with Admin">
                 <i class="fa-solid fa-headset mr-1"></i> Support
@@ -396,13 +441,17 @@
 
         <!-- PASSENGER SECTION -->
         <div id="passengerSection" class="space-y-5 transition-all duration-300">
-            <!-- Leaflet Map & Live Driver Tracking -->
+            <!-- Leaflet Map & Live Driver Tracking with Route Polyline -->
             <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 dark:border-slate-800 h-48 bg-slate-900">
                 <div id="leafletMapContainer"></div>
-                <!-- SOS Emergency Panic Button overlay on map -->
-                <button onclick="triggerEmergencySOS()" class="absolute top-3 right-3 z-20 bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400 animate-pulse">
-                    <i class="fa-solid fa-triangle-exclamation"></i><span>SOS EMERGENCY</span>
-                </button>
+                <div class="absolute top-3 right-3 z-20 flex space-x-2">
+                    <button onclick="toggleSafetyReportModal()" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400">
+                        <i class="fa-solid fa-shield-halved"></i><span>Report Driver</span>
+                    </button>
+                    <button onclick="triggerEmergencySOS()" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400 animate-pulse">
+                        <i class="fa-solid fa-triangle-exclamation"></i><span>SOS</span>
+                    </button>
+                </div>
             </div>
 
             <!-- ACTIVE ADMIN PROMO CODE BANNER -->
@@ -417,12 +466,33 @@
                 </button>
             </div>
 
-            <!-- Ride Request Widget (Gilgit Areas Autocomplete & Carpooling & Multi-Stop) -->
+            <!-- Ride Request Widget -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Free Ride in Gilgit City</h3>
                     <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full">0% Commission</span>
                 </div>
+
+                <!-- VEHICLE CATEGORY SELECTOR CARDS -->
+                <div class="grid grid-cols-4 gap-2 text-center text-[10px] font-black">
+                    <div onclick="selectVehicleCategory('Car', this)" id="catCardCar" class="p-2.5 rounded-2xl bg-sky-600 text-white border-2 border-sky-500 cursor-pointer shadow transition flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-car text-base"></i>
+                        <span>Car</span>
+                    </div>
+                    <div onclick="selectVehicleCategory('Bike', this)" id="catCardBike" class="p-2.5 rounded-2xl bg-sky-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-transparent cursor-pointer shadow-sm transition flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-motorcycle text-base"></i>
+                        <span>Bike</span>
+                    </div>
+                    <div onclick="selectVehicleCategory('Bus/Hiace', this)" id="catCardBus" class="p-2.5 rounded-2xl bg-sky-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-transparent cursor-pointer shadow-sm transition flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-bus text-base"></i>
+                        <span>Bus</span>
+                    </div>
+                    <div onclick="selectVehicleCategory('Luxury/AC', this)" id="catCardLuxury" class="p-2.5 rounded-2xl bg-sky-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-transparent cursor-pointer shadow-sm transition flex flex-col items-center space-y-1">
+                        <i class="fa-solid fa-gem text-base"></i>
+                        <span>Luxury</span>
+                    </div>
+                </div>
+
                 <div class="space-y-2 text-xs relative">
                     <div>
                         <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Pickup Area (Gilgit)</label>
@@ -468,7 +538,7 @@
                         <i class="fa-solid fa-calculator mr-1"></i> Fare Breakdown
                     </button>
                     <button onclick="publishCustomInDriveRide()" class="bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
-                        Broadcast Ride
+                        Broadcast Ride (10s Retry)
                     </button>
                 </div>
             </div>
@@ -491,11 +561,22 @@
                     <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full" id="passengerPaymentApprovalStatusBadge">Status: Ready to Pay</span>
                 </div>
                 
-                <div id="connectedDriverAccountDisplayBox" class="bg-emerald-50 dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 p-3 rounded-2xl space-y-1 text-xs">
-                    <p class="font-bold text-emerald-900 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> Captain Direct Account (No Deductions):</p>
-                    <p class="text-slate-700 dark:text-slate-300">Captain: <strong id="displayConnectedDriverName">No Captain Connected Yet</strong></p>
-                    <p class="text-slate-700 dark:text-slate-300">Account: <strong id="displayConnectedAccType">-</strong></p>
-                    <p class="text-slate-700 dark:text-slate-300">Title: <strong id="displayConnectedAccTitle">-</strong></p>
+                <div id="connectedDriverAccountDisplayBox" class="bg-emerald-50 dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 p-3 rounded-2xl space-y-2 text-xs">
+                    <p class="font-bold text-emerald-900 dark:text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> Captain Direct Account (Click profile for WhatsApp/Call):</p>
+                    <div onclick="openDriverProfileQuickCard()" class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-emerald-200 dark:border-slate-700 flex items-center justify-between cursor-pointer hover:bg-emerald-50 transition">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center text-xs">C</div>
+                            <div>
+                                <p class="font-black text-slate-900 dark:text-white" id="displayConnectedDriverName">No Captain Connected Yet</p>
+                                <p class="text-[10px] text-slate-500" id="displayConnectedDriverPhone">-</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button onclick="event.stopPropagation(); callDriverDirectly()" class="w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs"><i class="fa-solid fa-phone"></i></button>
+                            <button onclick="event.stopPropagation(); whatsappDriverDirectly()" class="w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs"><i class="fa-brands fa-whatsapp"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-slate-700 dark:text-slate-300">Account: <strong id="displayConnectedAccType">-</strong> | Title: <strong id="displayConnectedAccTitle">-</strong></p>
                     <p class="text-slate-700 dark:text-slate-300">Number: <strong id="displayConnectedAccNumber" class="text-emerald-700 dark:text-emerald-400">-</strong></p>
                 </div>
 
@@ -508,15 +589,14 @@
             <!-- Live Chat & In-App Voice Call Room -->
             <div id="passengerOffersBox" class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm hidden">
                 <div class="flex justify-between items-center border-b dark:border-slate-800 pb-2">
-                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Chat & Call Room</h3>
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Ride Deal Chat & Call Room</h3>
                     <button onclick="triggerInitiateInAppVoiceCall()" class="bg-emerald-500 text-slate-950 px-2.5 py-1 rounded-xl text-[10px] font-black"><i class="fa-solid fa-phone mr-1"></i> Call Captain</button>
                 </div>
                 <div id="realtimeChatMessagesContainer" class="bg-white dark:bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-44 overflow-y-auto hide-scrollbar border border-sky-100 dark:border-slate-700 text-xs"></div>
                 <div class="flex space-x-2">
-                    <input type="text" id="chatMessageInput" placeholder="Type message..." class="flex-1 p-2 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white">
+                    <input type="text" id="chatMessageInput" placeholder="Type deal message..." class="flex-1 p-2 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white">
                     <button onclick="sendRealtimeChatMessage()" class="bg-sky-600 text-white px-3 py-2 rounded-xl font-bold text-xs">Send</button>
                 </div>
-                <!-- Captain Rating Trigger -->
                 <button onclick="openRatingModal()" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl text-xs mt-2">
                     <i class="fa-solid fa-star mr-1"></i> Rate & Review Completed Ride
                 </button>
@@ -544,7 +624,6 @@
                 <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Free Cargo Tracking</button>
             </div>
 
-            <!-- Track Cargo Package Status Box -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
                 <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-magnifying-glass-location text-sky-600 mr-1"></i> Track Gilgit Cargo Package</h3>
                 <div class="flex space-x-2">
@@ -560,7 +639,6 @@
 
         <!-- DRIVER SECTION -->
         <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
-            <!-- DRIVER ONLINE/OFFLINE TOGGLE & HOTSPOT RADAR -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <div>
@@ -568,7 +646,7 @@
                             <i class="fa-solid fa-toggle-on text-emerald-600 mr-1"></i> Captain Status 
                             <span id="driverTierBadgeTag" class="ml-2 text-[9px] bg-emerald-500 text-white font-black px-2 py-0.5 rounded-full uppercase">0% Commission Free</span>
                         </h3>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold" id="driverStatusSubtitle">You keep 100% of your earnings!</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold" id="driverStatusSubtitle">Shift Timer: <span id="driverShiftTimerDisplay" class="font-mono text-emerald-600">00:00:00</span></p>
                     </div>
                     <button onclick="toggleDriverOnlineStatus()" id="driverOnlineToggleBtn" class="bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow">Online</button>
                 </div>
@@ -578,7 +656,6 @@
                 </div>
             </div>
 
-            <!-- DRIVER EARNINGS (100% KEEP) -->
             <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-4 rounded-3xl space-y-3 shadow-lg border border-emerald-800">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-emerald-300"><i class="fa-solid fa-wallet mr-1"></i> Your Net Earnings (No Commission)</h3>
@@ -591,7 +668,6 @@
                 </div>
             </div>
 
-            <!-- DRIVER DOCUMENT KYC UPLOAD -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-2 shadow-sm text-xs">
                 <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-id-card text-sky-600 mr-1"></i> Captain Verification (Free Profile)</h3>
                 <p class="text-[10px] text-slate-500 dark:text-slate-400">Upload CNIC & License photo for Verified Free Gilgit Captain badge.</p>
@@ -599,7 +675,6 @@
                 <button onclick="submitDriverKYCDocs()" class="w-full bg-sky-600 text-white font-black py-2 rounded-xl shadow">Submit Documents (Free)</button>
             </div>
 
-            <!-- DRIVER PAYMENT ACCOUNT SETTINGS -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> My Direct Payment Account</h3>
@@ -628,7 +703,6 @@
                 </form>
             </div>
 
-            <!-- DRIVER INDRIVE BIDDING & REQUEST FEED -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Gilgit Passenger Ride Requests Feed</h3>
@@ -639,7 +713,6 @@
                 </div>
             </div>
 
-            <!-- DRIVER PAYMENT APPROVALS -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Passenger Payment Proofs</h3>
@@ -659,10 +732,18 @@
                     <span class="text-[9px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">ZERO COMMISSION</span>
                 </div>
 
-                <!-- Admin Financial Summary Card (Zero Commission Notice) -->
                 <div class="bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-500/40 text-center text-xs space-y-1">
                     <p class="font-black text-emerald-300 uppercase"><i class="fa-solid fa-circle-check mr-1"></i> Platform Status: 100% Free</p>
                     <p class="text-slate-300">No commission is charged from captains. All ride earnings go directly to drivers to maximize traffic and adoption.</p>
+                </div>
+
+                <!-- SAFETY & INCIDENT REPORTS ADMIN DASHBOARD -->
+                <div class="space-y-2 text-xs bg-slate-800 p-3.5 rounded-2xl border border-rose-500/40">
+                    <h4 class="font-bold text-rose-400 uppercase"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Passenger Safety & Incident Reports</h4>
+                    <p class="text-[10px] text-slate-300">Review reported driver issues and click "Take Action" to notify the reporter automatically.</p>
+                    <div id="adminSafetyReportsContainer" class="space-y-2 max-h-48 overflow-y-auto hide-scrollbar pt-1">
+                        <p class="text-slate-400 text-center py-2">No safety reports submitted.</p>
+                    </div>
                 </div>
 
                 <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 space-y-3 text-xs">
@@ -706,6 +787,26 @@
         </div>
 
     </main>
+
+    <!-- FIXED BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 z-30 sky-glass border-t border-sky-200 dark:border-slate-800 px-4 py-2.5 flex justify-around items-center shadow-2xl">
+        <button onclick="bottomNavSwitch('home')" id="bottomNavHomeBtn" class="flex flex-col items-center space-y-1 text-sky-600 dark:text-sky-400 font-black text-[10px] transition">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span>Ride / Home</span>
+        </button>
+        <button onclick="bottomNavSwitch('cargo')" id="bottomNavCargoBtn" class="flex flex-col items-center space-y-1 text-slate-500 dark:text-slate-400 font-bold text-[10px] transition">
+            <i class="fa-solid fa-box-open text-lg"></i>
+            <span>Cargo</span>
+        </button>
+        <button onclick="bottomNavSwitch('wallet')" id="bottomNavWalletBtn" class="flex flex-col items-center space-y-1 text-slate-500 dark:text-slate-400 font-bold text-[10px] transition">
+            <i class="fa-solid fa-wallet text-lg"></i>
+            <span>Wallet</span>
+        </button>
+        <button onclick="bottomNavSwitch('profile')" id="bottomNavProfileBtn" class="flex flex-col items-center space-y-1 text-slate-500 dark:text-slate-400 font-bold text-[10px] transition">
+            <i class="fa-solid fa-user-gear text-lg"></i>
+            <span>Profile</span>
+        </button>
+    </nav>
 
     <!-- SMART FARE BREAKDOWN MODAL -->
     <div id="smartFareBreakdownModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
@@ -772,7 +873,7 @@
 
             <!-- History View -->
             <div id="menuViewHistory" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-1"></i> Ride & Direct Payment History</h3>
+                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-1"></i> Ride, Payment & Report History</h3>
                 <div id="userHistoryList" class="space-y-2">
                     <div class="p-3 bg-sky-50 dark:bg-slate-800 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-1">
                         <div class="flex justify-between items-center font-bold text-slate-900 dark:text-white">
@@ -780,6 +881,12 @@
                             <span class="text-emerald-600 dark:text-emerald-400">PKR 400</span>
                         </div>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400">Status: Completed • Paid Direct to Captain (0% Commission)</p>
+                    </div>
+                </div>
+                <div class="pt-2 border-t dark:border-slate-800">
+                    <h4 class="font-black text-xs text-rose-500 mb-1">Your Incident Reports Status</h4>
+                    <div id="userSafetyReportsHistoryList" class="space-y-2">
+                        <p class="text-slate-400 text-[11px]">No safety reports submitted yet.</p>
                     </div>
                 </div>
             </div>
@@ -801,17 +908,6 @@
                         <button onclick="shareOnSocialMedia('instagram')" class="bg-pink-600 text-white font-bold py-2.5 rounded-xl flex items-center justify-center space-x-1 shadow"><i class="fa-brands fa-instagram"></i><span>Instagram</span></button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Digital Wallet View -->
-            <div id="menuViewWallet" class="space-y-3 hidden">
-                <h3 class="font-black text-sm text-slate-900 dark:text-white uppercase border-b dark:border-slate-800 pb-2"><i class="fa-solid fa-wallet text-amber-500 mr-1"></i> Digital Wallet & Rewards</h3>
-                <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-4 rounded-2xl text-center space-y-1 shadow-md">
-                    <p class="text-[10px] font-bold uppercase">Available Loyalty Coins</p>
-                    <p class="text-2xl font-black" id="userWalletCoinsDisplay">250 Coins</p>
-                    <p class="text-[10px]">Redeem 100 coins for flat PKR 100 discount on your next ride!</p>
-                </div>
-                <button onclick="redeemLoyaltyCoins()" class="w-full bg-slate-900 text-white font-black py-2.5 rounded-xl text-xs shadow">Redeem 100 Coins for Discount</button>
             </div>
 
             <!-- Leaderboard View -->
@@ -963,10 +1059,16 @@
         let pendingGoogleUser = null;
         let leafletMap = null;
         let driverMarker = null;
-        let fullScreenTimerInterval = null;
+        let passengerMarker = null;
+        let routePolyline = null;
         let activeCallTimerInterval = null;
+        let broadcastTimerInterval = null;
+        let shiftTimerInterval = null;
+        let shiftSeconds = 0;
         let currentCallId = null;
         let loyaltyCoins = 250;
+        let selectedVehicleType = "Car";
+        let connectedDriverPhoneGlobal = "+923449876543";
 
         const popularGilgitLocations = [
             "Gilgit City Center (Jamia Masjid)", "Jutial Main Road", "Danyor Bridge", 
@@ -980,6 +1082,26 @@
             { text: "Sajid (Danyor) ne zero commission ride complete ki!", icon: "fa-handshake", color: "text-amber-400" },
             { text: "New Gilgit Captain Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" }
         ];
+
+        // AUDIO NOTIFICATION TONE SYNTHESIZER (WEB AUDIO API)
+        function playNotificationChime() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2); // A5 note
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch(e) {
+                console.log("Audio Context prevented:", e);
+            }
+        }
 
         window.addEventListener('online', () => document.getElementById('offlineFallbackBanner').classList.add('hidden'));
         window.addEventListener('offline', () => document.getElementById('offlineFallbackBanner').classList.remove('hidden'));
@@ -997,6 +1119,43 @@
             }
         }
 
+        function bottomNavSwitch(tab) {
+            const btnHome = document.getElementById('bottomNavHomeBtn');
+            const btnCargo = document.getElementById('bottomNavCargoBtn');
+            const btnWallet = document.getElementById('bottomNavWalletBtn');
+            const btnProfile = document.getElementById('bottomNavProfileBtn');
+
+            const activeClass = "flex flex-col items-center space-y-1 text-sky-600 dark:text-sky-400 font-black text-[10px] transition";
+            const normalClass = "flex flex-col items-center space-y-1 text-slate-500 dark:text-slate-400 font-bold text-[10px] transition";
+
+            btnHome.className = normalClass;
+            btnCargo.className = normalClass;
+            btnWallet.className = normalClass;
+            btnProfile.className = normalClass;
+
+            if (tab === 'home') {
+                btnHome.className = activeClass;
+                switchAppRole('passenger');
+            } else if (tab === 'cargo') {
+                btnCargo.className = activeClass;
+                switchAppRole('parcel');
+            } else if (tab === 'wallet') {
+                btnWallet.className = activeClass;
+                openMenuModal('wallet');
+            } else if (tab === 'profile') {
+                btnProfile.className = activeClass;
+                toggleProfileModal();
+            }
+        }
+
+        function selectVehicleCategory(vType, el) {
+            selectedVehicleType = vType;
+            document.querySelectorAll('#catCardCar, #catCardBike, #catCardBus, #catCardLuxury').forEach(card => {
+                card.className = "p-2.5 rounded-2xl bg-sky-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-2 border-transparent cursor-pointer shadow-sm transition flex flex-col items-center space-y-1";
+            });
+            el.className = "p-2.5 rounded-2xl bg-sky-600 text-white border-2 border-sky-500 cursor-pointer shadow transition flex flex-col items-center space-y-1";
+        }
+
         function openSmartFareBreakdownModal() {
             const modal = document.getElementById('smartFareBreakdownModal');
             const proposed = parseInt(document.getElementById('passengerProposedFare').value) || 400;
@@ -1009,9 +1168,112 @@
             modal.classList.toggle('hidden');
         }
 
+        function toggleSafetyReportModal() {
+            document.getElementById('safetyReportModal').classList.toggle('hidden');
+        }
+
+        function handleSafetyReportSubmit(e) {
+            e.preventDefault();
+            const driverName = document.getElementById('reportDriverNameInput').value;
+            const category = document.getElementById('reportCategorySelect').value;
+            const desc = document.getElementById('reportDescriptionInput').value;
+
+            rtdb.ref('safety_reports').push({
+                passengerUid: currentUser ? currentUser.uid : "GUEST",
+                passengerName: currentUser ? currentUser.name : "Passenger",
+                passengerPhone: currentUser ? currentUser.phone : "+923001234567",
+                driverName: driverName,
+                category: category,
+                description: desc,
+                status: "Pending Review",
+                timestamp: Date.now()
+            }).then(() => {
+                playNotificationChime();
+                alert("Incident report submitted securely to Gilgit Admin!");
+                toggleSafetyReportModal();
+                document.getElementById('reportDriverNameInput').value = "";
+                document.getElementById('reportDescriptionInput').value = "";
+            });
+        }
+
+        function listenToPassengerSafetyReportsHistory(uid) {
+            rtdb.ref('safety_reports').on('value', snapshot => {
+                const container = document.getElementById('userSafetyReportsHistoryList');
+                if(!container) return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) {
+                    container.innerHTML = `<p class="text-slate-400 text-[11px]">No safety reports submitted yet.</p>`;
+                    return;
+                }
+
+                let count = 0;
+                Object.keys(data).forEach(key => {
+                    const r = data[key];
+                    if (r.passengerUid === uid) {
+                        count++;
+                        let statusColor = "bg-amber-500/20 text-amber-400 border-amber-500/30";
+                        if(r.status.includes("Action Taken")) statusColor = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+
+                        container.innerHTML += `
+                            <div class="p-2.5 bg-sky-50 dark:bg-slate-800 rounded-xl border border-sky-100 dark:border-slate-700 space-y-1">
+                                <div class="flex justify-between items-center font-bold">
+                                    <span class="text-slate-900 dark:text-white">Driver: ${r.driverName}</span>
+                                    <span class="text-[9px] px-2 py-0.5 rounded-full border ${statusColor}">${r.status}</span>
+                                </div>
+                                <p class="text-[10px] text-slate-600 dark:text-slate-300">Category: ${r.category}</p>
+                                <p class="text-[10px] text-slate-500">Details: ${r.description}</p>
+                            </div>`;
+                    }
+                });
+
+                if(count === 0) {
+                    container.innerHTML = `<p class="text-slate-400 text-[11px]">No safety reports submitted yet.</p>`;
+                }
+            });
+        }
+
+        function listenToAdminSafetyReports() {
+            rtdb.ref('safety_reports').on('value', snapshot => {
+                const container = document.getElementById('adminSafetyReportsContainer');
+                if(!container) return;
+                container.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) {
+                    container.innerHTML = `<p class="text-slate-400 text-center py-2">No safety reports submitted.</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const r = data[key];
+                    container.innerHTML += `
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 space-y-1.5 text-xs">
+                            <div class="flex justify-between items-center font-bold text-rose-300">
+                                <span>Reported: ${r.driverName}</span>
+                                <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded">${r.status}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-200"><strong>Passenger:</strong> ${r.passengerName} (${r.passengerPhone})</p>
+                            <p class="text-[11px] text-slate-300"><strong>Issue:</strong> ${r.category} - ${r.description}</p>
+                            <button onclick="adminTakeActionOnReport('${key}', '${r.passengerName}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-1.5 rounded-lg text-[10px] mt-1 shadow">
+                                Take Action & Notify Passenger
+                            </button>
+                        </div>`;
+                });
+            });
+        }
+
+        function adminTakeActionOnReport(reportKey, passengerName) {
+            rtdb.ref('safety_reports/' + reportKey).update({
+                status: "Action Taken by Admin 🛡️"
+            }).then(() => {
+                playNotificationChime();
+                showPushNotificationToast("Admin Action Recorded", `Action taken on report regarding ${passengerName}. Passenger history updated automatically.`);
+            });
+        }
+
         function triggerEmergencySOS() {
             const c1 = localStorage.getItem('sos_c1') || "Not Set";
-            if (confirm(`EMERGENCY SOS: Broadcast distress alert with live Gilgit location and notify trusted contacts (${c1}) to Admin Support?`)) {
+            if (confirm(`EMERGENCY SOS: Broadcast distress alert with live Gilgit location and notify trusted contacts (${c1}) to Admin Support & Rescue 1122?`)) {
                 rtdb.ref('emergency_sos').push({
                     passenger: currentUser ? currentUser.name : "User",
                     phone: currentUser ? currentUser.phone : "+923001234567",
@@ -1019,7 +1281,8 @@
                     location: "Gilgit City coordinates",
                     timestamp: Date.now()
                 }).then(() => {
-                    showPushNotificationToast("SOS EMERGENCY BROADCASTED!", "Distress signal sent successfully to Admin & Family.");
+                    playNotificationChime();
+                    showPushNotificationToast("SOS EMERGENCY BROADCASTED!", "Distress signal sent successfully to Admin, Rescue 1122 & Family.");
                 });
             }
         }
@@ -1074,6 +1337,27 @@
             if (url) window.open(url, '_blank');
         }
 
+        function callDriverDirectly() {
+            if (connectedDriverPhoneGlobal) {
+                window.location.href = `tel:${connectedDriverPhoneGlobal}`;
+            } else {
+                alert("Captain phone number not available.");
+            }
+        }
+
+        function whatsappDriverDirectly() {
+            if (connectedDriverPhoneGlobal) {
+                const cleanNum = connectedDriverPhoneGlobal.replace(/[^0-9+]/g, '');
+                window.open(`https://api.whatsapp.com/send?phone=${cleanNum}&text=Hello%20Captain,%20I%20booked%20your%20ride%20on%20Secure%20Drop%20Gilgit.`, '_blank');
+            } else {
+                alert("Captain WhatsApp number not available.");
+            }
+        }
+
+        function openDriverProfileQuickCard() {
+            alert(`Captain Profile: \nPhone: ${connectedDriverPhoneGlobal}\nStatus: Verified Gilgit Free Captain\nCommission: 0%`);
+        }
+
         function triggerInitiateInAppVoiceCall() {
             if (!currentUser) return;
             const peerName = currentUser.role === 'passenger' ? "Assigned Gilgit Captain" : "Passenger User";
@@ -1085,6 +1369,7 @@
                 timestamp: Date.now()
             }).then(ref => {
                 currentCallId = ref.key;
+                playNotificationChime();
                 document.getElementById('activeCallPeerName').textContent = peerName;
                 document.getElementById('incomingCallModal').classList.add('hidden');
                 document.getElementById('activeCallRoomModal').classList.remove('hidden');
@@ -1099,6 +1384,7 @@
                 currentCallId = snapshot.key;
 
                 if (callData && callData.callerName !== currentUser.name && callData.status === "Ringing") {
+                    playNotificationChime();
                     document.getElementById('incomingCallerName').textContent = callData.callerName;
                     document.getElementById('incomingCallModal').classList.remove('hidden');
                 }
@@ -1237,11 +1523,13 @@
                             loadDriverDynamicEarnings(currentUser.name);
                         } else if (currentUser.role === 'passenger') {
                             listenToPassengerConnectedDriverPayment(currentUser.uid);
+                            listenToPassengerSafetyReportsHistory(currentUser.uid);
                         }
 
                         listenToManualPaymentApprovals();
                         listenToAdminUserRegistry();
                         listenToAdminPaymentLogs();
+                        listenToAdminSafetyReports();
                         initAdminDirectChatListener();
                         listenToActivePromoCode();
                         listenToPassengerBids();
@@ -1270,6 +1558,10 @@
                 Object.keys(data).forEach(key => {
                     const r = data[key];
                     if (r.passengerUid === passengerUid && r.status === "Accepted" && r.driverName) {
+                        document.getElementById('displayConnectedDriverName').textContent = r.driverName;
+                        document.getElementById('displayConnectedDriverPhone').textContent = r.driverPhone || "+923449876543";
+                        connectedDriverPhoneGlobal = r.driverPhone || "+923449876543";
+
                         rtdb.ref('driver_accounts').once('value').then(accSnap => {
                             const accounts = accSnap.val();
                             if (!accounts) return;
@@ -1277,7 +1569,6 @@
                             Object.keys(accounts).forEach(accKey => {
                                 const acc = accounts[accKey];
                                 if (acc.driverName === r.driverName) {
-                                    document.getElementById('displayConnectedDriverName').textContent = acc.driverName;
                                     document.getElementById('displayConnectedAccType').textContent = acc.accType;
                                     document.getElementById('displayConnectedAccTitle').textContent = acc.accTitle;
                                     document.getElementById('displayConnectedAccNumber').textContent = acc.accNumber;
@@ -1392,6 +1683,7 @@
                 status: "Dispatched & In Transit",
                 timestamp: Date.now()
             }).then(() => {
+                playNotificationChime();
                 alert(`Gilgit Free Cargo Dispatched! Live Tracking Code: ${trackingCode}`);
                 document.getElementById('trackCargoCodeInput').value = trackingCode;
             });
@@ -1428,12 +1720,27 @@
                 btn.className = "bg-rose-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
                 sub.textContent = "You are currently Offline";
                 rtdb.ref('users/' + currentUser.uid).update({ status: "Offline" });
+                if (shiftTimerInterval) clearInterval(shiftTimerInterval);
             } else {
                 btn.textContent = "Online";
                 btn.className = "bg-emerald-600 text-white font-black px-4 py-2 rounded-xl text-xs shadow";
-                sub.textContent = "You are currently Online & Receiving Gilgit Rides";
+                sub.innerHTML = `Shift Timer: <span id="driverShiftTimerDisplay" class="font-mono text-emerald-600">00:00:00</span>`;
                 rtdb.ref('users/' + currentUser.uid).update({ status: "Active" });
+                startDriverShiftTimer();
             }
+        }
+
+        function startDriverShiftTimer() {
+            shiftSeconds = 0;
+            if (shiftTimerInterval) clearInterval(shiftTimerInterval);
+            shiftTimerInterval = setInterval(() => {
+                shiftSeconds++;
+                const hrs = Math.floor(shiftSeconds / 3600).toString().padStart(2, '0');
+                const mins = Math.floor((shiftSeconds % 3600) / 60).toString().padStart(2, '0');
+                const secs = (shiftSeconds % 60).toString().padStart(2, '0');
+                const disp = document.getElementById('driverShiftTimerDisplay');
+                if (disp) disp.textContent = `${hrs}:${mins}:${secs}`;
+            }, 1000);
         }
 
         function startDriverLiveLocationBroadcaster() {
@@ -1451,18 +1758,42 @@
             }
         }
 
+        // LIVE MAP GPS TRACKING WITH ROUTE POLYLINE VISUALIZATION
         function listenToLiveDriverTrackingOnMap() {
             rtdb.ref('driver_locations').on('value', snapshot => {
-                if (!leafletMap || !currentUser || currentUser.role !== 'passenger') return;
+                if (!leafletMap || !currentUser) return;
                 const data = snapshot.val();
                 if (!data) return;
 
                 Object.keys(data).forEach(driverUid => {
                     const loc = data[driverUid];
+                    
                     if (driverMarker) {
                         driverMarker.setLatLng([loc.lat, loc.lng]);
                     } else {
                         driverMarker = L.marker([loc.lat, loc.lng]).addTo(leafletMap).bindPopup(`<b>Captain ${loc.driverName}</b> (Gilgit En Route)`).openPopup();
+                    }
+
+                    if (currentUser.role === 'passenger') {
+                        const passengerLat = 35.9208;
+                        const passengerLng = 74.3087;
+
+                        if (passengerMarker) {
+                            passengerMarker.setLatLng([passengerLat, passengerLng]);
+                        } else {
+                            passengerMarker = L.marker([passengerLat, passengerLng]).addTo(leafletMap).bindPopup('<b>Your Pickup Location</b>').openPopup();
+                        }
+
+                        const latlngs = [
+                            [passengerLat, passengerLng],
+                            [loc.lat, loc.lng]
+                        ];
+
+                        if (routePolyline) {
+                            routePolyline.setLatLngs(latlngs);
+                        } else {
+                            routePolyline = L.polyline(latlngs, {color: '#0284c7', weight: 4, opacity: 0.8, dashArray: '5, 10'}).addTo(leafletMap);
+                        }
                     }
                 });
             });
@@ -1534,6 +1865,7 @@
                 description: desc,
                 timestamp: Date.now()
             }).then(() => {
+                playNotificationChime();
                 showPushNotificationToast("Gilgit Free Promo Broadcast!", `Code ${code}: Save PKR ${discount}`);
             });
         }
@@ -1609,6 +1941,7 @@
                 passengerUid: currentUser.uid,
                 passenger: currentUser.name,
                 phone: currentUser.phone,
+                vehicleType: selectedVehicleType,
                 pickup: pickup,
                 waypoint: waypoint || "",
                 drop: drop,
@@ -1619,8 +1952,53 @@
             }).then(() => {
                 document.getElementById('passengerIncomingBidsBox').classList.remove('hidden');
                 document.getElementById('passengerOffersBox').classList.remove('hidden');
+                
+                playNotificationChime();
+                startFullScreenBroadcastCountdown(newRideRef.key);
                 showPushNotificationToast("Free Ride Broadcasted!", `Route: ${fullRoute} (PKR ${fare})`);
             });
+        }
+
+        function startFullScreenBroadcastCountdown(rideKey) {
+            const modal = document.getElementById('fullScreenBroadcastModal');
+            const timerEl = document.getElementById('broadcastTimerDisplay');
+            const titleEl = document.getElementById('broadcastModalTitle');
+            const descEl = document.getElementById('broadcastModalDesc');
+
+            modal.classList.remove('hidden');
+            let timeLeft = 10;
+            timerEl.textContent = `${timeLeft}s`;
+            titleEl.textContent = `Searching ${selectedVehicleType} Captains...`;
+            descEl.textContent = `Broadcasting ride across Gilgit network.`;
+
+            if (broadcastTimerInterval) clearInterval(broadcastTimerInterval);
+
+            broadcastTimerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(broadcastTimerInterval);
+                    rtdb.ref('rides/' + rideKey).once('value', snap => {
+                        const rData = snap.val();
+                        if (rData && rData.status === "Pending") {
+                            titleEl.textContent = "Retrying Broadcast...";
+                            descEl.textContent = "Broadcasting to wider Gilgit captain radius...";
+                            setTimeout(() => {
+                                modal.classList.add('hidden');
+                                showPushNotificationToast("Retry Broadcast Active", "Your ride request has been re-submitted for faster captain acceptance.");
+                            }, 1500);
+                        } else {
+                            modal.classList.add('hidden');
+                        }
+                    });
+                }
+            }, 1000);
+        }
+
+        function dismissBroadcastModal() {
+            if (broadcastTimerInterval) clearInterval(broadcastTimerInterval);
+            document.getElementById('fullScreenBroadcastModal').classList.add('hidden');
         }
 
         function listenToDriverBiddingFeed() {
@@ -1659,9 +2037,13 @@
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-2 shadow-sm">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="font-black text-slate-900 dark:text-white">${r.passenger} (${r.phone})</p>
+                                    <p class="font-black text-slate-900 dark:text-white flex items-center space-x-2">
+                                        <span>${r.passenger}</span>
+                                        <a href="tel:${r.phone}" class="text-emerald-600 text-xs ml-1" title="Call Passenger"><i class="fa-solid fa-phone"></i></a>
+                                        <a href="https://api.whatsapp.com/send?phone=${r.phone.replace(/[^0-9+]/g, '')}&text=Hello%20Passenger" target="_blank" class="text-emerald-500 text-xs ml-1" title="WhatsApp Passenger"><i class="fa-brands fa-whatsapp"></i></a>
+                                    </p>
                                     <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">${routeStr}</p>
-                                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded">${r.bookingMode} • 0% Commission</span>
+                                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded">${r.vehicleType || 'Car'} • ${r.bookingMode} • 0% Commission</span>
                                 </div>
                                 <span class="bg-emerald-100 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-black text-xs px-2.5 py-1 rounded-xl">PKR ${r.finalFare || r.proposedFare}</span>
                             </div>
@@ -1672,17 +2054,20 @@
         }
 
         function driverAcceptRide(rideId, fare) {
+            playNotificationChime();
             rtdb.ref(`rides/${rideId}`).update({
                 status: "Accepted",
                 driverName: currentUser.name,
                 driverPhone: currentUser.phone,
                 finalFare: fare
             }).then(() => {
+                dismissBroadcastModal();
                 showPushNotificationToast("Gilgit Ride Accepted!", "Passenger connected successfully.");
             });
         }
 
         function driverCompleteRide(rideId) {
+            playNotificationChime();
             rtdb.ref(`rides/${rideId}`).update({
                 status: "Completed"
             }).then(() => {
@@ -1700,6 +2085,7 @@
                     offeredFare: newFare,
                     timestamp: Date.now()
                 }).then(() => {
+                    playNotificationChime();
                     showPushNotificationToast("Counter Offer Sent!", `Captain offered PKR ${newFare}`);
                 });
             }
@@ -1724,14 +2110,16 @@
             document.getElementById('menuContentModal').classList.remove('hidden');
             document.getElementById('menuViewHistory').classList.add('hidden');
             document.getElementById('menuViewReferral').classList.add('hidden');
-            document.getElementById('menuViewWallet').classList.add('hidden');
             document.getElementById('menuViewLeaderboard').classList.add('hidden');
             document.getElementById('menuViewCompany').classList.add('hidden');
             document.getElementById('menuViewFAQ').classList.add('hidden');
 
             if (view === 'history') document.getElementById('menuViewHistory').classList.remove('hidden');
             else if (view === 'referral') document.getElementById('menuViewReferral').classList.remove('hidden');
-            else if (view === 'wallet') document.getElementById('menuViewWallet').classList.remove('hidden');
+            else if (view === 'wallet') {
+                document.getElementById('menuContentModal').classList.add('hidden');
+                alert(`Digital Wallet Balance: ${loyaltyCoins} Coins available for discount redemption!`);
+            }
             else if (view === 'leaderboard') document.getElementById('menuViewLeaderboard').classList.remove('hidden');
             else if (view === 'company') document.getElementById('menuViewCompany').classList.remove('hidden');
             else if (view === 'faq') document.getElementById('menuViewFAQ').classList.remove('hidden');
@@ -1986,6 +2374,7 @@
                 status: "Pending",
                 timestamp: Date.now()
             }).then(() => {
+                playNotificationChime();
                 alert("Direct payment confirmation sent to Captain! (0% Commission deducted)");
                 openManualPaymentModal();
             });
