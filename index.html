@@ -43,20 +43,12 @@
             width: 100%;
             z-index: 10;
         }
-        
         @keyframes customPulse {
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
         }
         .animate-custom-pulse {
             animation: customPulse 2s infinite ease-in-out;
-        }
-        @keyframes slideDownFade {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .animate-welcome-slide {
-            animation: slideDownFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideInLeft {
             from { transform: translateX(-100%); opacity: 0; }
@@ -80,49 +72,74 @@
         <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-300 to-teal-200">
             SECURE DROP
         </h1>
-        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Enterprise Cloud Live Engine</p>
-        
-        <div class="mt-8 w-48 bg-slate-800/80 rounded-full h-1.5 overflow-hidden border border-slate-700">
-            <div class="bg-gradient-to-r from-sky-500 to-emerald-400 h-full w-full rounded-full animate-pulse"></div>
-        </div>
-        <span class="text-[10px] text-slate-400 font-bold mt-2">Initializing Encrypted Portal...</span>
+        <p class="text-[11px] text-sky-300/80 font-bold tracking-widest uppercase mt-1">Promo & Master Admin Engine</p>
     </div>
 
-    <!-- LIVE FAKE TRUST NOTIFICATION POPUP (BOTTOM-LEFT) -->
+    <!-- SIDEBAR MENU DRAWER -->
+    <div id="sidebarMenuDrawer" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden transition-opacity duration-300">
+        <div class="w-72 bg-white h-full shadow-2xl p-5 flex flex-col justify-between space-y-4 overflow-y-auto hide-scrollbar text-xs">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-xl bg-sky-600 text-white flex items-center justify-center font-black">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-black text-slate-900 text-sm">Secure Drop</h3>
+                            <span class="text-[9px] text-emerald-600 font-extrabold uppercase">Verified Network</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleSidebarMenu()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="space-y-1 font-bold text-slate-700">
+                    <button onclick="openMenuModal('history')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-clock-rotate-left text-sky-600 text-sm w-5"></i><span>Ride & Activity History</span>
+                    </button>
+                    <button onclick="openMenuModal('company')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-building text-emerald-600 text-sm w-5"></i><span>Company Information</span>
+                    </button>
+                    <button onclick="openMenuModal('faq')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-circle-question text-amber-500 text-sm w-5"></i><span>FAQs & Help Center</span>
+                    </button>
+                    <button onclick="openMenuModal('privacy')" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-file-shield text-purple-600 text-sm w-5"></i><span>Privacy Policy & Terms</span>
+                    </button>
+                    <button onclick="openDirectAdminChatModal()" class="w-full text-left p-2.5 rounded-xl hover:bg-sky-50 flex items-center space-x-3 transition">
+                        <i class="fa-solid fa-headset text-rose-500 text-sm w-5"></i><span>Report Issue / Support</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-sky-50 p-3 rounded-2xl border border-sky-100 space-y-2 text-center">
+                <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=400&q=80" class="w-full h-20 object-cover rounded-xl shadow-sm">
+                <p class="text-[10px] text-slate-600 font-extrabold">24/7 Verified Transport & Freight Services</p>
+                <span class="text-[8px] bg-emerald-200 text-emerald-900 font-black px-2 py-0.5 rounded-full uppercase">100% Encrypted</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAKE TRUST NOTIFICATION POPUP -->
     <div id="fakeTrustNotification" class="fixed bottom-20 left-4 z-40 bg-slate-900/95 text-white p-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-toast-in max-w-xs backdrop-blur-md">
         <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
             <i id="trustNotifIcon" class="fa-solid fa-circle-check text-sm"></i>
         </div>
         <div>
-            <p id="trustNotifText" class="text-[11px] font-bold leading-tight">Ali (Astore) ne 500 PKR ki ride book ki!</p>
-            <span id="trustNotifTime" class="text-[9px] text-slate-400 font-semibold">Abhi abhi • Verified</span>
-        </div>
-    </div>
-
-    <!-- WELCOME BACK ANIMATED BANNER NOTIFICATION -->
-    <div id="welcomeBackToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-sky-500/40 flex items-center space-x-3 hidden animate-welcome-slide backdrop-blur-lg min-w-[280px]">
-        <img id="welcomeToastAvatar" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-xl object-cover border-2 border-emerald-400 shadow">
-        <div>
-            <span class="text-[9px] bg-emerald-500/20 text-emerald-300 font-black px-2 py-0.5 rounded-full uppercase tracking-wider">Authenticated</span>
-            <h4 class="font-black text-xs text-white" id="welcomeToastName">Welcome Back, User!</h4>
-            <p class="text-[10px] text-slate-300">Logged in to Secure Drop Network</p>
+            <p id="trustNotifText" class="text-[11px] font-bold leading-tight">Ali ne 600 PKR ki ride book ki!</p>
+            <span class="text-[9px] text-slate-400 font-semibold">Abhi abhi • Verified</span>
         </div>
     </div>
 
     <!-- MANDATORY SECURITY AUTH WALL -->
     <div id="mandatoryAuthGate" class="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full border border-sky-100 max-h-[92vh] overflow-y-auto hide-scrollbar relative">
-            
             <div class="relative h-36 bg-slate-900 overflow-hidden rounded-t-3xl">
-                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80" alt="Transport Network" class="w-full h-full object-cover opacity-50">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-50">
                 <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-slate-950/60 p-4 flex flex-col justify-between">
-                    <div class="flex justify-between items-center text-white">
-                        <span class="bg-emerald-500/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase"><i class="fa-solid fa-shield-halved mr-1"></i> SSL 256-Bit Protected</span>
-                        <span class="text-[9px] text-sky-200 font-extrabold"><i class="fa-solid fa-circle text-emerald-400 text-[7px] mr-1"></i> Cloud Active</span>
-                    </div>
+                    <span class="bg-emerald-500/90 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase w-fit"><i class="fa-solid fa-shield-halved mr-1"></i> Protected Gateway</span>
                     <div>
                         <h2 class="font-black text-slate-900 text-lg leading-tight">Secure Drop Enterprise</h2>
-                        <p class="text-[10px] text-slate-600 font-bold">Fast Transport, Live Fare Bidding & Instant Courier</p>
+                        <p class="text-[10px] text-slate-600 font-bold">Select Role to Proceed</p>
                     </div>
                 </div>
             </div>
@@ -134,18 +151,6 @@
                     <button id="gateTabControl" onclick="switchGateRole('control')" class="py-2 rounded-lg text-slate-700">Admin</button>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2 text-center text-[9px] font-extrabold text-slate-600 py-1">
-                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
-                        <i class="fa-solid fa-map-location-dot text-sky-600 text-xs block mb-1"></i> Live GPS
-                    </div>
-                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
-                        <i class="fa-solid fa-handshake text-emerald-600 text-xs block mb-1"></i> Live Bidding
-                    </div>
-                    <div class="bg-sky-50 p-2 rounded-xl border border-sky-100">
-                        <i class="fa-solid fa-receipt text-amber-600 text-xs block mb-1"></i> Easy Payments
-                    </div>
-                </div>
-
                 <button onclick="handleGoogleSignInGate()" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-2.5 rounded-xl shadow-sm flex items-center justify-center space-x-2 text-xs transition">
                     <svg class="w-4 h-4" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -155,12 +160,6 @@
                     </svg>
                     <span>Continue with Google</span>
                 </button>
-
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-2 text-[10px] text-slate-400 font-bold uppercase">Or Email Login</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
 
                 <div id="gateUserAuthFormContainer" class="space-y-3 text-xs">
                     <div class="flex border-b border-sky-100 pb-1.5">
@@ -190,7 +189,7 @@
                             <button type="button" onclick="triggerForgotPassword()" class="text-sky-600 font-bold hover:underline">Forgot Password?</button>
                         </div>
 
-                        <button type="submit" id="gateSubmitBtn" class="w-full bg-gradient-to-r from-sky-600 to-blue-700 text-white font-black py-3 rounded-xl shadow-md">Login to Enterprise</button>
+                        <button type="submit" id="gateSubmitBtn" class="w-full bg-gradient-to-r from-sky-600 to-blue-700 text-white font-black py-3 rounded-xl shadow-md">Login as <span id="authRoleLabel">Passenger</span></button>
                     </form>
                 </div>
 
@@ -214,13 +213,16 @@
     <!-- Header Bar -->
     <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 text-sky-900 rounded-xl font-black text-sm shadow-sm hover:bg-sky-200 transition">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <img id="headerUserAvatar" src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-sky-500 shadow-md">
             <div>
                 <h1 class="text-sm font-black tracking-tight text-slate-900 flex items-center">
-                    Secure Drop <span class="ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">Enterprise</span>
+                    Secure Drop <span id="roleBadgeHeader" class="ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">User</span>
                 </h1>
                 <p class="text-[10px] text-sky-600 font-bold flex items-center" id="headerProfileSubtitle">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> Authentic Sync
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> Authenticated
                 </p>
             </div>
         </div>
@@ -241,27 +243,27 @@
     <!-- Main Workspace -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
 
-        <!-- LIVE TRUST STATS BANNER -->
-        <div class="bg-slate-900 text-white px-3 py-2 rounded-2xl flex justify-between items-center text-xs shadow-md">
+        <!-- DYNAMIC RANDOM UP-DOWN ACTIVE USERS BANNER -->
+        <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md border border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-                <span class="font-extrabold text-[11px]">48 Drivers Online</span>
+                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">42</span> Active Drivers & Users Online</span>
             </div>
-            <span class="text-[10px] text-amber-300 font-bold">320+ Rides Completed</span>
+            <span class="text-[10px] text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20"><i class="fa-solid fa-shield-halved mr-1"></i> Live Network</span>
         </div>
 
         <!-- Role Selector Switch -->
-        <div class="bg-sky-200/80 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 shadow-inner">
+        <div id="appRoleSwitchContainer" class="bg-sky-200/80 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 shadow-inner">
             <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-user"></i><span>Passenger</span>
             </button>
             <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-box-open"></i><span>Cargo</span>
             </button>
-            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1">
+            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
                 <i class="fa-solid fa-van-shuttle"></i><span>Driver</span>
             </button>
-            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1">
+            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
                 <i class="fa-solid fa-shield-halved"></i><span>Admin Hub</span>
             </button>
         </div>
@@ -273,35 +275,67 @@
                 <div id="leafletMapContainer"></div>
             </div>
 
-            <!-- MANUAL ONLINE PAYMENT -->
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> Manual Fare Online Payment</h3>
-                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">Easypaisa / JazzCash</span>
+            <!-- ACTIVE ADMIN PROMO CODE BANNER FOR PASSENGERS -->
+            <div id="passengerActivePromoBanner" class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-3.5 rounded-2xl shadow-md flex justify-between items-center hidden">
+                <div>
+                    <span class="text-[9px] bg-slate-950 text-amber-300 font-black px-2 py-0.5 rounded-full uppercase">Special Promo</span>
+                    <h4 class="font-black text-xs mt-1" id="promoBannerTitleText">No Active Promo</h4>
+                    <p class="text-[10px] font-semibold text-slate-900" id="promoBannerDescText">Admin has not set any promo code yet.</p>
                 </div>
-                <p class="text-[11px] text-slate-500 font-medium">Send fare payment directly to assigned driver and upload Transaction Proof (TID) for driver approval.</p>
-                <button onclick="openManualPaymentModal()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-2.5 rounded-xl text-xs shadow transition active:scale-95">
-                    <i class="fa-solid fa-upload mr-1"></i> Pay Driver & Send Proof (TID)
+                <button onclick="copyActivePromoCode()" class="bg-slate-950 text-white font-black px-3 py-2 rounded-xl text-[10px] shadow active:scale-95 transition">
+                    <i class="fa-solid fa-copy mr-1"></i> Copy Code
                 </button>
             </div>
 
-            <!-- Ride Request Widget -->
+            <!-- Ride Request Widget with Promo Code Input -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Fare</h3>
+                <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Destination Ride</h3>
                 <div class="space-y-2 text-xs">
-                    <input type="text" id="customPickupInput" value="Astore Central Station" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
-                    <input type="text" id="customDropInput" value="Gilgit City Hub" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Pickup Location</label>
+                        <input type="text" id="customPickupInput" value="Astore Central Station" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Drop Location</label>
+                        <input type="text" id="customDropInput" value="Gilgit City Hub" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-semibold">
+                    </div>
+                    
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="passengerProposedFare" value="600" class="p-2.5 bg-white border border-sky-200 rounded-xl font-black text-slate-900">
-                        <select id="vehicleCategorySelect" class="p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
-                            <option>Hiace Van</option>
-                            <option>Coaster Bus</option>
-                            <option>Private Car</option>
-                        </select>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Proposed Fare (PKR)</label>
+                            <input type="number" id="passengerProposedFare" value="600" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-black text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-1">Payment Method</label>
+                            <select id="passengerPayTypeSelect" class="w-full p-2.5 bg-white border border-sky-200 rounded-xl font-bold">
+                                <option value="Cash on Drop">Cash on Drop</option>
+                                <option value="Online Payment">Online Payment (Easypaisa/JazzCash)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-ticket text-amber-500 mr-1"></i> Promo Code (1-Time Use)</label>
+                        <div class="flex space-x-2">
+                            <input type="text" id="passengerPromoCodeInput" placeholder="Enter promo code..." class="flex-1 p-2.5 bg-white border border-sky-200 rounded-xl font-bold uppercase">
+                            <button type="button" onclick="applyUserPromoCode()" class="bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl shadow">Apply</button>
+                        </div>
                     </div>
                 </div>
                 <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
                     Broadcast Ride Request
+                </button>
+            </div>
+
+            <!-- MANUAL ONLINE PAYMENT TO DRIVER -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-1"></i> Pay Driver Online</h3>
+                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">Easypaisa / JazzCash</span>
+                </div>
+                <p class="text-[11px] text-slate-500 font-medium">Upload receipt directly from phone gallery or camera for driver approval.</p>
+                <button onclick="openManualPaymentModal()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black py-2.5 rounded-xl text-xs shadow">
+                    <i class="fa-solid fa-camera mr-1"></i> Upload Receipt & Send Proof (TID)
                 </button>
             </div>
 
@@ -328,10 +362,38 @@
 
         <!-- DRIVER SECTION -->
         <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
-            <!-- Manual Payment Approvals -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm border-l-4 border-l-emerald-500">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> My Payment Account Settings</h3>
+                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">For Passenger Payments</span>
+                </div>
+                <p class="text-[10px] text-slate-500 font-semibold">Passengers will send fare to these accounts when choosing Online Payment.</p>
+                <form onsubmit="handleSaveDriverAccountSettings(event)" class="space-y-2 text-xs">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-0.5">Account Type</label>
+                            <select id="driverAccType" class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-bold">
+                                <option value="Easypaisa">Easypaisa Mobile Account</option>
+                                <option value="JazzCash">JazzCash Wallet</option>
+                                <option value="Bank Transfer">Bank Account (1LINK)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 mb-0.5">Account Title Name</label>
+                            <input type="text" id="driverAccTitle" placeholder="e.g. Akbar Mir" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-semibold">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-0.5">Account / Phone Number / IBAN</label>
+                        <input type="text" id="driverAccNumber" placeholder="03XXXXXXXXX or IBAN" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-bold text-slate-900">
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 text-white font-black py-2 rounded-xl shadow text-xs">Save Payment Settings</button>
+                </form>
+            </div>
+
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Manual Passenger Payment Approvals</h3>
+                    <h3 class="text-xs font-black uppercase text-slate-900"><i class="fa-solid fa-receipt text-emerald-600 mr-1"></i> Passenger Payment Approvals</h3>
                     <span class="text-[9px] bg-sky-100 text-sky-800 font-extrabold px-2 py-0.5 rounded-full animate-pulse">Live Sync</span>
                 </div>
                 <div id="driverPaymentApprovalFeed" class="space-y-2 text-xs">
@@ -339,31 +401,55 @@
                 </div>
             </div>
 
-            <!-- Bidding Feed -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 space-y-3 shadow-sm">
                 <h3 class="text-xs font-black uppercase text-slate-900">Passenger Bidding Feed</h3>
                 <div id="driverLiveBiddingFeed" class="space-y-2 text-xs"></div>
             </div>
         </div>
 
-        <!-- ADMIN HUB SECTION -->
+        <!-- ADMIN HUB SECTION (WITH PROMO CODE MANAGEMENT) -->
         <div id="controlSection" class="space-y-5 hidden transition-all duration-300">
             <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800">
                 <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                    <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Admin Operations Hub</h3>
-                    <span class="text-[9px] bg-emerald-500 text-white px-2 py-0.5 rounded-full font-bold">FULL ACCESS</span>
+                    <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Admin Operations Portal</h3>
+                    <span class="text-[9px] bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">SUPER ADMIN ACCESS</span>
+                </div>
+
+                <!-- Admin Promo Code Update Widget -->
+                <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 space-y-3 text-xs">
+                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-ticket mr-1"></i> Manage Active Promo Code</h4>
+                    <form onsubmit="handleAdminUpdatePromoCode(event)" class="space-y-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-0.5 font-bold">Promo Code</label>
+                                <input type="text" id="adminPromoCodeInput" placeholder="e.g. ASTORE50" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold uppercase text-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-0.5 font-bold">Discount (PKR)</label>
+                                <input type="number" id="adminPromoDiscountInput" placeholder="100" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-bold text-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-0.5 font-bold">Promo Description / Requirements</label>
+                            <input type="text" id="adminPromoDescInput" placeholder="e.g. Flat 100 PKR off on rides above 500 PKR" required class="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl font-medium text-white">
+                        </div>
+                        <button type="submit" class="w-full bg-amber-500 text-slate-950 font-black py-2 rounded-xl shadow">Update & Broadcast Promo Code</button>
+                    </form>
                 </div>
 
                 <div class="space-y-2 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase">Registered System Users & Drivers</h4>
-                    <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-48 overflow-y-auto hide-scrollbar">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-users mr-1"></i> Registered User Directory</h4>
+                        <span class="text-[9px] text-slate-400 font-bold" id="adminTotalUserCount">0 Registered</span>
+                    </div>
+                    <div id="adminUserRegistryList" class="bg-slate-800 p-2.5 rounded-xl space-y-2 max-h-52 overflow-y-auto hide-scrollbar">
                         <p class="text-slate-400 text-center py-2">Loading Firebase registered user profiles...</p>
                     </div>
                 </div>
 
                 <div class="space-y-2 text-xs">
-                    <h4 class="font-bold text-amber-300 uppercase">All Manual Payment Proof Logs</h4>
-                    <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-48 overflow-y-auto hide-scrollbar">
+                    <h4 class="font-bold text-amber-300 uppercase"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> All Manual Payment Proof Logs</h4>
+                    <div id="adminPaymentLogsContainer" class="bg-slate-800 p-2.5 rounded-xl space-y-1 max-h-40 overflow-y-auto hide-scrollbar">
                         <p class="text-slate-400 text-center py-2">Loading payment transactions...</p>
                     </div>
                 </div>
@@ -371,6 +457,60 @@
         </div>
 
     </main>
+
+    <!-- MENU CONTENT MODAL -->
+    <div id="menuContentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative space-y-4 border border-sky-100 max-h-[85vh] overflow-y-auto hide-scrollbar text-xs">
+            <button onclick="closeMenuModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-base"><i class="fa-solid fa-xmark"></i></button>
+
+            <!-- History View -->
+            <div id="menuViewHistory" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-clock-rotate-left text-sky-600 mr-1"></i> Ride & Transaction History</h3>
+                <div id="userHistoryList" class="space-y-2">
+                    <div class="p-3 bg-sky-50 rounded-2xl border border-sky-100 space-y-1">
+                        <div class="flex justify-between items-center font-bold">
+                            <span>Astore ➔ Gilgit</span>
+                            <span class="text-emerald-600">PKR 600</span>
+                        </div>
+                        <p class="text-[10px] text-slate-500">Status: Completed • Cash Payment</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Info View -->
+            <div id="menuViewCompany" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-building text-emerald-600 mr-1"></i> Company Information</h3>
+                <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80" class="w-full h-32 object-cover rounded-2xl shadow-sm">
+                <p class="text-slate-600 font-medium leading-relaxed">Secure Drop Enterprise is Gilgit-Baltistan's premier transport and logistics network. We provide real-time fare bidding, instant courier dispatches, and end-to-end encrypted user safety.</p>
+                <div class="bg-slate-900 text-white p-3 rounded-2xl space-y-1 font-mono text-[10px]">
+                    <p>🌐 HQ: Astore & Gilgit Regional Centers</p>
+                    <p>📞 Support: +92 344 9876543</p>
+                    <p>✉️ Email: support@securedrop.pk</p>
+                </div>
+            </div>
+
+            <!-- FAQ View -->
+            <div id="menuViewFAQ" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-circle-question text-amber-500 mr-1"></i> Frequently Asked Questions</h3>
+                <div class="space-y-2 text-slate-700">
+                    <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
+                        <p class="font-bold text-slate-900">How do I pay my driver online?</p>
+                        <p class="text-[11px] mt-1 text-slate-600">Choose "Online Payment" when broadcasting a ride. Send payment to driver's account and upload the screenshot proof.</p>
+                    </div>
+                    <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
+                        <p class="font-bold text-slate-900">Are promo codes one-time use?</p>
+                        <p class="text-[11px] mt-1 text-slate-600">Yes! Each registered user can successfully apply an active admin promo code only once.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Policy View -->
+            <div id="menuViewPrivacy" class="space-y-3 hidden">
+                <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-file-shield text-purple-600 mr-1"></i> Privacy & Terms</h3>
+                <p class="text-slate-600 font-medium leading-relaxed">We value user privacy. Profile details and location coordinates are transmitted over secure channels solely for transport matching purposes.</p>
+            </div>
+        </div>
+    </div>
 
     <!-- MANUAL PAYMENT MODAL -->
     <div id="manualPaymentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
@@ -380,10 +520,10 @@
             <h3 class="font-black text-sm text-slate-900 uppercase border-b pb-2"><i class="fa-solid fa-paper-plane text-emerald-600 mr-1"></i> Manual Payment to Driver</h3>
 
             <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl space-y-1">
-                <p class="font-bold text-amber-900">Driver Payment Account Info:</p>
-                <p class="text-slate-700">Account: <strong>Easypaisa / JazzCash</strong></p>
-                <p class="text-slate-700">Title: <strong>Captain Fleet Driver</strong></p>
-                <p class="text-slate-700">Number: <strong class="text-emerald-700">+92 344 9876543</strong></p>
+                <p class="font-bold text-amber-900">Driver Account Details:</p>
+                <p class="text-slate-700">Account: <strong id="modalDriverAccType">Easypaisa / JazzCash</strong></p>
+                <p class="text-slate-700">Title: <strong id="modalDriverAccTitle">Captain Driver</strong></p>
+                <p class="text-slate-700">Number: <strong id="modalDriverAccNumber" class="text-emerald-700">+92 344 9876543</strong></p>
             </div>
 
             <form onsubmit="handleManualPaymentSubmit(event)" class="space-y-3">
@@ -392,20 +532,13 @@
                     <input type="number" id="payFareAmount" value="600" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-black text-slate-900">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Payment Method Used</label>
-                    <select id="payMethodSelect" class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
-                        <option value="Easypaisa">Easypaisa Mobile Account</option>
-                        <option value="JazzCash">JazzCash Wallet</option>
-                        <option value="Bank Transfer">Bank Transfer (1LINK)</option>
-                    </select>
-                </div>
-                <div>
                     <label class="block font-bold text-slate-600 mb-1">Transaction ID (TID Reference)</label>
                     <input type="text" id="payTIDNumber" placeholder="e.g. 02938475610" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold uppercase">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Upload Payment Receipt Proof (Image Base64/Link)</label>
-                    <input type="text" id="payProofImageUrl" placeholder="Paste Image URL or Screenshot Link" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-image text-sky-600 mr-1"></i> Choose Receipt Photo (Gallery / Camera)</label>
+                    <input type="file" id="payProofFileInput" accept="image/*" onchange="previewSelectedImage(event, 'payProofPreviewImg')" required class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-medium text-slate-700">
+                    <img id="payProofPreviewImg" class="w-full h-32 object-cover rounded-xl mt-2 hidden border-2 border-emerald-500 shadow-sm">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl shadow-md">Dispatch Payment Proof to Driver</button>
             </form>
@@ -428,12 +561,20 @@
                     <input type="tel" id="editProfilePhone" required class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-bold">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-600 mb-1">Profile Picture URL (Avatar)</label>
-                    <input type="text" id="editProfileAvatarUrl" placeholder="https://..." class="w-full p-2.5 bg-sky-50 border border-sky-200 rounded-xl font-medium">
+                    <label class="block font-bold text-slate-600 mb-1"><i class="fa-solid fa-camera text-sky-600 mr-1"></i> Select New Profile Picture</label>
+                    <input type="file" id="editProfileAvatarFileInput" accept="image/*" onchange="previewSelectedImage(event, 'profileAvatarPreviewImg')" class="w-full p-2 bg-sky-50 border border-sky-200 rounded-xl font-medium text-slate-700">
+                    <img id="profileAvatarPreviewImg" class="w-16 h-16 rounded-full object-cover mt-2 hidden border-2 border-sky-500 mx-auto shadow-sm">
                 </div>
                 <button type="submit" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl shadow-md">Save Changes</button>
             </form>
         </div>
+    </div>
+
+    <!-- FULL SCREEN IMAGE PROOF MODAL -->
+    <div id="fullScreenImageModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden z-50 flex flex-col items-center justify-center p-4">
+        <button onclick="closeFullScreenImageModal()" class="absolute top-6 right-6 text-white text-2xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+        <img id="fullScreenProofImage" src="" class="max-w-full max-h-[80vh] rounded-2xl border-2 border-white shadow-2xl object-contain">
+        <p class="text-white text-xs font-bold mt-4">Uploaded Payment Receipt Proof</p>
     </div>
 
     <!-- DIRECT ADMIN LIVE CHAT MODAL -->
@@ -472,17 +613,23 @@
         let currentGateRole = "passenger";
         let currentGateSubMode = "login";
         let activeRideChatId = "GLOBAL_ROOM";
+        let tempBase64Proof = "";
+        let tempBase64Avatar = "";
+        let currentActivePromo = null;
 
         const fakeTrustList = [
-            { text: "Ali (Astore) ne 500 PKR ki ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
+            { text: "Ali (Astore) ne 600 PKR ki ride book ki!", icon: "fa-circle-check", color: "text-emerald-400" },
             { text: "Driver Akbar ne 1,200 PKR Payment Approve kiya!", icon: "fa-shield-halved", color: "text-sky-400" },
-            { text: "Sajid (Gilgit) ne 800 PKR Fare offer kiya!", icon: "fa-handshake", color: "text-amber-400" },
+            { text: "Sajid (Gilgit) ne 850 PKR Fare offer kiya!", icon: "fa-handshake", color: "text-amber-400" },
             { text: "New Driver Joined: Captain Kamran (Online)", icon: "fa-van-shuttle", color: "text-emerald-400" },
-            { text: "User Ahsam: Verified via Easypaisa Payment", icon: "fa-receipt", color: "text-purple-400" }
+            { text: "User Ahsam: Verified via Easypaisa Payment", icon: "fa-receipt", color: "text-purple-400" },
+            { text: "Tariq (Skardu) ne Cargo Package dispatch kiya!", icon: "fa-box-open", color: "text-amber-400" },
+            { text: "Driver Zeeshan (Hunza Route) is now Active!", icon: "fa-circle-dot", color: "text-emerald-400" },
+            { text: "Usman ne 1,500 PKR advance payment proof upload kiya", icon: "fa-upload", color: "text-sky-400" }
         ];
 
         function startFakeTrustNotifications() {
-            setInterval(() => {
+            function showNextNotif() {
                 const randomItem = fakeTrustList[Math.floor(Math.random() * fakeTrustList.length)];
                 const toast = document.getElementById('fakeTrustNotification');
                 const textEl = document.getElementById('trustNotifText');
@@ -495,9 +642,23 @@
 
                     setTimeout(() => {
                         toast.classList.add('hidden');
-                    }, 4000);
+                    }, 5000);
                 }
-            }, 10000);
+                setTimeout(showNextNotif, Math.floor(Math.random() * (25000 - 18000 + 1)) + 18000);
+            }
+            setTimeout(showNextNotif, 8000);
+        }
+
+        function startDynamicActiveUsersEngine() {
+            let currentUsers = Math.floor(Math.random() * (48 - 38 + 1)) + 38;
+            const countEl = document.getElementById('dynamicActiveUserCount');
+            if (countEl) countEl.textContent = currentUsers;
+
+            setInterval(() => {
+                const delta = Math.floor(Math.random() * 5) - 2;
+                currentUsers = Math.max(34, Math.min(56, currentUsers + delta));
+                if (countEl) countEl.textContent = currentUsers;
+            }, 6000);
         }
 
         window.addEventListener('load', () => {
@@ -511,21 +672,34 @@
 
             auth.onAuthStateChanged(user => {
                 if (user) {
-                    currentUser = {
-                        uid: user.uid,
-                        name: user.displayName || user.email.split('@')[0],
-                        email: user.email,
-                        phone: user.phoneNumber || "+923001234567",
-                        photoURL: user.photoURL || "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80",
-                        role: currentGateRole
-                    };
-                    document.getElementById('mandatoryAuthGate').classList.add('hidden');
-                    updateUserUI();
-                    triggerWelcomeToast(currentUser.name, currentUser.photoURL);
-                    listenToManualPaymentApprovals();
-                    listenToAdminUserRegistry();
-                    listenToAdminPaymentLogs();
-                    initAdminDirectChatListener();
+                    rtdb.ref('users/' + user.uid).once('value').then(snapshot => {
+                        const userData = snapshot.val() || {};
+                        const userRole = userData.role || currentGateRole;
+
+                        currentUser = {
+                            uid: user.uid,
+                            name: user.displayName || userData.name || user.email.split('@')[0],
+                            email: user.email,
+                            phone: userData.phone || user.phoneNumber || "+923001234567",
+                            photoURL: user.photoURL || userData.photoURL || "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80",
+                            role: userRole,
+                            usedPromos: userData.usedPromos || {}
+                        };
+
+                        document.getElementById('mandatoryAuthGate').classList.add('hidden');
+                        applyUserRolePermissions(currentUser.role);
+                        updateUserUI();
+
+                        if (currentUser.role === 'driver') {
+                            loadDriverAccountSettings(currentUser.uid);
+                        }
+
+                        listenToManualPaymentApprovals();
+                        listenToAdminUserRegistry();
+                        listenToAdminPaymentLogs();
+                        initAdminDirectChatListener();
+                        listenToActivePromoCode();
+                    });
                 } else {
                     currentUser = null;
                     document.getElementById('mandatoryAuthGate').classList.remove('hidden');
@@ -533,26 +707,192 @@
             });
 
             startFakeTrustNotifications();
+            startDynamicActiveUsersEngine();
             initLeafletMap();
             listenToRealtimeBiddingRides();
             initRealtimeChatListener(activeRideChatId);
         });
 
-        function triggerWelcomeToast(name, photo) {
-            const toast = document.getElementById('welcomeBackToast');
-            const nameEl = document.getElementById('welcomeToastName');
-            const avatarEl = document.getElementById('welcomeToastAvatar');
+        // ADMIN PROMO CODE HANDLER
+        function handleAdminUpdatePromoCode(e) {
+            e.preventDefault();
+            const code = document.getElementById('adminPromoCodeInput').value.trim().toUpperCase();
+            const discount = document.getElementById('adminPromoDiscountInput').value;
+            const desc = document.getElementById('adminPromoDescInput').value;
 
-            if (toast) {
-                nameEl.textContent = `Welcome Back, ${name}!`;
-                avatarEl.src = photo;
-                toast.classList.remove('hidden');
+            rtdb.ref('active_promo').set({
+                code: code,
+                discount: discount,
+                description: desc,
+                timestamp: Date.now()
+            }).then(() => {
+                alert(`Promo Code ${code} updated & broadcasted successfully!`);
+            });
+        }
 
-                setTimeout(() => {
-                    toast.classList.add('opacity-0', 'transition-opacity');
-                    setTimeout(() => toast.classList.add('hidden'), 700);
-                }, 4000);
+        // LISTEN TO ACTIVE PROMO FOR PASSENGERS
+        function listenToActivePromoCode() {
+            rtdb.ref('active_promo').on('value', snapshot => {
+                const data = snapshot.val();
+                const banner = document.getElementById('passengerActivePromoBanner');
+                if (!banner) return;
+
+                if (data) {
+                    currentActivePromo = data;
+                    document.getElementById('promoBannerTitleText').textContent = `CODE: ${data.code} (Save PKR ${data.discount})`;
+                    document.getElementById('promoBannerDescText').textContent = data.description;
+                    banner.classList.remove('hidden');
+                } else {
+                    currentActivePromo = null;
+                    banner.classList.add('hidden');
+                }
+            });
+        }
+
+        function copyActivePromoCode() {
+            if (currentActivePromo) {
+                navigator.clipboard.writeText(currentActivePromo.code);
+                document.getElementById('passengerPromoCodeInput').value = currentActivePromo.code;
+                alert(`Promo Code "${currentActivePromo.code}" copied to input!`);
             }
+        }
+
+        // 1-TIME PROMO CODE VALIDATION
+        function applyUserPromoCode() {
+            const inputCode = document.getElementById('passengerPromoCodeInput').value.trim().toUpperCase();
+            if (!currentActivePromo) {
+                alert("No active promo code available right now.");
+                return;
+            }
+            if (inputCode !== currentActivePromo.code) {
+                alert("Invalid Promo Code!");
+                return;
+            }
+
+            // Check if user already used this code
+            if (currentUser.usedPromos && currentUser.usedPromos[currentActivePromo.code]) {
+                alert("You have already used this promo code! Each promo code can only be used once.");
+                return;
+            }
+
+            // Mark promo as used for this user in Firebase
+            rtdb.ref(`users/${currentUser.uid}/usedPromos/${currentActivePromo.code}`).set(true).then(() => {
+                currentUser.usedPromos[currentActivePromo.code] = true;
+                const fareInput = document.getElementById('passengerProposedFare');
+                const newFare = Math.max(100, parseInt(fareInput.value) - parseInt(currentActivePromo.discount));
+                fareInput.value = newFare;
+                alert(`Promo Code Applied! Discount of PKR ${currentActivePromo.discount} deducted.`);
+            });
+        }
+
+        function toggleSidebarMenu() {
+            const drawer = document.getElementById('sidebarMenuDrawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function openMenuModal(view) {
+            toggleSidebarMenu();
+            document.getElementById('menuContentModal').classList.remove('hidden');
+            document.getElementById('menuViewHistory').classList.add('hidden');
+            document.getElementById('menuViewCompany').classList.add('hidden');
+            document.getElementById('menuViewFAQ').classList.add('hidden');
+            document.getElementById('menuViewPrivacy').classList.add('hidden');
+
+            if (view === 'history') document.getElementById('menuViewHistory').classList.remove('hidden');
+            else if (view === 'company') document.getElementById('menuViewCompany').classList.remove('hidden');
+            else if (view === 'faq') document.getElementById('menuViewFAQ').classList.remove('hidden');
+            else if (view === 'privacy') document.getElementById('menuViewPrivacy').classList.remove('hidden');
+        }
+
+        function closeMenuModal() {
+            document.getElementById('menuContentModal').classList.add('hidden');
+        }
+
+        function previewSelectedImage(event, targetImgId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgEl = document.getElementById(targetImgId);
+                    imgEl.src = e.target.result;
+                    imgEl.classList.remove('hidden');
+
+                    if (targetImgId === 'payProofPreviewImg') {
+                        tempBase64Proof = e.target.result;
+                    } else if (targetImgId === 'profileAvatarPreviewImg') {
+                        tempBase64Avatar = e.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function viewFullScreenProof(base64Data) {
+            document.getElementById('fullScreenProofImage').src = base64Data;
+            document.getElementById('fullScreenImageModal').classList.remove('hidden');
+        }
+
+        function closeFullScreenImageModal() {
+            document.getElementById('fullScreenImageModal').classList.add('hidden');
+        }
+
+        function applyUserRolePermissions(role) {
+            const btnDriver = document.getElementById('btnDriverView');
+            const btnControl = document.getElementById('btnControlPanelView');
+            const roleBadge = document.getElementById('roleBadgeHeader');
+
+            btnDriver.classList.add('hidden');
+            btnControl.classList.add('hidden');
+
+            if (role === 'passenger') {
+                roleBadge.textContent = "PASSENGER";
+                roleBadge.className = "ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                switchAppRole('passenger');
+            } else if (role === 'driver') {
+                btnDriver.classList.remove('hidden');
+                roleBadge.textContent = "DRIVER CAPTAIN";
+                roleBadge.className = "ml-1 text-[8px] bg-amber-500 text-slate-950 font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                switchAppRole('driver');
+            } else if (role === 'control') {
+                btnDriver.classList.remove('hidden');
+                btnControl.classList.remove('hidden');
+                roleBadge.textContent = "SYSTEM ADMIN";
+                roleBadge.className = "ml-1 text-[8px] bg-rose-600 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase";
+                switchAppRole('control');
+            }
+        }
+
+        function handleSaveDriverAccountSettings(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.role !== 'driver') return;
+
+            const accType = document.getElementById('driverAccType').value;
+            const accTitle = document.getElementById('driverAccTitle').value;
+            const accNumber = document.getElementById('driverAccNumber').value;
+
+            rtdb.ref('driver_accounts/' + currentUser.uid).set({
+                driverName: currentUser.name,
+                accType: accType,
+                accTitle: accTitle,
+                accNumber: accNumber
+            }).then(() => {
+                alert("Driver Payment Account details saved successfully!");
+            });
+        }
+
+        function loadDriverAccountSettings(uid) {
+            rtdb.ref('driver_accounts/' + uid).once('value').then(snapshot => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('driverAccType').value = data.accType || "Easypaisa";
+                    document.getElementById('driverAccTitle').value = data.accTitle || "";
+                    document.getElementById('driverAccNumber').value = data.accNumber || "";
+                    
+                    document.getElementById('modalDriverAccType').textContent = data.accType;
+                    document.getElementById('modalDriverAccTitle').textContent = data.accTitle;
+                    document.getElementById('modalDriverAccNumber').textContent = data.accNumber;
+                }
+            });
         }
 
         function initLeafletMap() {
@@ -570,6 +910,7 @@
             const btnA = document.getElementById('gateTabControl');
             const formU = document.getElementById('gateUserAuthFormContainer');
             const formA = document.getElementById('gateAdminAuthFormContainer');
+            const label = document.getElementById('authRoleLabel');
 
             btnP.className = "py-2 rounded-lg text-slate-700";
             btnD.className = "py-2 rounded-lg text-slate-700";
@@ -582,8 +923,13 @@
             } else {
                 formU.classList.remove('hidden');
                 formA.classList.add('hidden');
-                if (role === 'passenger') btnP.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
-                else btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                if (role === 'passenger') {
+                    btnP.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                    if(label) label.textContent = "Passenger";
+                } else {
+                    btnD.className = "py-2 rounded-lg bg-sky-600 text-white shadow";
+                    if(label) label.textContent = "Driver";
+                }
             }
         }
 
@@ -598,12 +944,12 @@
                 subL.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
                 subR.className = "flex-1 text-center font-bold text-slate-400 pb-1";
                 nameC.classList.add('hidden');
-                subBtn.textContent = "Login to Enterprise";
+                subBtn.textContent = `Login as ${currentGateRole.toUpperCase()}`;
             } else {
                 subR.className = "flex-1 text-center font-black text-sky-600 border-b-2 border-sky-600 pb-1";
                 subL.className = "flex-1 text-center font-bold text-slate-400 pb-1";
                 nameC.classList.remove('hidden');
-                subBtn.textContent = "Create Account";
+                subBtn.textContent = `Create ${currentGateRole.toUpperCase()} Account`;
             }
         }
 
@@ -615,7 +961,8 @@
                     email: res.user.email,
                     phone: res.user.phoneNumber || "+923001234567",
                     photoURL: res.user.photoURL,
-                    role: currentGateRole
+                    role: currentGateRole,
+                    status: "Active"
                 });
             }).catch(err => alert("Google Auth Error: " + err.message));
         }
@@ -634,7 +981,8 @@
                         name: name,
                         email: email,
                         phone: phone,
-                        role: currentGateRole
+                        role: currentGateRole,
+                        status: "Active"
                     });
                 }).catch(err => alert("Register Error: " + err.message));
             } else {
@@ -650,9 +998,8 @@
             if (email === "webhub262@gmail.com" && pass === "5426224") {
                 currentUser = { name: "Console Manager", email: email, role: "control", photoURL: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=150&q=80" };
                 document.getElementById('mandatoryAuthGate').classList.add('hidden');
+                applyUserRolePermissions('control');
                 updateUserUI();
-                triggerWelcomeToast(currentUser.name, currentUser.photoURL);
-                switchAppRole('control');
             } else {
                 alert("Incorrect Security Credentials!");
             }
@@ -667,6 +1014,21 @@
             }
         }
 
+        function adminTriggerUserPasswordReset(email) {
+            if (confirm(`Send password reset email to ${email}?`)) {
+                auth.sendPasswordResetEmail(email).then(() => {
+                    alert(`Reset link sent to ${email}`);
+                }).catch(err => alert("Error: " + err.message));
+            }
+        }
+
+        function adminToggleUserStatus(uid, currentStatus) {
+            const newStatus = currentStatus === "Active" ? "Suspended" : "Active";
+            rtdb.ref('users/' + uid).update({ status: newStatus }).then(() => {
+                alert(`User status changed to ${newStatus}`);
+            });
+        }
+
         function handleLogoutSystem() {
             auth.signOut().then(() => {
                 location.reload();
@@ -676,7 +1038,7 @@
         function updateUserUI() {
             if (currentUser) {
                 document.getElementById('headerUserAvatar').src = currentUser.photoURL;
-                document.getElementById('headerProfileSubtitle').innerHTML = `<span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> ${currentUser.name} (${currentUser.role})`;
+                document.getElementById('headerProfileSubtitle').innerHTML = `<span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> ${currentUser.name}`;
             }
         }
 
@@ -687,22 +1049,24 @@
         function handleManualPaymentSubmit(e) {
             e.preventDefault();
             const fare = document.getElementById('payFareAmount').value;
-            const method = document.getElementById('payMethodSelect').value;
             const tid = document.getElementById('payTIDNumber').value;
-            const proof = document.getElementById('payProofImageUrl').value;
+
+            if (!tempBase64Proof) {
+                alert("Please select a receipt photo from gallery or camera first!");
+                return;
+            }
 
             const newPayRef = rtdb.ref('manual_payments').push();
             newPayRef.set({
                 passenger: currentUser ? currentUser.name : "Passenger",
                 passengerPhone: currentUser ? currentUser.phone : "+923001234567",
                 fare: fare,
-                method: method,
                 tid: tid,
-                proofUrl: proof,
+                proofUrl: tempBase64Proof,
                 status: "Pending Driver Approval",
                 timestamp: Date.now()
             }).then(() => {
-                alert("Payment proof dispatched live to Driver!");
+                alert("Payment proof uploaded & dispatched live to Driver!");
                 openManualPaymentModal();
             });
         }
@@ -726,16 +1090,14 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <p class="font-black text-slate-900">${pay.passenger} (${pay.passengerPhone})</p>
-                                    <p class="text-[10px] text-slate-500 font-bold">Method: ${pay.method} | TID: ${pay.tid}</p>
+                                    <p class="text-[10px] text-slate-500 font-bold">TID: ${pay.tid}</p>
                                 </div>
                                 <span class="bg-emerald-100 text-emerald-800 font-black text-xs px-2 py-0.5 rounded">PKR ${pay.fare}</span>
                             </div>
-                            <div class="text-[10px] bg-slate-50 p-1.5 rounded-lg border border-slate-200">
-                                <a href="${pay.proofUrl}" target="_blank" class="text-sky-600 underline font-bold">View Receipt Screenshot</a>
-                            </div>
                             <div class="flex space-x-2 pt-1">
-                                <button onclick="updatePaymentStatus('${key}', 'Approved')" class="flex-1 bg-emerald-600 text-white font-black py-1 rounded-xl text-[10px]">Approve Payment</button>
-                                <button onclick="updatePaymentStatus('${key}', 'Rejected')" class="flex-1 bg-rose-600 text-white font-black py-1 rounded-xl text-[10px]">Reject</button>
+                                <button onclick="viewFullScreenProof('${pay.proofUrl}')" class="bg-sky-600 text-white font-bold px-2 py-1 rounded-xl text-[10px]"><i class="fa-solid fa-eye mr-1"></i> View Receipt</button>
+                                <button onclick="updatePaymentStatus('${key}', 'Approved')" class="flex-1 bg-emerald-600 text-white font-black py-1 rounded-xl text-[10px]">Approve</button>
+                                <button onclick="updatePaymentStatus('${key}', 'Rejected')" class="bg-rose-600 text-white font-black px-2 py-1 rounded-xl text-[10px]">Reject</button>
                             </div>
                         </div>`;
                 });
@@ -753,7 +1115,6 @@
             if (currentUser) {
                 document.getElementById('editProfileName').value = currentUser.name;
                 document.getElementById('editProfilePhone').value = currentUser.phone;
-                document.getElementById('editProfileAvatarUrl').value = currentUser.photoURL;
             }
         }
 
@@ -761,7 +1122,7 @@
             e.preventDefault();
             const name = document.getElementById('editProfileName').value;
             const phone = document.getElementById('editProfilePhone').value;
-            const avatar = document.getElementById('editProfileAvatarUrl').value;
+            const avatar = tempBase64Avatar || currentUser.photoURL;
 
             if (auth.currentUser) {
                 auth.currentUser.updateProfile({ displayName: name, photoURL: avatar });
@@ -818,14 +1179,31 @@
         function listenToAdminUserRegistry() {
             rtdb.ref('users').on('value', snapshot => {
                 const container = document.getElementById('adminUserRegistryList');
+                const countEl = document.getElementById('adminTotalUserCount');
                 if(!container) return;
                 container.innerHTML = "";
                 const data = snapshot.val();
                 if(!data) return;
 
-                Object.keys(data).forEach(key => {
+                const keys = Object.keys(data);
+                if(countEl) countEl.textContent = `${keys.length} Registered Accounts`;
+
+                keys.forEach(key => {
                     const u = data[key];
-                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-slate-300 font-medium">👤 ${u.name} | 📱 ${u.phone} | ✉️ ${u.email} [${u.role}]</div>`;
+                    const statusColor = u.status === "Suspended" ? "bg-rose-500" : "bg-emerald-500";
+
+                    container.innerHTML += `
+                        <div class="p-2 bg-slate-900 rounded-xl space-y-1 text-[11px] border border-slate-700">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-white">${u.name || 'User'} <span class="text-[9px] ${statusColor} text-white px-1.5 py-0.2 rounded font-bold">${u.role}</span></span>
+                                <span class="text-[9px] text-amber-300 font-mono">${u.phone}</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 truncate">✉️ ${u.email}</p>
+                            <div class="flex space-x-1 pt-1">
+                                <button onclick="adminTriggerUserPasswordReset('${u.email}')" class="bg-amber-500 text-slate-950 px-2 py-0.5 rounded font-extrabold text-[9px]"><i class="fa-solid fa-key mr-1"></i> Send Password Reset</button>
+                                <button onclick="adminToggleUserStatus('${key}', '${u.status || 'Active'}')" class="bg-slate-700 text-slate-200 px-2 py-0.5 rounded font-bold text-[9px]">${u.status === "Suspended" ? "Unblock" : "Suspend"}</button>
+                            </div>
+                        </div>`;
                 });
             });
         }
@@ -840,7 +1218,7 @@
 
                 Object.keys(data).forEach(key => {
                     const p = data[key];
-                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} Paid PKR ${p.fare} via ${p.method} (TID: ${p.tid}) [${p.status}]</div>`;
+                    container.innerHTML += `<div class="p-1.5 bg-slate-900 rounded-lg text-emerald-400 font-medium">💵 ${p.passenger} Paid PKR ${p.fare} (TID: ${p.tid}) [${p.status}]</div>`;
                 });
             });
         }
@@ -849,7 +1227,7 @@
             const pickup = document.getElementById('customPickupInput').value;
             const drop = document.getElementById('customDropInput').value;
             const fare = document.getElementById('passengerProposedFare').value;
-            const cat = document.getElementById('vehicleCategorySelect').value;
+            const payType = document.getElementById('passengerPayTypeSelect').value;
 
             rtdb.ref('rides').push().set({
                 passenger: currentUser ? currentUser.name : "Passenger",
@@ -857,7 +1235,7 @@
                 pickup: pickup,
                 drop: drop,
                 proposedFare: fare,
-                category: cat,
+                payType: payType,
                 timestamp: Date.now()
             }).then(() => {
                 document.getElementById('passengerOffersBox').classList.remove('hidden');
@@ -879,7 +1257,10 @@
                         <div class="bg-white p-3 rounded-2xl border border-sky-100 space-y-1 shadow-sm">
                             <p class="font-black text-slate-900">${r.passenger} (${r.phone})</p>
                             <p class="text-[10px] text-slate-500">${r.pickup} ➔ ${r.drop}</p>
-                            <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.proposedFare}</span>
+                            <div class="flex justify-between items-center pt-1">
+                                <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.proposedFare}</span>
+                                <span class="bg-amber-100 text-amber-900 font-extrabold text-[9px] px-2 py-0.5 rounded">${r.payType || 'Cash'}</span>
+                            </div>
                         </div>`;
                 });
             });
