@@ -1,342 +1,305 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Drop Travels - City-Wide Transport & Pick & Drop Service Gilgit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Secure Drop Travels - Mobile PWA App</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Mobile App Feel Adjustments */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans">
+<body class="bg-slate-100 text-slate-800 font-sans pb-24">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-amber-400 text-slate-900 text-xs font-semibold py-1.5 px-4 text-center flex justify-between items-center max-w-6xl mx-auto rounded-b-md shadow-sm">
-        <span><i class="fa-solid fa-bullhorn mr-1"></i> Gilgit City-Wide Daily Pick & Drop Services - Monthly Passes & Custom Routes Available!</span>
-        <a href="tel:+923000000000" class="hidden sm:inline-block font-bold hover:underline"><i class="fa-solid fa-phone mr-1"></i> 0300-0000000</a>
+    <!-- Mobile Top App Header Bar -->
+    <div class="bg-indigo-900 text-white px-4 py-3 sticky top-0 z-40 shadow-md flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-9 h-9 bg-amber-400 text-slate-900 rounded-full flex items-center justify-center font-bold text-lg shadow">
+                <i class="fa-solid fa-van-shuttle"></i>
+            </div>
+            <div>
+                <h1 class="text-base font-extrabold leading-tight tracking-wide">Secure Drop</h1>
+                <p class="text-[10px] text-indigo-200 flex items-center">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full mr-1 animate-pulse"></span> Gilgit City Express
+                </p>
+            </div>
+        </div>
+        <button onclick="toggleAuthModal()" class="bg-indigo-800 hover:bg-indigo-700 text-amber-400 p-2 rounded-xl text-sm border border-indigo-700">
+            <i class="fa-solid fa-user-gear"></i>
+        </button>
     </div>
 
-    <!-- Header / Navbar -->
-    <header class="bg-indigo-900 text-white sticky top-0 z-50 shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-van-shuttle text-2xl text-amber-400"></i>
-                <span class="text-xl font-bold tracking-wide">Secure Drop Travels</span>
-            </div>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#services" class="hover:text-amber-400 transition">Services</a>
-                <a href="#routes" class="hover:text-amber-400 transition">City Routes</a>
-                <a href="#driver-hub" class="hover:text-amber-400 transition">Driver Portal</a>
-                <a href="#passenger-hub" class="hover:text-amber-400 transition">Passenger Hub</a>
-                <a href="#booking" class="hover:text-amber-400 transition">Book Ride</a>
-            </nav>
-            <div class="flex items-center space-x-3">
-                <button onclick="toggleAuthModal()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-1.5 rounded-lg font-semibold text-xs transition border border-white/20 flex items-center">
-                    <i class="fa-solid fa-user mr-1.5"></i> Login / Portal
-                </button>
-                <a href="https://wa.me/923000000000" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center transition">
-                    <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> WhatsApp
+    <!-- PWA Installation Banner -->
+    <div class="bg-amber-400 text-slate-900 px-4 py-2.5 text-xs font-bold flex justify-between items-center shadow-sm">
+        <span class="flex items-center"><i class="fa-solid fa-mobile-screen mr-2 text-base"></i> Mobile Screen par App Save Karein</span>
+        <button onclick="alert('Phone browser menu se Add to Home Screen select karein!')" class="bg-slate-900 text-white px-3 py-1 rounded-lg text-[10px] uppercase font-extrabold">Install App</button>
+    </div>
+
+    <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
+
+        <!-- Role Selector Switch (Passenger vs Driver) -->
+        <div class="bg-slate-200 p-1 rounded-xl flex text-xs font-bold">
+            <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-lg bg-indigo-900 text-white shadow transition flex items-center justify-center">
+                <i class="fa-solid fa-user-group mr-1.5"></i> Passenger Portal
+            </button>
+            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center">
+                <i class="fa-solid fa-id-card-clip mr-1.5"></i> Driver Mode
+            </button>
+        </div>
+
+        <!-- PASSENGER APP SECTION -->
+        <div id="passengerSection" class="space-y-5">
+
+            <!-- Quick Action Grid Icons -->
+            <div class="grid grid-cols-4 gap-2">
+                <a href="#booking" class="bg-white p-3 rounded-2xl shadow-sm text-center border border-slate-200/80 active:scale-95 transition">
+                    <div class="w-10 h-10 bg-indigo-100 text-indigo-900 rounded-xl flex items-center justify-center mx-auto mb-1 text-base">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+                    <span class="text-[10px] font-bold block text-slate-700">Book Seat</span>
+                </a>
+                <a href="#routes" class="bg-white p-3 rounded-2xl shadow-sm text-center border border-slate-200/80 active:scale-95 transition">
+                    <div class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center mx-auto mb-1 text-base">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <span class="text-[10px] font-bold block text-slate-700">Routes</span>
+                </a>
+                <a href="#tracker" class="bg-white p-3 rounded-2xl shadow-sm text-center border border-slate-200/80 active:scale-95 transition">
+                    <div class="w-10 h-10 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center mx-auto mb-1 text-base">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <span class="text-[10px] font-bold block text-slate-700">Live Status</span>
+                </a>
+                <a href="https://wa.me/923000000000" target="_blank" class="bg-white p-3 rounded-2xl shadow-sm text-center border border-slate-200/80 active:scale-95 transition">
+                    <div class="w-10 h-10 bg-green-100 text-green-700 rounded-xl flex items-center justify-center mx-auto mb-1 text-base">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <span class="text-[10px] font-bold block text-slate-700">Support</span>
                 </a>
             </div>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="relative bg-indigo-950 text-white py-20 px-4 text-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80');"></div>
-        <div class="relative z-10 max-w-3xl mx-auto">
-            <span class="bg-indigo-800/80 text-amber-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur">Gilgit's No. 1 Transport Network</span>
-            <h1 class="text-3xl md:text-5xl font-extrabold mt-4 mb-3">Complete City Pick & Drop Solutions</h1>
-            <p class="text-indigo-200 text-base md:text-lg mb-6">Safe, reliable, and comfortable transport covering all major areas of Gilgit City — Schools, Colleges, Universities, Offices, and Private Custom Routes.</p>
-            <div class="flex justify-center space-x-3">
-                <a href="#booking" class="bg-amber-400 text-slate-900 px-6 py-2.5 rounded-lg font-bold shadow hover:bg-amber-500 transition">Book City Ride</a>
-                <a href="#services" class="bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 rounded-lg font-semibold backdrop-blur transition border border-white/20">Explore Services</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- City-Wide Route Finder Search Bar -->
-    <section class="max-w-4xl mx-auto px-4 -mt-8 relative z-20">
-        <div class="bg-white p-4 rounded-2xl shadow-lg border border-slate-200">
-            <div class="grid md:grid-cols-4 gap-3">
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Pickup Location</label>
-                    <select class="w-full text-xs font-semibold p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        <option>Jutial / Sector 1, 2, 3</option>
-                        <option>Danyore / Oshikhandass</option>
-                        <option>Nomal / Baseen</option>
-                        <option>Kashrote / Bazaar</option>
-                        <option>Khomer / Konodas</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Drop Location</label>
-                    <select class="w-full text-xs font-semibold p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        <option>KIU Campus / Colleges</option>
-                        <option>Gilgit City Bazaar / Offices</option>
-                        <option>DHQ Hospital / Medical Hubs</option>
-                        <option>Custom Doorstep Location</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Service Type</label>
-                    <select class="w-full text-xs font-semibold p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        <option>Daily Commute (Monthly Pass)</option>
-                        <option>School & College Drop</option>
-                        <option>Office Employee Transport</option>
-                        <option>One-Time Special Drop</option>
-                    </select>
-                </div>
-                <div class="flex items-end">
-                    <a href="#booking" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2 rounded-lg text-xs transition text-center flex items-center justify-center">
-                        <i class="fa-solid fa-magnifying-glass mr-2"></i> Search Routes
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- City Services Section -->
-    <section id="services" class="max-w-6xl mx-auto px-4 py-16">
-        <div class="text-center mb-10">
-            <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Our Transport Services</span>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">Tailored for Every Commuter in Gilgit</h2>
-        </div>
-
-        <div class="grid md:grid-cols-4 gap-6">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
-                <div class="w-12 h-12 bg-indigo-100 text-indigo-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <h3 class="font-bold text-base mb-2">Student Express</h3>
-                <p class="text-xs text-slate-600">Fixed daily routes for KIU, Colleges, and Schools across Jutial, Danyore, and City areas.</p>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
-                <div class="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <h3 class="font-bold text-base mb-2">Office Shuttle</h3>
-                <p class="text-xs text-slate-600">Punctual morning & evening pick and drop for government and private sector employees.</p>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
-                <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                    <i class="fa-solid fa-house-user"></i>
-                </div>
-                <h3 class="font-bold text-base mb-2">Doorstep Pick & Drop</h3>
-                <p class="text-xs text-slate-600">Personalized neighborhood pickup points for ladies, children, and daily travelers.</p>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition text-center">
-                <div class="w-12 h-12 bg-purple-100 text-purple-800 rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                    <i class="fa-solid fa-route"></i>
-                </div>
-                <h3 class="font-bold text-base mb-2">Custom Group Trips</h3>
-                <p class="text-xs text-slate-600">Reserve whole Coasters or Hiaces for private events, excursions, and inter-district trips.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- City Routes Schedule -->
-    <section id="routes" class="bg-slate-100 py-16 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-10">
-                <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest">Active Gilgit Routes</span>
-                <h2 class="text-2xl md:text-3xl font-extrabold">Major Area Coverage & Timings</h2>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-md">Route #1 (Jutial Line)</span>
-                        <span class="text-indigo-900 font-bold text-xs">PKR 2,000 - 3,000 / Mo</span>
+            <!-- Route Search Mobile Card -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider">Quick Route Finder</h3>
+                <div class="space-y-2">
+                    <div class="relative">
+                        <i class="fa-solid fa-circle-dot text-emerald-500 absolute left-3 top-3 text-xs"></i>
+                        <select class="w-full pl-8 pr-3 py-2 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option>Pickup: Jutial (Sector 1, 2, 3)</option>
+                            <option>Pickup: Danyore / Oshikhandass</option>
+                            <option>Pickup: Baseen / Nomal</option>
+                            <option>Pickup: Kashrote Bazaar</option>
+                        </select>
                     </div>
-                    <h3 class="font-bold text-lg mb-2">Jutial ➔ City Bazaar ➔ KIU</h3>
-                    <p class="text-xs text-slate-500 mb-4"><i class="fa-solid fa-map-pin mr-1"></i> Covers Sector 1, 2, 3, Airport Road</p>
-                    <ul class="text-xs text-slate-600 space-y-2 mb-6">
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Morning Batch:</strong> 07:15 AM Departure</li>
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Afternoon Batch:</strong> 01:45 PM Return</li>
-                        <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Fleet:</strong> AC Hiace Saloon</li>
-                    </ul>
-                    <a href="#booking" class="block text-center w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-semibold transition">Book Jutial Route</a>
-                </div>
-
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 relative overflow-hidden">
-                    <div class="bg-amber-400 text-slate-900 text-[9px] font-extrabold uppercase px-8 py-1 rotate-45 absolute -right-6 top-3 text-center">Popular</div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md">Route #2 (Danyore Line)</span>
-                        <span class="text-indigo-900 font-bold text-xs">PKR 2,500 - 3,500 / Mo</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Danyore ➔ Konodas ➔ City Center</h3>
-                    <p class="text-xs text-slate-500 mb-4"><i class="fa-solid fa-map-pin mr-1"></i> Covers Oshikhandass, Bridge Stop</p>
-                    <ul class="text-xs text-slate-600 space-y-2 mb-6">
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Morning Batch:</strong> 07:30 AM Departure</li>
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Afternoon Batch:</strong> 02:00 PM Return</li>
-                        <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Fleet:</strong> AC Coaster Bus</li>
-                    </ul>
-                    <a href="#booking" class="block text-center w-full bg-amber-400 hover:bg-amber-500 text-slate-900 py-2 rounded-lg text-xs font-bold transition">Book Danyore Route</a>
-                </div>
-
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md">Route #3 (Baseen Line)</span>
-                        <span class="text-indigo-900 font-bold text-xs">PKR 2,000 - 3,000 / Mo</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Baseen ➔ Nomal ➔ City Drop</h3>
-                    <p class="text-xs text-slate-500 mb-4"><i class="fa-solid fa-map-pin mr-1"></i> Covers Khomer, Hospital Road</p>
-                    <ul class="text-xs text-slate-600 space-y-2 mb-6">
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Morning Batch:</strong> 07:20 AM Departure</li>
-                        <li><i class="fa-solid fa-clock text-indigo-500 mr-2"></i><strong>Afternoon Batch:</strong> 02:15 PM Return</li>
-                        <li><i class="fa-solid fa-van-shuttle text-indigo-500 mr-2"></i><strong>Fleet:</strong> AC Grand Saloon</li>
-                    </ul>
-                    <a href="#booking" class="block text-center w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-lg text-xs font-semibold transition">Book Baseen Route</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking Form Section -->
-    <section id="booking" class="max-w-6xl mx-auto px-4 py-16">
-        <div class="max-w-xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
-            <div class="text-center mb-6">
-                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">City-Wide Seat Reservation</span>
-                <h3 class="text-xl font-bold mt-1">Book Your Transport Seat</h3>
-                <p class="text-xs text-slate-500 mt-1">Select your area in Gilgit for instant seat allocation and monthly pass booking.</p>
-            </div>
-            <form onsubmit="sendToWhatsApp(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Pass Category:</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <label class="flex items-center p-2 border rounded-lg text-[11px] cursor-pointer bg-slate-50">
-                            <input type="radio" name="userType" value="Student" checked class="mr-1"> Student
-                        </label>
-                        <label class="flex items-center p-2 border rounded-lg text-[11px] cursor-pointer bg-slate-50">
-                            <input type="radio" name="userType" value="Office Employee" class="mr-1"> Office
-                        </label>
-                        <label class="flex items-center p-2 border rounded-lg text-[11px] cursor-pointer bg-slate-50">
-                            <input type="radio" name="userType" value="General Passenger" class="mr-1"> General
-                        </label>
+                    <div class="relative">
+                        <i class="fa-solid fa-location-dot text-rose-500 absolute left-3 top-3 text-xs"></i>
+                        <select class="w-full pl-8 pr-3 py-2 bg-slate-50 border rounded-xl text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option>Drop: KIU Main Campus</option>
+                            <option>Drop: Gilgit City Offices</option>
+                            <option>Drop: DHQ Hospital Hub</option>
+                            <option>Drop: Doorstep Location</option>
+                        </select>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter full name" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <a href="#booking" class="block text-center bg-indigo-900 text-white font-bold py-2.5 rounded-xl text-xs active:bg-indigo-800 transition">
+                    Find Available Van <i class="fa-solid fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Active City Routes Horizontal Cards -->
+            <div id="routes" class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wide">Daily City Routes</h3>
+                    <span class="text-[10px] font-bold text-indigo-700">3 Active Lines</span>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Mobile / WhatsApp Number</label>
-                    <input type="tel" id="userphone" placeholder="03XXXXXXXXX" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                <!-- Route 1 -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="bg-indigo-100 text-indigo-900 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Route 1</span>
+                            <h4 class="font-extrabold text-sm text-slate-900 mt-1">Jutial ➔ City ➔ KIU</h4>
+                        </div>
+                        <span class="text-xs font-black text-emerald-700">PKR 2,500/mo</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-xl">
+                        <div><i class="fa-solid fa-clock text-indigo-500 mr-1"></i> Morning: 07:15 AM</div>
+                        <div><i class="fa-solid fa-van-shuttle text-indigo-500 mr-1"></i> Hiace Saloon</div>
+                    </div>
+                    <a href="#booking" class="block text-center bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">Select This Route</a>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Select Area Route</label>
-                    <select id="route" class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option>Route #1: Jutial ➔ City Bazaar / KIU</option>
-                        <option>Route #2: Danyore / Oshikhandass ➔ City Center</option>
-                        <option>Route #3: Baseen / Nomal ➔ Hospital / City</option>
-                        <option>Custom Route (Specify Pickup Stop Below)</option>
-                    </select>
+
+                <!-- Route 2 -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="bg-emerald-100 text-emerald-900 text-[10px] font-extrabold px-2 py-0.5 rounded-md">Route 2</span>
+                            <h4 class="font-extrabold text-sm text-slate-900 mt-1">Danyore ➔ Konodas ➔ City</h4>
+                        </div>
+                        <span class="text-xs font-black text-emerald-700">PKR 3,000/mo</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-xl">
+                        <div><i class="fa-solid fa-clock text-indigo-500 mr-1"></i> Morning: 07:30 AM</div>
+                        <div><i class="fa-solid fa-bus text-indigo-500 mr-1"></i> AC Coaster</div>
+                    </div>
+                    <a href="#booking" class="block text-center bg-amber-400 text-slate-900 font-extrabold py-2 rounded-xl text-xs">Select This Route</a>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Exact Pickup Stop & Drop Location</label>
-                    <input type="text" id="pickup" placeholder="E.g. Pickup: Jutial Sector 2, Drop: City Bazaar" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+
+            <!-- Booking Mobile Form -->
+            <div id="booking" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                <div class="text-center pb-2 border-b">
+                    <h3 class="font-black text-sm text-slate-900">Instant Seat Booking</h3>
+                    <p class="text-[10px] text-slate-500">Form fill karein, direct driver aur admin ko request mil jayegi.</p>
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg text-xs transition flex items-center justify-center">
-                    <i class="fa-brands fa-whatsapp text-base mr-2"></i> Request Seat via WhatsApp
+                <form onsubmit="sendToWhatsApp(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Pass Category</label>
+                        <select id="userType" class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                            <option value="Student">KIU / College Student</option>
+                            <option value="Office Employee">Office Employee</option>
+                            <option value="General Commuter">General City Commuter</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Full Name</label>
+                        <input type="text" id="name" placeholder="Aapka Naam" required class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Mobile / WhatsApp Number</label>
+                        <input type="tel" id="userphone" placeholder="03XXXXXXXXX" required class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 mb-1">Pickup & Drop Details</label>
+                        <input type="text" id="pickup" placeholder="E.g. Jutial Sector 2 to City Bazaar" required class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition flex items-center justify-center text-xs shadow-md">
+                        <i class="fa-brands fa-whatsapp text-sm mr-2"></i> Book Seat via WhatsApp
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- DRIVER DASHBOARD SECTION (Hidden by Default) -->
+        <div id="driverSection" class="space-y-4 hidden">
+            <div class="bg-slate-900 text-white p-4 rounded-2xl shadow-md border border-slate-800 space-y-3">
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                    <div>
+                        <span class="text-[9px] font-extrabold uppercase text-amber-400">Driver Console</span>
+                        <h3 class="font-extrabold text-sm">Capt. Rahat Ali</h3>
+                    </div>
+                    <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">On Route</span>
+                </div>
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between bg-slate-800 p-2.5 rounded-xl">
+                        <span class="text-slate-400">Van No:</span>
+                        <span class="font-bold">GB-3482 (Hiace)</span>
+                    </div>
+                    <div class="flex justify-between bg-slate-800 p-2.5 rounded-xl">
+                        <span class="text-slate-400">Assigned Seats:</span>
+                        <span class="font-bold text-amber-400">12 / 15 Passengers</span>
+                    </div>
+                </div>
+                <button onclick="alert('Seat Status Changed to Full!')" class="w-full bg-amber-400 text-slate-900 font-extrabold py-2.5 rounded-xl text-xs">
+                    <i class="fa-solid fa-toggle-on mr-1"></i> Toggle Seats Full / Available
                 </button>
-            </form>
+            </div>
         </div>
-    </section>
 
-    <!-- Login / Portal Modal -->
+    </main>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 py-2 px-6">
+        <div class="max-w-md mx-auto flex justify-between items-center text-center">
+            <a href="#" class="text-indigo-900 flex flex-col items-center">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[9px] font-bold mt-0.5">Home</span>
+            </a>
+            <a href="#routes" class="text-slate-400 hover:text-indigo-900 flex flex-col items-center">
+                <i class="fa-solid fa-route text-base"></i>
+                <span class="text-[9px] font-bold mt-0.5">Routes</span>
+            </a>
+            <a href="#booking" class="bg-indigo-900 text-amber-400 w-10 h-10 rounded-full flex items-center justify-center -mt-5 shadow-lg border-2 border-white">
+                <i class="fa-solid fa-plus text-base"></i>
+            </a>
+            <button onclick="toggleAuthModal()" class="text-slate-400 hover:text-indigo-900 flex flex-col items-center">
+                <i class="fa-solid fa-id-card text-base"></i>
+                <span class="text-[9px] font-bold mt-0.5">My Pass</span>
+            </button>
+            <a href="https://wa.me/923000000000" target="_blank" class="text-slate-400 hover:text-indigo-900 flex flex-col items-center">
+                <i class="fa-solid fa-headset text-base"></i>
+                <span class="text-[9px] font-bold mt-0.5">Help</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Authentication Popup Modal -->
     <div id="authModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
-            <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
+        <div class="bg-white rounded-2xl shadow-xl max-w-xs w-full p-5 relative space-y-4">
+            <button onclick="toggleAuthModal()" class="absolute top-3 right-3 text-slate-400 text-base">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-
-            <div class="flex border-b border-slate-200 mb-6">
-                <button id="tabPassenger" onclick="switchAuthTab('passenger')" class="flex-1 py-2 text-center font-bold text-xs border-b-2 border-indigo-900 text-indigo-900">Passenger Pass</button>
-                <button id="tabDriver" onclick="switchAuthTab('driver')" class="flex-1 py-2 text-center font-bold text-xs text-slate-400 border-b-2 border-transparent">Driver Portal</button>
+            <div class="text-center">
+                <h3 class="font-extrabold text-sm text-slate-900">User & Driver Login</h3>
+                <p class="text-[10px] text-slate-500">Pass ID ya Driver PIN enter karein</p>
             </div>
-
-            <form id="formPassenger" onsubmit="handleAuth(event, 'passenger')" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Pass ID / Mobile Number</label>
-                    <input type="text" placeholder="Pass ID or Phone" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password</label>
-                    <input type="password" placeholder="••••••••" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <button type="submit" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2.5 rounded-lg text-xs transition">Login to Digital Pass</button>
-            </form>
-
-            <form id="formDriver" onsubmit="handleAuth(event, 'driver')" class="space-y-4 hidden">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Driver Vehicle ID</label>
-                    <input type="text" placeholder="E.g., DRV-GB01" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Pin Code</label>
-                    <input type="password" placeholder="••••" required class="w-full px-3 py-2 border rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2.5 rounded-lg text-xs transition">Access Fleet Dashboard</button>
+            <form onsubmit="event.preventDefault(); alert('Logged in!'); toggleAuthModal();" class="space-y-3 text-xs">
+                <input type="text" placeholder="Pass ID / Phone / Driver ID" required class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                <input type="password" placeholder="Password / PIN" required class="w-full p-2 bg-slate-50 border rounded-xl font-medium focus:outline-none">
+                <button type="submit" class="w-full bg-indigo-900 text-white font-bold py-2 rounded-xl">Login</button>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-indigo-950 text-indigo-300 py-8 px-4 text-center text-xs">
-        <div class="max-w-6xl mx-auto space-y-2">
-            <p>© Secure Drop Travels - Premier Transport Network Gilgit City.</p>
-            <p class="text-indigo-400">Designed & Developed by <a href="https://myprimesolutions.netlify.app" target="_blank" class="underline font-semibold text-amber-400">Prime Solutions</a></p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
+    <!-- JavaScript Mobile Functions -->
     <script>
-        function toggleAuthModal() {
-            const modal = document.getElementById('authModal');
-            modal.classList.toggle('hidden');
-        }
+        function switchAppRole(role) {
+            const passengerSec = document.getElementById('passengerSection');
+            const driverSec = document.getElementById('driverSection');
+            const btnPass = document.getElementById('btnPassengerView');
+            const btnDriver = document.getElementById('btnDriverView');
 
-        function switchAuthTab(tab) {
-            const formPassenger = document.getElementById('formPassenger');
-            const formDriver = document.getElementById('formDriver');
-            const tabPassenger = document.getElementById('tabPassenger');
-            const tabDriver = document.getElementById('tabDriver');
-
-            if (tab === 'passenger') {
-                formPassenger.classList.remove('hidden');
-                formDriver.classList.add('hidden');
-                tabPassenger.className = "flex-1 py-2 text-center font-bold text-xs border-b-2 border-indigo-900 text-indigo-900";
-                tabDriver.className = "flex-1 py-2 text-center font-bold text-xs text-slate-400 border-b-2 border-transparent";
+            if (role === 'passenger') {
+                passengerSec.classList.remove('hidden');
+                driverSec.classList.add('hidden');
+                btnPass.className = "flex-1 py-2 rounded-lg bg-indigo-900 text-white shadow transition flex items-center justify-center";
+                btnDriver.className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center";
             } else {
-                formPassenger.classList.add('hidden');
-                formDriver.classList.remove('hidden');
-                tabDriver.className = "flex-1 py-2 text-center font-bold text-xs border-b-2 border-amber-500 text-amber-600";
-                tabPassenger.className = "flex-1 py-2 text-center font-bold text-xs text-slate-400 border-b-2 border-transparent";
+                passengerSec.classList.add('hidden');
+                driverSec.classList.remove('hidden');
+                btnDriver.className = "flex-1 py-2 rounded-lg bg-amber-400 text-slate-900 font-bold shadow transition flex items-center justify-center";
+                btnPass.className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center";
             }
         }
 
-        function handleAuth(e, type) {
-            e.preventDefault();
-            alert(type === 'passenger' ? 'Passenger Pass Login Successful!' : 'Driver Fleet Access Granted!');
-            toggleAuthModal();
+        function toggleAuthModal() {
+            document.getElementById('authModal').classList.toggle('hidden');
         }
 
         function sendToWhatsApp(e) {
             e.preventDefault();
-            const userType = document.querySelector('input[name="userType"]:checked').value;
+            const type = document.getElementById('userType').value;
             const name = document.getElementById('name').value;
-            const phoneNum = document.getElementById('userphone').value;
-            const route = document.getElementById('route').value;
+            const phone = document.getElementById('userphone').value;
             const pickup = document.getElementById('pickup').value;
 
-            const targetPhone = "923000000000"; 
-            const text = `AoA! Secure Drop Travels City Booking Request:%0A- *Type:* ${userType}%0A- *Name:* ${name}%0A- *Phone:* ${phoneNum}%0A- *Route:* ${route}%0A- *Pickup & Drop Location:* ${pickup}`;
-
-            window.open(`https://wa.me/${targetPhone}?text=${text}`, '_blank');
+            const target = "923000000000";
+            const msg = `AoA! Secure Drop Travels App Booking Request:%0A- *Type:* ${type}%0A- *Name:* ${name}%0A- *Phone:* ${phone}%0A- *Details:* ${pickup}`;
+            window.open(`https://wa.me/${target}?text=${msg}`, '_blank');
         }
     </script>
 </body>
