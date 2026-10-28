@@ -5,80 +5,73 @@
   <title>Secure Drop Travel Gilgit-Baltistan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- SheetJS for Excel Download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-<body class="bg-gray-900 text-white font-sans min-h-screen">
+<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
-  <!-- Header -->
-  <header class="p-4 flex justify-between items-center border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
-    <div class="flex items-center gap-2">
-      <i class="fa-solid fa-mountain-sun text-emerald-400 text-xl"></i>
-      <div>
-        <h1 class="text-base font-bold text-emerald-400 leading-tight">Secure Drop GB</h1>
-        <p class="text-[10px] text-gray-400" id="headerSub">Travel & Student Transport Portal</p>
-      </div>
+  <!-- LOGIN CONTAINER (Shows if not logged in) -->
+  <div id="loginScreen" class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 w-full max-w-md hidden">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-emerald-400 mb-1">Secure Drop Travel GB</h1>
+      <p class="text-xs text-gray-400">اپنے اکاؤنٹ میں لاگ ان کریں یا سائن اپ کریں</p>
     </div>
-    <div class="flex items-center gap-2">
-      <!-- Language Switcher -->
-      <button onclick="toggleLanguage()" id="langBtn" class="bg-gray-800 border border-gray-700 text-gray-300 px-2 py-1 rounded text-xs">اردو</button>
-      <span id="userRoleBadge" class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">User</span>
-      <span id="userEmail" class="text-xs text-gray-400 hidden sm:inline"></span>
-      <button onclick="logout()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 px-3 py-1 rounded text-xs font-semibold">Logout</button>
-    </div>
-  </header>
 
-  <!-- Hero Image Banner -->
-  <div class="relative h-44 w-full overflow-hidden">
-    <img src="https://images.unsplash.com/photo-1605648916361-9bc12ad6a566?auto=format&fit=crop&w=1200&q=80" alt="Gilgit Baltistan" class="w-full h-full object-cover brightness-75">
-    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex items-end p-4">
+    <form id="loginForm" class="space-y-4">
       <div>
-        <h2 class="text-lg font-extrabold text-white drop-shadow" id="heroTitle">Explore GB Safely</h2>
-        <p class="text-xs text-emerald-300 drop-shadow" id="heroSub">Tourist Rides, Daily Pick & Drop, and Study Tours</p>
+        <label class="block text-xs text-gray-400 mb-1">Email Address</label>
+        <input type="email" id="email" required placeholder="example@email.com" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm focus:outline-none focus:border-emerald-500 text-white">
       </div>
+
+      <div>
+        <label class="block text-xs text-gray-400 mb-1">Password</label>
+        <input type="password" id="password" required placeholder="••••••••" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm focus:outline-none focus:border-emerald-500 text-white">
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button type="button" id="loginBtn" class="w-1/2 bg-emerald-500 hover:bg-emerald-600 py-2.5 rounded-lg font-semibold text-sm transition">Login</button>
+        <button type="button" id="signupBtn" class="w-1/2 bg-gray-700 hover:bg-gray-600 py-2.5 rounded-lg font-semibold text-sm transition">Sign Up</button>
+      </div>
+    </form>
+
+    <div class="flex items-center my-6">
+      <div class="flex-grow border-t border-gray-700"></div>
+      <span class="px-3 text-xs text-gray-500">یا پھر</span>
+      <div class="flex-grow border-t border-gray-700"></div>
     </div>
+
+    <button id="googleBtn" class="w-full bg-white hover:bg-gray-100 text-gray-900 font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm transition">
+      <i class="fa-brands fa-google text-red-500"></i> Continue with Google
+    </button>
   </div>
 
-  <!-- Main Container -->
-  <main class="max-w-xl mx-auto p-4 space-y-4 pb-24">
 
-    <!-- Broadcast Alert Banner -->
-    <div class="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl flex items-start gap-3">
-      <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-1"></i>
-      <div>
-        <h3 class="text-xs font-bold text-amber-300" id="alertTitle">Road & Advisory Alert</h3>
-        <p class="text-[11px] text-gray-300" id="broadcastText">Karakoram Highway & Skardu Road are open. Weather is clear across GB.</p>
+  <!-- MAIN APP CONTAINER (Shows after login) -->
+  <div id="appScreen" class="w-full max-w-xl space-y-4 hidden pb-20">
+    
+    <!-- Header -->
+    <header class="p-4 flex justify-between items-center border-b border-gray-800 bg-gray-950 rounded-xl">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-mountain-sun text-emerald-400 text-xl"></i>
+        <div>
+          <h1 class="text-base font-bold text-emerald-400 leading-tight">Secure Drop GB</h1>
+          <p class="text-[10px] text-gray-400">Travel & Student Transport Portal</p>
+        </div>
       </div>
-    </div>
+      <div class="flex items-center gap-2">
+        <span id="userRoleBadge" class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">User</span>
+        <span id="userEmail" class="text-xs text-gray-400 hidden sm:inline"></span>
+        <button onclick="logout()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 px-3 py-1 rounded text-xs font-semibold">Logout</button>
+      </div>
+    </header>
 
-    <!-- USER SECTION -->
+    <!-- Booking Form Card -->
     <div id="userSection" class="space-y-4">
-      
-      <!-- Live Driver Assignment Card -->
-      <div id="activeRideCard" class="bg-gray-800 p-4 rounded-xl border border-emerald-500/40 hidden">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Live Active Ride</span>
-          <span id="rideStatusBadge" class="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded text-[10px] font-bold">Driver Assigned</span>
-        </div>
-        <div class="bg-gray-900 p-3 rounded-lg space-y-2 border border-gray-700">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-lg"><i class="fa-solid fa-user-driver"></i></div>
-            <div>
-              <h4 class="text-xs font-bold text-white" id="driverName">Sher Khan (GB Local Driver)</h4>
-              <p class="text-[10px] text-gray-400" id="driverVehicle">Prado TZ (Gilgit-1234) • 4.9★</p>
-            </div>
-            <a id="driverCallBtn" href="tel:+923000000000" class="ml-auto bg-emerald-500 hover:bg-emerald-600 text-white p-2.5 rounded-full text-xs"><i class="fa-solid fa-phone"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Booking Form Card -->
       <div class="bg-gray-800 p-5 rounded-2xl shadow-xl border border-gray-700">
-        <h2 class="text-lg font-bold mb-3 text-center text-emerald-400" id="formHeading">Book Ride / Student Transport</h2>
+        <h2 class="text-lg font-bold mb-3 text-center text-emerald-400">Book Ride / Student Transport</h2>
         
         <form id="bookingForm" class="space-y-3">
           <div>
-            <label class="block text-xs text-gray-400 mb-1" id="lblCategory">Service Category</label>
+            <label class="block text-xs text-gray-400 mb-1">Service Category</label>
             <select id="serviceCategory" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
               <option value="tourist">Tourist / General Ride</option>
               <option value="educational">School / College / University Pick & Drop</option>
@@ -87,17 +80,17 @@
           </div>
 
           <div>
-            <label class="block text-xs text-gray-400 mb-1" id="lblPickup">Pickup Point</label>
+            <label class="block text-xs text-gray-400 mb-1">Pickup Point</label>
             <input type="text" id="pickup" placeholder="e.g. KIU University / Home / Gilgit Airport" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
           </div>
 
           <div>
-            <label class="block text-xs text-gray-400 mb-1" id="lblDrop">Drop Location / Destination</label>
+            <label class="block text-xs text-gray-400 mb-1">Drop Location / Destination</label>
             <input type="text" id="drop" placeholder="e.g. Hunza Valley / Skardu / College Campus" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
           </div>
 
           <div>
-            <label class="block text-xs text-gray-400 mb-1" id="lblVehicle">Vehicle Type & Fare Estimate</label>
+            <label class="block text-xs text-gray-400 mb-1">Vehicle Type & Fare Estimate</label>
             <select id="vehicle" onchange="calculateFare()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
               <option value="6000">Corolla / Sedan (City / School) - Est: PKR 6,000</option>
               <option value="15000" selected>4x4 Prado / TZ Jeep (Off-road) - Est: PKR 15,000</option>
@@ -107,51 +100,27 @@
           </div>
 
           <div class="bg-gray-900 p-3 rounded-lg flex justify-between items-center border border-gray-800">
-            <span class="text-xs text-gray-400" id="lblFare">Estimated Fare:</span>
+            <span class="text-xs text-gray-400">Estimated Fare:</span>
             <span id="fareDisplay" class="text-emerald-400 font-bold text-sm">PKR 15,000</span>
           </div>
 
           <button type="button" onclick="confirmAndWhatsAppBooking()" class="w-full bg-emerald-500 hover:bg-emerald-600 py-3 rounded-lg font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
-            <i class="fa-brands fa-whatsapp text-lg"></i> <span id="btnBook">Book via WhatsApp & Save</span>
+            <i class="fa-brands fa-whatsapp text-lg"></i> Book via WhatsApp & Save
           </button>
         </form>
       </div>
 
       <!-- User's Booking History -->
       <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2" id="lblHistory">Your Booking History</h3>
+        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Your Booking History</h3>
         <div id="bookingHistory" class="space-y-2 text-xs text-gray-300 max-h-40 overflow-y-auto">
           <p class="text-gray-500 text-center py-2">Loading your bookings...</p>
         </div>
       </div>
     </div>
 
-
-    <!-- ADMIN SECTION -->
+    <!-- ADMIN SECTION (Protected by PIN 5426) -->
     <div id="adminSection" class="space-y-4 hidden">
-      
-      <!-- Admin Financial Revenue & Export Bar -->
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-gray-800 p-3 rounded-xl border border-gray-700">
-          <p class="text-[10px] text-gray-400 uppercase font-bold">Total Estimated Revenue</p>
-          <h3 id="adminRevenueDisplay" class="text-lg font-extrabold text-emerald-400">PKR 0</h3>
-        </div>
-        <button onclick="exportBookingsToExcel()" class="bg-emerald-600/20 border border-emerald-500/40 hover:bg-emerald-600/30 p-3 rounded-xl text-center transition flex flex-col items-center justify-center">
-          <i class="fa-solid fa-file-excel text-emerald-400 text-base mb-1"></i>
-          <span class="text-[11px] font-bold text-emerald-300">Export Excel Sheet</span>
-        </button>
-      </div>
-
-      <!-- Admin Broadcast Update Control -->
-      <div class="bg-gray-800 p-3 rounded-xl border border-gray-700 space-y-2">
-        <label class="block text-xs text-amber-300 font-bold">Update Public Road/Weather Broadcast Alert</label>
-        <div class="flex gap-2">
-          <input type="text" id="adminAlertInput" placeholder="Enter new alert message..." class="flex-1 bg-gray-900 border border-gray-700 rounded p-2 text-xs text-white">
-          <button onclick="updateBroadcastAlert()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-2 rounded text-xs">Update</button>
-        </div>
-      </div>
-
-      <!-- Admin Bookings List -->
       <div class="bg-gray-800 p-4 rounded-xl border border-emerald-500/40">
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wide"><i class="fa-solid fa-user-shield mr-1"></i> Admin Panel - All Bookings</h2>
@@ -164,30 +133,20 @@
       </div>
     </div>
 
-    <!-- Quick Action Grid -->
-    <div class="grid grid-cols-2 gap-3">
-      <button onclick="triggerSOS()" class="bg-red-600/20 border border-red-500/40 hover:bg-red-600/30 p-3 rounded-xl text-center transition">
-        <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mb-1 block"></i>
-        <span class="text-xs font-bold text-red-300">Emergency SOS</span>
-      </button>
+  </div>
 
-      <button onclick="shareLocation()" class="bg-blue-600/20 border border-blue-500/40 hover:bg-blue-600/30 p-3 rounded-xl text-center transition">
-        <i class="fa-solid fa-location-arrow text-blue-400 text-lg mb-1 block"></i>
-        <span class="text-xs font-bold text-blue-300">Share GPS Location</span>
-      </button>
-    </div>
-
-  </main>
-
-  <!-- Floating WhatsApp Direct Help Center -->
-  <a href="https://wa.me/923100000000?text=Hello%20Secure%20Drop%20GB,%20I%20need%20help" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
-    <i class="fa-brands fa-whatsapp text-2xl"></i>
-  </a>
-
-  <!-- Firebase & App Logic -->
+  <!-- Firebase Scripts & Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      GoogleAuthProvider, 
+      signInWithPopup,
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
@@ -203,40 +162,40 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+    const googleProvider = new GoogleAuthProvider();
 
     const ADMIN_EMAIL = "admin@securedropgb.com"; 
     const ADMIN_PIN = "5426";
 
     let currentUser = null;
-    let allBookingsCache = [];
-    let isUrdu = false;
 
-    // Language Toggle Feature
-    window.toggleLanguage = function() {
-      isUrdu = !isUrdu;
-      document.getElementById('langBtn').innerText = isUrdu ? "English" : "اردو";
-      
-      document.getElementById('headerSub').innerText = isUrdu ? "ٹریول اور سٹوڈنٹ ٹرانسپورٹ پورٹل" : "Travel & Student Transport Portal";
-      document.getElementById('heroTitle').innerText = isUrdu ? "گلگت بلتستان کا محفوظ سفر" : "Explore GB Safely";
-      document.getElementById('heroSub').innerText = isUrdu ? "سیاحتی سواریاں، روزانہ پک اینڈ ڈراپ، اور ٹورز" : "Tourist Rides, Daily Pick & Drop, and Study Tours";
-      document.getElementById('formHeading').innerText = isUrdu ? "سواری / ٹرانسپورٹ بک کریں" : "Book Ride / Student Transport";
-      document.getElementById('lblCategory').innerText = isUrdu ? "سروس کی قسم" : "Service Category";
-      document.getElementById('lblPickup').innerText = isUrdu ? "پک اپ کا مقام" : "Pickup Point";
-      document.getElementById('lblDrop').innerText = isUrdu ? "ڈراپ کا مقام" : "Drop Location / Destination";
-      document.getElementById('lblVehicle').innerText = isUrdu ? "گاڑی کی قسم اور اندازاً کرایہ" : "Vehicle Type & Fare Estimate";
-      document.getElementById('lblFare').innerText = isUrdu ? "اندازاً کرایہ:" : "Estimated Fare:";
-      document.getElementById('btnBook').innerText = isUrdu ? "واٹس ایپ سے بک اور سیو کریں" : "Book via WhatsApp & Save";
-      document.getElementById('lblHistory').innerText = isUrdu ? "آپ کی سابقہ بکنگز" : "Your Booking History";
-    };
+    // Login Events
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, email, password).catch((error) => alert("Error: " + error.message));
+    });
 
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      createUserWithEmailAndPassword(auth, email, password).catch((error) => alert("Error: " + error.message));
+    });
+
+    document.getElementById('googleBtn').addEventListener('click', () => {
+      signInWithPopup(auth, googleProvider).catch((error) => alert("Google Login Error: " + error.message));
+    });
+
+    // Auth State Monitor
     onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('appScreen').classList.remove('hidden');
         document.getElementById('userEmail').innerText = user.email;
 
         if (user.email === ADMIN_EMAIL || user.email.includes("admin")) {
           let enteredPin = prompt("Admin Access Detected! Please enter Admin PIN (5426):");
-          
           if (enteredPin === ADMIN_PIN) {
             document.getElementById('userRoleBadge').innerText = "Admin Panel";
             document.getElementById('userRoleBadge').className = "bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[10px] font-bold";
@@ -244,22 +203,15 @@
             document.getElementById('userSection').classList.add('hidden');
             loadAllBookingsForAdmin();
           } else {
-            alert("Galat PIN enter kiya gaya hai! Aapko User mode par redirect kiya ja raha hai.");
+            alert("Galat PIN! User mode par redirect kiya ja raha hai.");
             setupUserMode(user);
           }
         } else {
           setupUserMode(user);
         }
-
-        // Listen for Broadcast Alert Updates
-        onValue(ref(db, 'broadcastAlert'), (snapshot) => {
-          if(snapshot.exists()) {
-            document.getElementById('broadcastText').innerText = snapshot.val();
-          }
-        });
-
       } else {
-        window.location.href = "login.html";
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('appScreen').classList.add('hidden');
       }
     });
 
@@ -271,9 +223,7 @@
     }
 
     window.logout = function() {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
+      signOut(auth);
     }
 
     window.calculateFare = function() {
@@ -290,7 +240,7 @@
       const fare = vehicleSelect.value;
 
       if (!pickup || !drop) {
-        alert("Baraye meherbani Pickup aur Drop locations dono enter karein.");
+        alert("Baraye meherbani Pickup aur Drop locations enter karein.");
         return;
       }
 
@@ -309,19 +259,9 @@
       const newBookingRef = push(bookingsRef);
 
       set(newBookingRef, bookingData).then(() => {
-        const agencyWhatsAppNumber = "923100000000";
-        const message = `*New Booking - Secure Drop GB*%0A` +
-                        `--------------------------------%0A` +
-                        `*User:* ${currentUser.email}%0A` +
-                        `*Category:* ${category.toUpperCase()}%0A` +
-                        `*Pickup:* ${pickup}%0A` +
-                        `*Drop:* ${drop}%0A` +
-                        `*Vehicle:* ${vehicleText}%0A` +
-                        `*Fare:* PKR ${Number(fare).toLocaleString()}`;
-
+        const agencyWhatsAppNumber = "923100000000"; // Apna WhatsApp number yahan likhein
+        const message = `*New Booking - Secure Drop GB*%0A*User:* ${currentUser.email}%0A*Category:* ${category.toUpperCase()}%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Vehicle:* ${vehicleText}%0A*Fare:* PKR ${Number(fare).toLocaleString()}`;
         window.open(`https://wa.me/${agencyWhatsAppNumber}?text=${message}`, '_blank');
-      }).catch((error) => {
-        alert("Error: " + error.message);
       });
     }
 
@@ -330,11 +270,9 @@
       onValue(bookingsRef, (snapshot) => {
         const historyContainer = document.getElementById('bookingHistory');
         historyContainer.innerHTML = "";
-        
         if (snapshot.exists()) {
           const data = snapshot.val();
           let hasBookings = false;
-
           Object.keys(data).reverse().forEach((key) => {
             const b = data[key];
             if (b.userId === userId) {
@@ -342,113 +280,40 @@
               const date = new Date(b.timestamp).toLocaleDateString();
               const item = document.createElement('div');
               item.className = "p-2 bg-gray-900 rounded border border-gray-800";
-              item.innerHTML = `
-                <div class="flex justify-between font-bold text-emerald-400">
-                  <span>${b.category.toUpperCase()}</span>
-                  <span>PKR ${Number(b.fare).toLocaleString()}</span>
-                </div>
-                <div class="text-[11px] text-gray-400">${b.pickup} ➔ ${b.drop}</div>
-                <div class="text-[9px] text-gray-500 mt-1">${date}</div>
-              `;
+              item.innerHTML = `<div class="flex justify-between font-bold text-emerald-400"><span>${b.category.toUpperCase()}</span><span>PKR ${Number(b.fare).toLocaleString()}</span></div><div class="text-[11px] text-gray-400">${b.pickup} ➔ ${b.drop}</div><div class="text-[9px] text-gray-500 mt-1">${date}</div>`;
               historyContainer.appendChild(item);
             }
           });
-
-          if (!hasBookings) {
-            historyContainer.innerHTML = `<p class="text-gray-500 text-center py-2">No bookings yet.</p>`;
-          }
+          if (!hasBookings) historyContainer.innerHTML = `<p class="text-gray-500 text-center py-2">No bookings yet.</p>`;
         } else {
           historyContainer.innerHTML = `<p class="text-gray-500 text-center py-2">No bookings yet.</p>`;
         }
       });
     }
 
-    // Admin Functions
     function loadAllBookingsForAdmin() {
       const bookingsRef = ref(db, 'bookings/');
       onValue(bookingsRef, (snapshot) => {
         const adminList = document.getElementById('adminBookingsList');
         adminList.innerHTML = "";
-        allBookingsCache = [];
-
         if (snapshot.exists()) {
           const data = snapshot.val();
           const keys = Object.keys(data).reverse();
           document.getElementById('totalBookingsCount').innerText = `${keys.length} Bookings`;
-
-          let totalRevenue = 0;
-
           keys.forEach((key) => {
             const b = data[key];
-            allBookingsCache.push(b);
-            totalRevenue += Number(b.fare || 0);
-
             const date = new Date(b.timestamp).toLocaleString();
             const card = document.createElement('div');
             card.className = "p-3 bg-gray-900 rounded-lg border border-gray-700 space-y-1";
-            card.innerHTML = `
-              <div class="flex justify-between items-center">
-                <span class="text-emerald-400 font-bold">${b.userEmail}</span>
-                <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px] text-amber-300 font-semibold">${b.category.toUpperCase()}</span>
-              </div>
-              <div class="text-gray-300"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div>
-              <div class="text-gray-400 text-[11px]"><strong>Vehicle:</strong> ${b.vehicle}</div>
-              <div class="flex justify-between items-center pt-1 border-t border-gray-800 text-[11px]">
-                <span class="text-emerald-300 font-bold">PKR ${Number(b.fare).toLocaleString()}</span>
-                <span class="text-gray-500">${date}</span>
-              </div>
-            `;
+            card.innerHTML = `<div class="flex justify-between items-center"><span class="text-emerald-400 font-bold">${b.userEmail}</span><span class="bg-gray-800 px-2 py-0.5 rounded text-[10px] text-amber-300 font-semibold">${b.category.toUpperCase()}</span></div><div class="text-gray-300"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div><div class="text-gray-400 text-[11px]"><strong>Vehicle:</strong> ${b.vehicle}</div><div class="flex justify-between items-center pt-1 border-t border-gray-800 text-[11px]"><span class="text-emerald-300 font-bold">PKR ${Number(b.fare).toLocaleString()}</span><span class="text-gray-500">${date}</span></div>`;
             adminList.appendChild(card);
           });
-
-          document.getElementById('adminRevenueDisplay').innerText = `PKR ${totalRevenue.toLocaleString()}`;
-
         } else {
-          adminList.innerHTML = `<p class="text-gray-500 text-center py-4">No user bookings found in database.</p>`;
-          document.getElementById('totalBookingsCount').innerText = `0 Bookings`;
-          document.getElementById('adminRevenueDisplay').innerText = `PKR 0`;
+          adminList.innerHTML = `<p class="text-gray-500 text-center py-4">No bookings found.</p>`;
         }
       });
     }
-
-    // Export Excel Sheet
-    window.exportBookingsToExcel = function() {
-      if(allBookingsCache.length === 0) {
-        alert("Export karne ke liye koi booking data nahi hai.");
-        return;
-      }
-      const worksheet = XLSX.utils.json_to_sheet(allBookingsCache);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "GB_Bookings");
-      XLSX.writeFile(workbook, "SecureDropGB_Bookings.xlsx");
-    }
-
-    // Update Broadcast Alert
-    window.updateBroadcastAlert = function() {
-      const msg = document.getElementById('adminAlertInput').value.trim();
-      if(msg) {
-        set(ref(db, 'broadcastAlert'), msg).then(() => {
-          alert("Road & Weather Alert updated for all users!");
-          document.getElementById('adminAlertInput').value = "";
-        });
-      }
-    }
-
-    window.triggerSOS = function() {
-      if(confirm("Emergency SOS Alert trigger karein?")) {
-        alert("SOS Alert Sent! Rescue team notified.");
-      }
-    }
-
-    window.shareLocation = function() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          alert(`GPS Location:\nhttps://maps.google.com/?q=${lat},${lon}`);
-        });
-      }
-    }
   </script>
 </body>
-</html>
+    </html>
+    
