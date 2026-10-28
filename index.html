@@ -6,75 +6,110 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-gray-900 text-white font-sans min-h-screen">
 
   <!-- Header -->
   <header class="p-4 flex justify-between items-center border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
-    <h1 class="text-lg font-bold text-emerald-400"><i class="fa-solid fa-mountain-city mr-2"></i>Secure Drop GB</h1>
-    <div class="flex items-center gap-3">
-      <span id="userEmail" class="text-xs text-gray-400"></span>
+    <div class="flex items-center gap-2">
+      <i class="fa-solid fa-mountain-sun text-emerald-400 text-xl"></i>
+      <div>
+        <h1 class="text-base font-bold text-emerald-400 leading-tight">Secure Drop GB</h1>
+        <p class="text-[10px] text-gray-400">Travel & Student Transport Portal</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="userRoleBadge" class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">User</span>
+      <span id="userEmail" class="text-xs text-gray-400 hidden sm:inline"></span>
       <button onclick="logout()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 px-3 py-1 rounded text-xs font-semibold">Logout</button>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-md mx-auto p-4 space-y-4 pb-20">
-
-    <!-- 1. Weather & Road Status Alert -->
-    <div class="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl flex items-start gap-3">
-      <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-1"></i>
+  <!-- Hero Image Banner -->
+  <div class="relative h-44 w-full overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1605648916361-9bc12ad6a566?auto=format&fit=crop&w=1200&q=80" alt="Gilgit Baltistan Mountains" class="w-full h-full object-cover brightness-75">
+    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex items-end p-4">
       <div>
-        <h3 class="text-xs font-bold text-amber-300">Live Road & Weather Alert</h3>
-        <p class="text-[11px] text-gray-300">Babusar Top is currently open. Weather in Hunza & Skardu is clear. Drive safely!</p>
+        <h2 class="text-lg font-extrabold text-white drop-shadow">Explore GB Safely</h2>
+        <p class="text-xs text-emerald-300 drop-shadow">Tourist Rides, Daily Pick & Drop, and Study Tours</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="max-w-xl mx-auto p-4 space-y-4 pb-20">
+
+    <!-- USER VIEW (Booking Form) -->
+    <div id="userSection" class="space-y-4">
+      <div class="bg-gray-800 p-5 rounded-2xl shadow-xl border border-gray-700">
+        <h2 class="text-lg font-bold mb-3 text-center text-emerald-400">Book Ride / Student Transport</h2>
+        
+        <form id="bookingForm" class="space-y-3">
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Service Category</label>
+            <select id="serviceCategory" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
+              <option value="tourist">Tourist / General Ride</option>
+              <option value="educational">School / College / University Pick & Drop</option>
+              <option value="study_tour">Institute Study Tour / Trip</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Pickup Point</label>
+            <input type="text" id="pickup" placeholder="e.g. KIU University / Home / Gilgit Airport" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
+          </div>
+
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Drop Location / Destination</label>
+            <input type="text" id="drop" placeholder="e.g. Hunza Valley / Skardu / College Campus" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
+          </div>
+
+          <div>
+            <label class="block text-xs text-gray-400 mb-1">Vehicle Type & Fare Estimate</label>
+            <select id="vehicle" onchange="calculateFare()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white">
+              <option value="6000">Corolla / Sedan (City / School) - Est: PKR 6,000</option>
+              <option value="15000" selected>4x4 Prado / TZ Jeep (Off-road) - Est: PKR 15,000</option>
+              <option value="22000">HiAce Van / Coaster (Students/Group) - Est: PKR 22,000</option>
+              <option value="12000">Suzuki Bolan / Carry (Monthly Van) - Est: PKR 12,000</option>
+            </select>
+          </div>
+
+          <div class="bg-gray-900 p-3 rounded-lg flex justify-between items-center border border-gray-800">
+            <span class="text-xs text-gray-400">Estimated Fare:</span>
+            <span id="fareDisplay" class="text-emerald-400 font-bold text-sm">PKR 15,000</span>
+          </div>
+
+          <button type="button" onclick="confirmAndWhatsAppBooking()" class="w-full bg-emerald-500 hover:bg-emerald-600 py-3 rounded-lg font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i> Book via WhatsApp & Save
+          </button>
+        </form>
+      </div>
+
+      <!-- User's Booking History -->
+      <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Your Booking History</h3>
+        <div id="bookingHistory" class="space-y-2 text-xs text-gray-300 max-h-40 overflow-y-auto">
+          <p class="text-gray-500 text-center py-2">Loading your bookings...</p>
+        </div>
       </div>
     </div>
 
-    <!-- 2. Booking Card -->
-    <div class="bg-gray-800 p-5 rounded-2xl shadow-xl border border-gray-700">
-      <h2 class="text-xl font-bold mb-3 text-center">Book Safe Ride in GB</h2>
-      
-      <form id="bookingForm" class="space-y-3">
-        <div>
-          <label class="block text-xs text-gray-400 mb-1">Pickup Location</label>
-          <select id="pickup" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-500">
-            <option>Gilgit Airport</option>
-            <option>Skardu Airport</option>
-            <option>Hunza Valley</option>
-            <option>Astore (Rama)</option>
-          </select>
-        </div>
 
-        <div>
-          <label class="block text-xs text-gray-400 mb-1">Drop Location</label>
-          <select id="drop" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-500">
-            <option>Hunza Valley</option>
-            <option>Skardu City</option>
-            <option>Deosai Plains</option>
-            <option>Fairy Meadows</option>
-          </select>
+    <!-- ADMIN SECTION (Protected by PIN 5426) -->
+    <div id="adminSection" class="space-y-4 hidden">
+      <div class="bg-gray-800 p-4 rounded-xl border border-emerald-500/40">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wide"><i class="fa-solid fa-user-shield mr-1"></i> Admin Panel - All Bookings</h2>
+          <span id="totalBookingsCount" class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded text-[11px] font-bold">0 Bookings</span>
         </div>
-
-        <div>
-          <label class="block text-xs text-gray-400 mb-1">Vehicle Type & Fare Estimate</label>
-          <select id="vehicle" onchange="calculateFare()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-500">
-            <option value="5000">Corolla / Sedan (City) - Est: PKR 5,000</option>
-            <option value="12000" selected>4x4 Prado / Jeep (Off-road) - Est: PKR 12,000</option>
-            <option value="18000">HiAce Van (Group Trip) - Est: PKR 18,000</option>
-          </select>
+        
+        <!-- All Users Bookings List -->
+        <div id="adminBookingsList" class="space-y-3 max-h-96 overflow-y-auto text-xs">
+          <p class="text-gray-500 text-center py-4">Loading all users data...</p>
         </div>
-
-        <div class="bg-gray-900 p-3 rounded-lg flex justify-between items-center border border-gray-800">
-          <span class="text-xs text-gray-400">Fixed Transparent Fare:</span>
-          <span id="fareDisplay" class="text-emerald-400 font-bold text-sm">PKR 12,000</span>
-        </div>
-
-        <button type="button" onclick="confirmBooking()" class="w-full bg-emerald-500 hover:bg-emerald-600 py-3 rounded-lg font-bold text-sm transition">
-          Book Verified Driver
-        </button>
-      </form>
+      </div>
     </div>
 
-    <!-- 3. Safety & Emergency Grid (SOS & Live Tracking) -->
+    <!-- Quick Action Grid -->
     <div class="grid grid-cols-2 gap-3">
       <button onclick="triggerSOS()" class="bg-red-600/20 border border-red-500/40 hover:bg-red-600/30 p-3 rounded-xl text-center transition">
         <i class="fa-solid fa-triangle-exclamation text-red-400 text-lg mb-1 block"></i>
@@ -83,18 +118,8 @@
 
       <button onclick="shareLocation()" class="bg-blue-600/20 border border-blue-500/40 hover:bg-blue-600/30 p-3 rounded-xl text-center transition">
         <i class="fa-solid fa-location-arrow text-blue-400 text-lg mb-1 block"></i>
-        <span class="text-xs font-bold text-blue-300">Share Live GPS</span>
+        <span class="text-xs font-bold text-blue-300">Share GPS Location</span>
       </button>
-    </div>
-
-    <!-- 4. Verified Drivers & Features Badges -->
-    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 space-y-2">
-      <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Why Travel With Us?</h3>
-      <div class="grid grid-cols-3 gap-2 text-center text-[11px] text-gray-300">
-        <div class="p-2 bg-gray-900 rounded"><i class="fa-solid fa-shield-halved text-emerald-400 block mb-1"></i>Verified CNIC</div>
-        <div class="p-2 bg-gray-900 rounded"><i class="fa-solid fa-star text-amber-400 block mb-1"></i>4.9★ Rated</div>
-        <div class="p-2 bg-gray-900 rounded"><i class="fa-solid fa-phone-slash text-blue-400 block mb-1"></i>Offline Mode</div>
-      </div>
     </div>
 
   </main>
@@ -103,7 +128,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
@@ -119,12 +144,41 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // Check if user is logged in
+    // Admin Email Identifier
+    const ADMIN_EMAIL = "admin@securedropgb.com"; 
+    const ADMIN_PIN = "5426";
+
+    let currentUser = null;
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById('userEmail').innerText = user.email || "User";
+        currentUser = user;
+        document.getElementById('userEmail').innerText = user.email;
+
+        // Check if user is Admin
+        if (user.email === ADMIN_EMAIL || user.email.includes("admin")) {
+          let enteredPin = prompt("Admin Access Detected! Please enter Admin PIN (5426):");
+          
+          if (enteredPin === ADMIN_PIN) {
+            document.getElementById('userRoleBadge').innerText = "Admin Panel";
+            document.getElementById('userRoleBadge').className = "bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[10px] font-bold";
+            document.getElementById('adminSection').classList.remove('hidden');
+            document.getElementById('userSection').classList.add('hidden');
+            loadAllBookingsForAdmin();
+          } else {
+            alert("Galat PIN enter kiya gaya hai! Aapko User mode par redirect kiya ja raha hai.");
+            document.getElementById('userRoleBadge').innerText = "Client / User";
+            document.getElementById('adminSection').classList.add('hidden');
+            document.getElementById('userSection').classList.remove('hidden');
+            loadUserBookings(user.uid);
+          }
+        } else {
+          document.getElementById('userRoleBadge').innerText = "Client / User";
+          document.getElementById('adminSection').classList.add('hidden');
+          document.getElementById('userSection').classList.remove('hidden');
+          loadUserBookings(user.uid);
+        }
       } else {
-        // Agar login nahi hai toh login page par bhej dein
         window.location.href = "login.html";
       }
     });
@@ -136,36 +190,132 @@
     }
 
     window.calculateFare = function() {
-      const vehicleSelect = document.getElementById('vehicle');
-      const fare = vehicleSelect.value;
+      const fare = document.getElementById('vehicle').value;
       document.getElementById('fareDisplay').innerText = `PKR ${Number(fare).toLocaleString()}`;
     }
 
-    window.confirmBooking = function() {
-      const pickup = document.getElementById('pickup').value;
-      const drop = document.getElementById('drop').value;
-      const vehicleText = document.getElementById('vehicle').options[document.getElementById('vehicle').selectedIndex].text;
-      const fare = document.getElementById('vehicle').value;
+    window.confirmAndWhatsAppBooking = function() {
+      const category = document.getElementById('serviceCategory').value;
+      const pickup = document.getElementById('pickup').value.trim();
+      const drop = document.getElementById('drop').value.trim();
+      const vehicleSelect = document.getElementById('vehicle');
+      const vehicleText = vehicleSelect.options[vehicleSelect.selectedIndex].text;
+      const fare = vehicleSelect.value;
 
-      const bookingsRef = ref(db, 'bookings/');
-      const newBooking = push(bookingsRef);
+      if (!pickup || !drop) {
+        alert("Baraye meherbani Pickup aur Drop locations dono enter karein.");
+        return;
+      }
 
-      set(newBooking, {
-        pickup,
-        drop,
+      const bookingData = {
+        userId: currentUser.uid,
+        userEmail: currentUser.email,
+        category: category,
+        pickup: pickup,
+        drop: drop,
         vehicle: vehicleText,
         fare: fare,
         timestamp: new Date().toISOString()
-      }).then(() => {
-        alert(`Bokking Confirmed!\nRoute: ${pickup} to ${drop}\nFare: PKR ${fare}\nHum jald ap se rabta karengay.`);
+      };
+
+      const bookingsRef = ref(db, 'bookings/');
+      const newBookingRef = push(bookingsRef);
+
+      set(newBookingRef, bookingData).then(() => {
+        const agencyWhatsAppNumber = "923100000000"; // Yahan apna WhatsApp number likhein
+        const message = `*New Booking - Secure Drop GB*%0A` +
+                        `--------------------------------%0A` +
+                        `*User:* ${currentUser.email}%0A` +
+                        `*Category:* ${category.toUpperCase()}%0A` +
+                        `*Pickup:* ${pickup}%0A` +
+                        `*Drop:* ${drop}%0A` +
+                        `*Vehicle:* ${vehicleText}%0A` +
+                        `*Fare:* PKR ${Number(fare).toLocaleString()}`;
+
+        window.open(`https://wa.me/${agencyWhatsAppNumber}?text=${message}`, '_blank');
       }).catch((error) => {
         alert("Error: " + error.message);
       });
     }
 
+    function loadUserBookings(userId) {
+      const bookingsRef = ref(db, 'bookings/');
+      onValue(bookingsRef, (snapshot) => {
+        const historyContainer = document.getElementById('bookingHistory');
+        historyContainer.innerHTML = "";
+        
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          let hasBookings = false;
+
+          Object.keys(data).reverse().forEach((key) => {
+            const b = data[key];
+            if (b.userId === userId) {
+              hasBookings = true;
+              const date = new Date(b.timestamp).toLocaleDateString();
+              const item = document.createElement('div');
+              item.className = "p-2 bg-gray-900 rounded border border-gray-800";
+              item.innerHTML = `
+                <div class="flex justify-between font-bold text-emerald-400">
+                  <span>${b.category.toUpperCase()}</span>
+                  <span>PKR ${Number(b.fare).toLocaleString()}</span>
+                </div>
+                <div class="text-[11px] text-gray-400">${b.pickup} ➔ ${b.drop}</div>
+                <div class="text-[9px] text-gray-500 mt-1">${date}</div>
+              `;
+              historyContainer.appendChild(item);
+            }
+          });
+
+          if (!hasBookings) {
+            historyContainer.innerHTML = `<p class="text-gray-500 text-center py-2">No bookings yet.</p>`;
+          }
+        } else {
+          historyContainer.innerHTML = `<p class="text-gray-500 text-center py-2">No bookings yet.</p>`;
+        }
+      });
+    }
+
+    function loadAllBookingsForAdmin() {
+      const bookingsRef = ref(db, 'bookings/');
+      onValue(bookingsRef, (snapshot) => {
+        const adminList = document.getElementById('adminBookingsList');
+        adminList.innerHTML = "";
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const keys = Object.keys(data).reverse();
+          document.getElementById('totalBookingsCount').innerText = `${keys.length} Bookings`;
+
+          keys.keys().forEach ? keys.forEach((key) => {
+            const b = data[key];
+            const date = new Date(b.timestamp).toLocaleString();
+            const card = document.createElement('div');
+            card.className = "p-3 bg-gray-900 rounded-lg border border-gray-700 space-y-1";
+            card.innerHTML = `
+              <div class="flex justify-between items-center">
+                <span class="text-emerald-400 font-bold">${b.userEmail}</span>
+                <span class="bg-gray-800 px-2 py-0.5 rounded text-[10px] text-amber-300 font-semibold">${b.category.toUpperCase()}</span>
+              </div>
+              <div class="text-gray-300"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div>
+              <div class="text-gray-400 text-[11px]"><strong>Vehicle:</strong> ${b.vehicle}</div>
+              <div class="flex justify-between items-center pt-1 border-t border-gray-800 text-[11px]">
+                <span class="text-emerald-300 font-bold">PKR ${Number(b.fare).toLocaleString()}</span>
+                <span class="text-gray-500">${date}</span>
+              </div>
+            `;
+            adminList.appendChild(card);
+          }) : null;
+        } else {
+          adminList.innerHTML = `<p class="text-gray-500 text-center py-4">No user bookings found in database.</p>`;
+          document.getElementById('totalBookingsCount').innerText = `0 Bookings`;
+        }
+      });
+    }
+
     window.triggerSOS = function() {
-      if(confirm("Kya ap waqayi Emergency SOS alert bhejna chahte hain? Yeh local rescue aur apke contacts ko alert kar dega.")) {
-        alert("SOS Alert Sent! Local rescue team aur administrators ko ap ki request bhej di gayi hai.");
+      if(confirm("Emergency SOS Alert trigger karein?")) {
+        alert("SOS Alert Sent! Rescue team notified.");
       }
     }
 
@@ -174,16 +324,10 @@
         navigator.geolocation.getCurrentPosition((position) => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
-          const mapsLink = `https://maps.google.com/?q=${lat},${lon}`;
-          alert(`Ap ki live location copy ho gayi hai:\n${mapsLink}\nAap ise WhatsApp par share kar sakte hain.`);
-        }, () => {
-          alert("Location access deny ho gaya hai. Baraye meherbani GPS on karein.");
+          alert(`GPS Location:\nhttps://maps.google.com/?q=${lat},${lon}`);
         });
-      } else {
-        alert("Geolocation is not supported by your browser.");
       }
     }
   </script>
 </body>
-              </html>
-              
+</html>
