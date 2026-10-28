@@ -1,0 +1,279 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Secure Drop Gilgit | 100% Free Ride & Cargo Transport Network</title>
+    <meta name="description" content="Secure Drop Gilgit - Free ride-sharing, fare bidding, and cargo delivery in Gilgit city with zero commission.">
+    <meta name="theme-color" content="#0284c7">
+
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <style>
+        body { -webkit-tap-highlight-color: transparent; user-select: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .sky-glass { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(16px); }
+        .dark .sky-glass { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(16px); }
+        .sky-card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); }
+        .dark .sky-card { background: rgba(30, 41, 59, 0.96); backdrop-filter: blur(10px); }
+        #leafletMapContainer { height: 100%; width: 100%; z-index: 10; }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-24 min-h-screen relative transition-colors duration-300">
+
+    <!-- Header Bar -->
+    <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 dark:bg-slate-800 text-sky-900 dark:text-sky-300 rounded-xl font-black text-sm">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <h1 class="text-sm font-black tracking-tight text-slate-900 dark:text-white flex items-center">
+                    Secure Drop <span id="roleBadgeHeader" class="ml-1 text-[8px] bg-emerald-500 text-white font-extrabold px-1.5 py-0.5 rounded-full uppercase">User</span>
+                </h1>
+                <p class="text-[10px] text-sky-600 dark:text-sky-400 font-bold flex items-center" id="headerProfileSubtitle">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1 animate-pulse"></span> 100% Free Service
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black">
+                <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
+            </button>
+            <button onclick="handleLogoutSystem()" class="bg-rose-500 text-white p-2 rounded-xl text-xs font-black">
+                <i class="fa-solid fa-power-off"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
+
+        <!-- Dynamic Active Users Count -->
+        <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">54</span> Free Gilgit Captains Online</span>
+            </div>
+            <span class="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Zero Commission</span>
+        </div>
+
+        <!-- Role Selector Switch -->
+        <div id="appRoleSwitchContainer" class="bg-sky-200/80 dark:bg-slate-800 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 dark:border-slate-700">
+            <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-xl bg-sky-600 text-white shadow flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-user"></i><span>Passenger</span>
+            </button>
+            <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-box-open"></i><span>Cargo</span>
+            </button>
+            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1 hidden">
+                <i class="fa-solid fa-van-shuttle"></i><span>Captain</span>
+            </button>
+            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1 hidden">
+                <i class="fa-solid fa-shield-halved"></i><span>Admin</span>
+            </button>
+        </div>
+
+        <!-- PASSENGER SECTION -->
+        <div id="passengerSection" class="space-y-5">
+            <!-- Map Container -->
+            <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 dark:border-slate-800 h-48 bg-slate-900">
+                <div id="leafletMapContainer"></div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Free Ride in Gilgit City</h3>
+                <div class="space-y-2 text-xs">
+                    <input type="text" id="customPickupInput" placeholder="Pickup Area (e.g. Jutial)..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
+                    <input type="text" id="customDropInput" placeholder="Drop Area (e.g. Konodas)..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
+                    <input type="number" id="passengerProposedFare" value="400" placeholder="Fare in PKR" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-black">
+                </div>
+                <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
+                    Broadcast Ride Request
+                </button>
+            </div>
+        </div>
+
+        <!-- CARGO SECTION -->
+        <div id="parcelSection" class="space-y-5 hidden">
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-box-open text-amber-500 mr-1"></i> Cargo & Delivery Booking</h3>
+                <input type="text" id="parcelItemName" placeholder="Item Description (e.g. Electronics Box)" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
+                <input type="text" id="parcelReceiver" placeholder="Receiver Name & Phone" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
+                <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Free Cargo</button>
+            </div>
+        </div>
+
+        <!-- DRIVER SECTION -->
+        <div id="driverSection" class="space-y-5 hidden">
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Live Ride Requests Feed</h3>
+                <div id="driverLiveBiddingFeed" class="space-y-2">
+                    <p class="text-slate-400 text-center py-2">Listening for incoming Gilgit passenger requests...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN SECTION -->
+        <div id="controlSection" class="space-y-5 hidden">
+            <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800 text-xs">
+                <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Gilgit Admin Portal</h3>
+                <div id="adminMasterRidesFeed" class="space-y-2">
+                    <p class="text-slate-400 text-center py-2">Loading system records...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="fixed bottom-0 left-0 right-0 z-30 sky-glass border-t border-sky-200 dark:border-slate-800 px-4 py-2.5 flex justify-around items-center shadow-2xl">
+        <button onclick="switchAppRole('passenger')" class="flex flex-col items-center text-sky-600 dark:text-sky-400 font-black text-[10px]">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span>Ride</span>
+        </button>
+        <button onclick="switchAppRole('parcel')" class="flex flex-col items-center text-slate-500 dark:text-slate-400 font-bold text-[10px]">
+            <i class="fa-solid fa-box-open text-lg"></i>
+            <span>Cargo</span>
+        </button>
+    </nav>
+
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
+            authDomain: "talkzone-3dd4a.firebaseapp.com",
+            databaseURL: "https://talkzone-3dd4a-default-rtdb.firebaseio.com",
+            projectId: "talkzone-3dd4a",
+            storageBucket: "talkzone-3dd4a.firebasestorage.app",
+            messagingSenderId: "690220216857",
+            appId: "1:690220216857:web:8371be61ea544b69bc7088"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const auth = firebase.auth();
+        const rtdb = firebase.database();
+        let leafletMap = null;
+
+        window.addEventListener('load', () => {
+            initLeafletMap();
+            listenToDriverBiddingFeed();
+        });
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function switchAppRole(role) {
+            document.getElementById('passengerSection').classList.add('hidden');
+            document.getElementById('parcelSection').classList.add('hidden');
+            document.getElementById('driverSection').classList.add('hidden');
+            document.getElementById('controlSection').classList.add('hidden');
+
+            if (role === 'passenger') document.getElementById('passengerSection').classList.remove('hidden');
+            if (role === 'parcel') document.getElementById('parcelSection').classList.remove('hidden');
+            if (role === 'driver') document.getElementById('driverSection').classList.remove('hidden');
+            if (role === 'control') document.getElementById('controlSection').classList.remove('hidden');
+        }
+
+        function initLeafletMap() {
+            if (document.getElementById('leafletMapContainer') && !leafletMap) {
+                leafletMap = L.map('leafletMapContainer').setView([35.9208, 74.3087], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
+                L.marker([35.9208, 74.3087]).addTo(leafletMap).bindPopup('<b>Gilgit HQ</b>');
+            }
+        }
+
+        function publishCustomInDriveRide() {
+            const pickup = document.getElementById('customPickupInput').value;
+            const drop = document.getElementById('customDropInput').value;
+            const fare = document.getElementById('passengerProposedFare').value;
+
+            if (!pickup || !drop) {
+                alert("Please fill pickup and drop points.");
+                return;
+            }
+
+            rtdb.ref('rides').push({
+                pickup: pickup,
+                drop: drop,
+                fare: fare,
+                status: "Pending",
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Ride broadcasted successfully!");
+            });
+        }
+
+        function listenToDriverBiddingFeed() {
+            rtdb.ref('rides').on('value', snapshot => {
+                const feed = document.getElementById('driverLiveBiddingFeed');
+                if(!feed) return;
+                feed.innerHTML = "";
+                const data = snapshot.val();
+                if(!data) {
+                    feed.innerHTML = `<p class="text-slate-400 text-center py-2">No active ride requests.</p>`;
+                    return;
+                }
+
+                Object.keys(data).forEach(key => {
+                    const r = data[key];
+                    if (r.status === "Pending") {
+                        feed.innerHTML += `
+                            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-sky-100 dark:border-slate-700 space-y-1 shadow-sm">
+                                <div class="flex justify-between items-center">
+                                    <p class="font-black text-slate-900 dark:text-white">${r.pickup} ➔ ${r.drop}</p>
+                                    <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.fare}</span>
+                                </div>
+                            </div>`;
+                    }
+                });
+            });
+        }
+
+        function dispatchCargoCourierPackage() {
+            const itemName = document.getElementById('parcelItemName').value;
+            const receiver = document.getElementById('parcelReceiver').value;
+
+            if (!itemName) {
+                alert("Please enter item name.");
+                return;
+            }
+
+            rtdb.ref('cargo_parcels').push({
+                itemName: itemName,
+                receiver: receiver,
+                status: "Dispatched",
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Cargo dispatched successfully!");
+            });
+        }
+
+        function handleLogoutSystem() {
+            auth.signOut().then(() => location.reload());
+        }
+    </script>
+</body>
+              </html>
+              
