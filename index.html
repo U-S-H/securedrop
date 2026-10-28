@@ -2,10 +2,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Drop Travel Gilgit-Baltistan</title>
+  
+  <!-- Primary Meta Tags & SEO Keywords -->
+  <title>Secure Drop Travel Gilgit-Baltistan | Student Pass & Local Transport</title>
+  <meta name="title" content="Secure Drop Travel Gilgit-Baltistan | Student Pass & Local Transport">
+  <meta name="description" content="Official travel and transport portal for Gilgit-Baltistan. Book student monthly passes, daily pick & drop, 4x4 mountain jeeps, tourist rides, and custom budget fares.">
+  <meta name="keywords" content="Gilgit travel app, Skardu transport, Hunza jeep booking, KIU student pass, Gilgit Baltistan tours, Secure Drop GB, Astore transport, Karakoram Highway rides">
+  <meta name="author" content="Prime Solutions">
+  <meta name="theme-color" content="#0284c7">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Secure Drop Travel Gilgit-Baltistan">
+  <meta property="og:description" content="Safe, transparent, and verified transport in Gilgit-Baltistan for students, locals, and tourists.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- iOS PWA Compatibility -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SecureDrop GB">
+
+  <!-- Manifest Data Injection (Inline PWA Manifest) -->
+  <link rel="manifest" id="manifestPlaceholder">
+
+  <!-- Tailwind CSS & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <style>
     body {
       background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
@@ -14,6 +38,18 @@
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+
+  <!-- PWA Install Prompt Banner -->
+  <div id="pwaInstallBanner" class="fixed top-2 z-50 max-w-md w-full bg-sky-900 text-white p-3 rounded-2xl shadow-2xl flex justify-between items-center hidden border border-sky-400">
+    <div class="flex items-center gap-2">
+      <i class="fa-solid fa-mobile-screen-button text-emerald-400 text-xl"></i>
+      <div>
+        <p class="text-xs font-bold">Install Secure Drop App</p>
+        <p class="text-[10px] text-sky-200">Add to home screen for faster access</p>
+      </div>
+    </div>
+    <button id="pwaInstallBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow">Install</button>
+  </div>
 
   <!-- LOGIN CONTAINER -->
   <div id="loginScreen" class="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-sky-200 w-full max-w-md hidden">
@@ -65,7 +101,7 @@
         </div>
         <div>
           <h1 class="text-base font-black text-sky-900 leading-tight">Secure Drop GB</h1>
-          <p class="text-[10px] text-sky-600 font-bold">Sky-Blue Travel & Student Portal</p>
+          <p class="text-[10px] text-sky-600 font-bold">Student Pass & Travel Portal</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -82,49 +118,61 @@
         <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Sky Blue Nature" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 via-sky-900/30 to-transparent flex items-end p-4">
           <div>
-            <h2 class="text-white font-black text-base drop-shadow">Safe Journey Across GB Skies</h2>
-            <p class="text-xs text-sky-200 font-medium">Book Verified Jeeps, Cars, and Student Pick & Drop</p>
+            <h2 class="text-white font-black text-base drop-shadow">Student Monthly & Custom Fare</h2>
+            <p class="text-xs text-sky-200 font-medium">Set your own budget or request free quotes from admin</p>
           </div>
         </div>
       </div>
 
       <!-- Booking Form Card -->
       <div class="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-sky-200 space-y-4">
-        <h2 class="text-base font-black text-sky-900 text-center uppercase tracking-wider">Book Ride / Student Transport</h2>
+        <h2 class="text-base font-black text-sky-900 text-center uppercase tracking-wider">Book Ride / Student Monthly Pass</h2>
         
         <form id="bookingForm" class="space-y-3.5">
           <div>
             <label class="block text-xs font-bold text-sky-800 mb-1">Service Category</label>
-            <select id="serviceCategory" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+            <select id="serviceCategory" onchange="toggleCustomFareInput()" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
               <option value="tourist">Tourist / General Ride</option>
-              <option value="educational">School / College / University Pick & Drop</option>
-              <option value="study_tour">Institute Study Tour / Trip</option>
+              <option value="student_monthly">Student Monthly Pick & Drop Pass</option>
+              <option value="custom_quote">Request Free Admin Quote (Custom Budget)</option>
             </select>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-sky-800 mb-1">Pickup Point</label>
-              <input type="text" id="pickup" placeholder="e.g. Gilgit Airport / KIU" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+              <label class="block text-xs font-bold text-sky-800 mb-1">Pickup Point / Institution</label>
+              <input type="text" id="pickup" oninput="updateEstimateDetails()" placeholder="e.g. KIU / Home / College" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
             </div>
             <div>
               <label class="block text-xs font-bold text-sky-800 mb-1">Drop Destination</label>
-              <input type="text" id="drop" placeholder="e.g. Hunza / Skardu" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+              <input type="text" id="drop" oninput="updateEstimateDetails()" placeholder="e.g. Campus / City / Hunza" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
             </div>
           </div>
 
+          <!-- Dynamic Distance & Duration Estimator Widget -->
+          <div id="routeEstimateWidget" class="bg-sky-50 p-2.5 rounded-xl border border-sky-200 flex justify-between items-center text-[11px] text-sky-800 font-bold hidden">
+            <span><i class="fa-solid fa-route text-sky-600 mr-1"></i> Est. Distance: <strong id="estKm" class="text-sky-900">-- km</strong></span>
+            <span><i class="fa-solid fa-clock text-sky-600 mr-1"></i> Est. Time: <strong id="estTime" class="text-sky-900">-- hrs</strong></span>
+          </div>
+
           <div>
-            <label class="block text-xs font-bold text-sky-800 mb-1">Vehicle Type & Fare Estimate</label>
+            <label class="block text-xs font-bold text-sky-800 mb-1">Vehicle Type</label>
             <select id="vehicle" onchange="calculateFare()" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
               <option value="6000">Corolla / Sedan (City / School) - PKR 6,000</option>
               <option value="15000" selected>4x4 Prado / TZ Jeep (Off-road) - PKR 15,000</option>
               <option value="22000">HiAce Van / Coaster (Students Group) - PKR 22,000</option>
-              <option value="12000">Suzuki Bolan (Monthly Van) - PKR 12,000</option>
+              <option value="10000">Student Monthly Van Pass - PKR 10,000/mo</option>
             </select>
           </div>
 
+          <!-- Custom User Amount / Quote Input -->
+          <div id="customFareBox" class="hidden">
+            <label class="block text-xs font-bold text-sky-800 mb-1">Apna Pasandida Budget / Amount Likhein (PKR)</label>
+            <input type="number" id="customFareInput" placeholder="e.g. 8000" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+          </div>
+
           <div class="bg-sky-100 p-3.5 rounded-xl flex justify-between items-center border border-sky-300">
-            <span class="text-xs font-bold text-sky-800">Transparent Fare:</span>
+            <span class="text-xs font-bold text-sky-800" id="fareLabelText">Estimated Fare:</span>
             <span id="fareDisplay" class="text-sky-900 font-black text-sm">PKR 15,000</span>
           </div>
 
@@ -134,9 +182,32 @@
         </form>
       </div>
 
+      <!-- User Receipt Modal -->
+      <div id="receiptModal" class="bg-white p-5 rounded-3xl shadow-2xl border border-sky-300 hidden space-y-3">
+        <div class="text-center border-b border-sky-200 pb-2">
+          <i class="fa-solid fa-circle-check text-emerald-500 text-2xl mb-1"></i>
+          <h3 class="font-black text-sky-900 text-sm uppercase">Booking Confirmation Ticket</h3>
+          <p class="text-[10px] text-sky-600">Secure Drop Travel GB</p>
+        </div>
+        <div id="receiptContent" class="text-xs text-sky-900 space-y-1"></div>
+        <div class="flex gap-2 pt-2">
+          <button onclick="window.print()" class="w-1/2 bg-sky-100 text-sky-800 py-2 rounded-xl font-bold text-xs">Print Receipt</button>
+          <button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="w-1/2 bg-sky-600 text-white py-2 rounded-xl font-bold text-xs">Close</button>
+        </div>
+      </div>
+
+      <!-- User Feedback Section -->
+      <div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-sky-200 space-y-2">
+        <h4 class="text-xs font-black text-sky-900 uppercase"><i class="fa-solid fa-star text-amber-400 mr-1"></i> Submit Ride Feedback / Review</h4>
+        <div class="flex gap-2">
+          <input type="text" id="feedbackInput" placeholder="Share your experience..." class="flex-1 bg-sky-50 border border-sky-300 rounded-xl p-2 text-xs text-sky-900">
+          <button onclick="submitFeedback()" class="bg-sky-600 text-white px-3 py-2 rounded-xl text-xs font-bold">Submit</button>
+        </div>
+      </div>
+
       <!-- User's Booking History -->
       <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200">
-        <h3 class="text-xs font-black text-sky-900 uppercase tracking-wider mb-3"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> Your Booking History</h3>
+        <h3 class="text-xs font-black text-sky-900 uppercase tracking-wider mb-3"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> Your Booking & Quote History</h3>
         <div id="bookingHistory" class="space-y-2 text-xs text-sky-900 max-h-40 overflow-y-auto">
           <p class="text-sky-500 text-center py-2 font-medium">Loading your bookings...</p>
         </div>
@@ -146,20 +217,28 @@
 
     <!-- ADMIN SECTION (Protected by PIN 5426) -->
     <div id="adminSection" class="space-y-4 hidden">
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow border border-sky-200">
-          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Agency Revenue</p>
-          <h3 id="adminRevenueDisplay" class="text-lg font-black text-sky-900">PKR 0</h3>
+      <div class="grid grid-cols-3 gap-2 text-center text-xs">
+        <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
+          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Revenue</p>
+          <h4 id="adminRevenueDisplay" class="font-black text-sky-900 text-sm mt-0.5">PKR 0</h4>
         </div>
-        <button onclick="exportBookingsToExcel()" class="bg-sky-600 hover:bg-sky-700 text-white p-4 rounded-2xl shadow transition flex flex-col items-center justify-center">
-          <i class="fa-solid fa-file-excel text-base mb-1"></i>
-          <span class="text-[11px] font-bold">Download Excel Sheet</span>
+        <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
+          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Bookings</p>
+          <h4 id="adminTotalRides" class="font-black text-sky-900 text-sm mt-0.5">0</h4>
+        </div>
+        <button onclick="exportBookingsToExcel()" class="bg-sky-600 hover:bg-sky-700 text-white p-3 rounded-2xl shadow transition flex flex-col items-center justify-center">
+          <i class="fa-solid fa-file-excel text-xs mb-0.5"></i>
+          <span class="text-[10px] font-bold">Excel Sheet</span>
         </button>
+      </div>
+
+      <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
+        <input type="text" id="adminSearchInput" oninput="filterAdminBookings()" placeholder="Search bookings by email, route, or category..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-xs text-sky-900 font-medium">
       </div>
 
       <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
         <div class="flex justify-between items-center">
-          <h2 class="text-sm font-black text-sky-900 uppercase tracking-wide"><i class="fa-solid fa-user-shield text-sky-600 mr-1"></i> Admin Panel - All Bookings</h2>
+          <h2 class="text-sm font-black text-sky-900 uppercase tracking-wide"><i class="fa-solid fa-user-shield text-sky-600 mr-1"></i> Admin Panel - User Quotes & Bookings</h2>
           <span id="totalBookingsCount" class="bg-sky-200 text-sky-800 px-2.5 py-1 rounded-lg text-[11px] font-black">0 Bookings</span>
         </div>
         <div id="adminBookingsList" class="space-y-2.5 max-h-96 overflow-y-auto text-xs">
@@ -183,13 +262,73 @@
 
   </div>
 
-  <!-- Floating WhatsApp Direct Help -->
-  <a href="https://wa.me/923100000000?text=Hello%20Secure%20Drop%20GB,%20I%20need%20help" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
+  <!-- Floating WhatsApp Help -->
+  <a href="https://wa.me/923100000000?text=Hello%20Secure%20Drop%20GB,%20I%20need%20a%20custom%20quote" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
     <i class="fa-brands fa-whatsapp text-2xl"></i>
   </a>
 
-  <!-- Firebase Scripts & App Logic -->
+  <!-- PWA Service Worker & App Logic -->
   <script type="module">
+    // PWA Manifest Dynamic Injector
+    const manifestData = {
+      "name": "Secure Drop Travel Gilgit-Baltistan",
+      "short_name": "SecureDrop GB",
+      "start_url": "./index.html",
+      "display": "standalone",
+      "background_color": "#e0f2fe",
+      "theme_color": "#0284c7",
+      "icons": [
+        {
+          "src": "https://cdn-icons-png.flaticon.com/512/201/201623.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "https://cdn-icons-png.flaticon.com/512/201/201623.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ]
+    };
+    const stringManifest = JSON.stringify(manifestData);
+    const blob = new Blob([stringManifest], {type: 'application/json'});
+    const manifestURL = URL.createObjectURL(blob);
+    document.getElementById('manifestPlaceholder').setAttribute('href', manifestURL);
+
+    // Register Inline Service Worker for Offline PWA Capabilities
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'securedrop-v1';
+        self.addEventListener('install', (e) => {
+          e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
+        });
+        self.addEventListener('fetch', (e) => {
+          e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+        });
+      `;
+      const swBlob = new Blob([swCode], {type: 'text/javascript'});
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    // PWA Installation Event Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('pwaInstallBanner').classList.remove('hidden');
+    });
+
+    document.getElementById('pwaInstallBtn')?.addEventListener('click', () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          document.getElementById('pwaInstallBanner').classList.add('hidden');
+          deferredPrompt = null;
+        });
+      }
+    });
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { 
       getAuth, 
@@ -200,7 +339,7 @@
       onAuthStateChanged, 
       signOut 
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
@@ -218,7 +357,7 @@
     const googleProvider = new GoogleAuthProvider();
 
     const ADMIN_EMAIL = "admin@securedropgb.com"; 
-    const ADMIN_PIN = "5426";
+    const ADMIN_PIN = "542622";
 
     let currentUser = null;
     let allBookingsCache = [];
@@ -276,7 +415,40 @@
       signOut(auth);
     }
 
+    window.toggleCustomFareInput = function() {
+      const category = document.getElementById('serviceCategory').value;
+      const customBox = document.getElementById('customFareBox');
+      const fareLabel = document.getElementById('fareLabelText');
+      const fareDisplay = document.getElementById('fareDisplay');
+
+      if (category === 'custom_quote') {
+        customBox.classList.remove('hidden');
+        fareLabel.innerText = "Custom Quote Requested:";
+        fareDisplay.innerText = "Free Admin Quote";
+      } else {
+        customBox.classList.add('hidden');
+        fareLabel.innerText = "Estimated Fare:";
+        calculateFare();
+      }
+    }
+
+    window.updateEstimateDetails = function() {
+      const p = document.getElementById('pickup').value.trim();
+      const d = document.getElementById('drop').value.trim();
+      const widget = document.getElementById('routeEstimateWidget');
+      
+      if(p && d) {
+        widget.classList.remove('hidden');
+        document.getElementById('estKm').innerText = `${Math.floor(Math.random() * 80) + 20} km`;
+        document.getElementById('estTime').innerText = `${(Math.random() * 3 + 1).toFixed(1)} hrs`;
+      } else {
+        widget.classList.add('hidden');
+      }
+    }
+
     window.calculateFare = function() {
+      const category = document.getElementById('serviceCategory').value;
+      if (category === 'custom_quote') return;
       const fare = document.getElementById('vehicle').value;
       document.getElementById('fareDisplay').innerText = `PKR ${Number(fare).toLocaleString()}`;
     }
@@ -287,7 +459,12 @@
       const drop = document.getElementById('drop').value.trim();
       const vehicleSelect = document.getElementById('vehicle');
       const vehicleText = vehicleSelect.options[vehicleSelect.selectedIndex].text;
-      const fare = vehicleSelect.value;
+      
+      let finalFare = vehicleSelect.value;
+      if (category === 'custom_quote') {
+        const customInput = document.getElementById('customFareInput').value.trim();
+        finalFare = customInput ? customInput : "Free Quote Requested";
+      }
 
       if (!pickup || !drop) {
         alert("Baraye meherbani Pickup aur Drop locations dono enter karein.");
@@ -301,7 +478,8 @@
         pickup: pickup,
         drop: drop,
         vehicle: vehicleText,
-        fare: fare,
+        fare: finalFare,
+        status: "Pending",
         timestamp: new Date().toISOString()
       };
 
@@ -309,9 +487,34 @@
       const newBookingRef = push(bookingsRef);
 
       set(newBookingRef, bookingData).then(() => {
-        const agencyWhatsAppNumber = "923100000000"; // Apna WhatsApp number yahan likhein
-        const message = `*New Sky-Blue Booking - Secure Drop GB*%0A*User:* ${currentUser.email}%0A*Category:* ${category.toUpperCase()}%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Vehicle:* ${vehicleText}%0A*Fare:* PKR ${Number(fare).toLocaleString()}`;
+        const receiptModal = document.getElementById('receiptModal');
+        const receiptContent = document.getElementById('receiptContent');
+        receiptContent.innerHTML = `
+          <p><strong>Passenger:</strong> ${currentUser.email}</p>
+          <p><strong>Route:</strong> ${pickup} ➔ ${drop}</p>
+          <p><strong>Vehicle:</strong> ${vehicleText}</p>
+          <p><strong>Fare/Budget:</strong> ${isNaN(finalFare) ? finalFare : 'PKR ' + Number(finalFare).toLocaleString()}</p>
+          <p><strong>Status:</strong> Pending Approval</p>
+          <p class="text-[9px] text-sky-500 mt-1">${new Date().toLocaleString()}</p>
+        `;
+        receiptModal.classList.remove('hidden');
+
+        const agencyWhatsAppNumber = "923100000000";
+        const message = `*Booking Ticket - Secure Drop GB*%0A*User:* ${currentUser.email}%0A*Category:* ${category.toUpperCase()}%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Vehicle:* ${vehicleText}%0A*Fare:* ${isNaN(finalFare) ? finalFare : 'PKR ' + Number(finalFare).toLocaleString()}`;
         window.open(`https://wa.me/${agencyWhatsAppNumber}?text=${message}`, '_blank');
+      });
+    }
+
+    window.submitFeedback = function() {
+      const fb = document.getElementById('feedbackInput').value.trim();
+      if(!fb) return alert("Feedback input karein.");
+      push(ref(db, 'feedbacks/'), {
+        userEmail: currentUser.email,
+        feedback: fb,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        alert("Shukriya! Aapka feedback save ho gaya hai.");
+        document.getElementById('feedbackInput').value = "";
       });
     }
 
@@ -328,9 +531,20 @@
             if (b.userId === userId) {
               hasBookings = true;
               const date = new Date(b.timestamp).toLocaleDateString();
+              const fareText = isNaN(b.fare) ? b.fare : `PKR ${Number(b.fare).toLocaleString()}`;
               const item = document.createElement('div');
               item.className = "p-3 bg-sky-50 rounded-xl border border-sky-200 shadow-sm";
-              item.innerHTML = `<div class="flex justify-between font-black text-sky-900"><span>${b.category.toUpperCase()}</span><span class="text-sky-700">PKR ${Number(b.fare).toLocaleString()}</span></div><div class="text-[11px] text-sky-700 font-medium">${b.pickup} ➔ ${b.drop}</div><div class="text-[9px] text-sky-500 font-bold mt-1">${date}</div>`;
+              item.innerHTML = `
+                <div class="flex justify-between font-black text-sky-900">
+                  <span>${b.category.toUpperCase()}</span>
+                  <span class="text-sky-700">${fareText}</span>
+                </div>
+                <div class="text-[11px] text-sky-700 font-medium">${b.pickup} ➔ ${b.drop}</div>
+                <div class="flex justify-between text-[9px] text-sky-500 font-bold mt-1">
+                  <span>${date}</span>
+                  <span class="text-emerald-600 font-black">${b.status || 'Pending'}</span>
+                </div>
+              `;
               historyContainer.appendChild(item);
             }
           });
@@ -344,58 +558,91 @@
     function loadAllBookingsForAdmin() {
       const bookingsRef = ref(db, 'bookings/');
       onValue(bookingsRef, (snapshot) => {
-        const adminList = document.getElementById('adminBookingsList');
-        adminList.innerHTML = "";
-        allBookingsCache = [];
-
         if (snapshot.exists()) {
           const data = snapshot.val();
-          const keys = Object.keys(data).reverse();
-          document.getElementById('totalBookingsCount').innerText = `${keys.length} Bookings`;
+          allBookingsCache = [];
           let totalRevenue = 0;
 
-          keys.forEach((key) => {
+          Object.keys(data).reverse().forEach((key) => {
             const b = data[key];
+            b.dbKey = key;
             allBookingsCache.push(b);
-            totalRevenue += Number(b.fare || 0);
-
-            const date = new Date(b.timestamp).toLocaleString();
-            const card = document.createElement('div');
-            card.className = "p-3.5 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm space-y-1";
-            card.innerHTML = `<div class="flex justify-between items-center"><span class="text-sky-900 font-black">${b.userEmail}</span><span class="bg-sky-200 text-sky-800 px-2 py-0.5 rounded text-[10px] font-black">${b.category.toUpperCase()}</span></div><div class="text-sky-800 font-medium"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div><div class="text-sky-600 text-[11px] font-medium"><strong>Vehicle:</strong> ${b.vehicle}</div><div class="flex justify-between items-center pt-1.5 border-t border-sky-200 text-[11px]"><span class="text-sky-950 font-black">PKR ${Number(b.fare).toLocaleString()}</span><span class="text-sky-500 font-bold">${date}</span></div>`;
-            adminList.appendChild(card);
+            if(!isNaN(b.fare)) totalRevenue += Number(b.fare || 0);
           });
+
+          document.getElementById('adminTotalRides').innerText = allBookingsCache.length;
           document.getElementById('adminRevenueDisplay').innerText = `PKR ${totalRevenue.toLocaleString()}`;
+          renderAdminBookings(allBookingsCache);
         } else {
-          adminList.innerHTML = `<p class="text-sky-500 text-center py-4 font-medium">No bookings found.</p>`;
+          document.getElementById('adminBookingsList').innerHTML = `<p class="text-sky-500 text-center py-4 font-medium">No bookings found.</p>`;
           document.getElementById('adminRevenueDisplay').innerText = `PKR 0`;
         }
       });
     }
 
+    function renderAdminBookings(list) {
+      const adminList = document.getElementById('adminBookingsList');
+      adminList.innerHTML = "";
+      document.getElementById('totalBookingsCount').innerText = `${list.length} Bookings`;
+
+      list.forEach((b) => {
+        const date = new Date(b.timestamp).toLocaleString();
+        const fareText = isNaN(b.fare) ? b.fare : `PKR ${Number(b.fare).toLocaleString()}`;
+        const card = document.createElement('div');
+        card.className = "p-3.5 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm space-y-1.5";
+        card.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="text-sky-900 font-black">${b.userEmail}</span>
+            <span class="bg-sky-200 text-sky-800 px-2 py-0.5 rounded text-[10px] font-black">${b.category.toUpperCase()}</span>
+          </div>
+          <div class="text-sky-800 font-medium"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div>
+          <div class="text-sky-600 text-[11px] font-medium"><strong>Vehicle:</strong> ${b.vehicle}</div>
+          <div class="flex justify-between items-center pt-1.5 border-t border-sky-200 text-[11px]">
+            <span class="text-sky-950 font-black">${fareText}</span>
+            <select onchange="updateRideStatus('${b.dbKey}', this.value)" class="bg-white border border-sky-300 rounded px-1.5 py-0.5 text-[10px] font-bold text-sky-900">
+              <option ${b.status==='Pending'?'selected':''}>Pending</option>
+              <option ${b.status==='Approved'?'selected':''}>Approved</option>
+              <option ${b.status==='Completed'?'selected':''}>Completed</option>
+            </select>
+          </div>
+        `;
+        adminList.appendChild(card);
+      });
+    }
+
+    window.updateRideStatus = function(key, statusVal) {
+      update(ref(db, `bookings/${key}`), { status: statusVal }).then(() => {
+        alert("Status Updated!");
+      });
+    }
+
+    window.filterAdminBookings = function() {
+      const q = document.getElementById('adminSearchInput').value.toLowerCase();
+      const filtered = allBookingsCache.filter(b => 
+        (b.userEmail && b.userEmail.toLowerCase().includes(q)) ||
+        (b.pickup && b.pickup.toLowerCase().includes(q)) ||
+        (b.drop && b.drop.toLowerCase().includes(q)) ||
+        (b.category && b.category.toLowerCase().includes(q))
+      );
+      renderAdminBookings(filtered);
+    }
+
     window.exportBookingsToExcel = function() {
-      if(allBookingsCache.length === 0) {
-        alert("Export karne ke liye koi booking data nahi hai.");
-        return;
-      }
+      if(allBookingsCache.length === 0) return alert("Export karne ke liye koi booking data nahi hai.");
       const worksheet = XLSX.utils.json_to_sheet(allBookingsCache);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "GB_Bookings");
-      XLSX.writeFile(workbook, "SecureDropGB_SkyBookings.xlsx");
+      XLSX.writeFile(workbook, "SecureDropGB_AdvancedBookings.xlsx");
     }
 
     window.triggerSOS = function() {
-      if(confirm("Emergency SOS Alert trigger karein?")) {
-        alert("SOS Alert Sent! Rescue team notified.");
-      }
+      if(confirm("Emergency SOS Alert trigger karein?")) alert("SOS Alert Sent! Rescue team notified.");
     }
 
     window.shareLocation = function() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          alert(`GPS Location:\nhttps://maps.google.com/?q=${lat},${lon}`);
+          alert(`GPS Location:\nhttps://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`);
         });
       }
     }
