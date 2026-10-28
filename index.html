@@ -6,9 +6,9 @@
   <!-- SEO & Enterprise Meta Tags -->
   <title>Secure Drop Travel GB | Premier Transport & Enterprise Logistics</title>
   <meta name="title" content="Secure Drop Travel GB | Premier Transport & Enterprise Logistics">
-  <meta name="description" content="Gilgit-Baltistan's leading corporate travel, student transport, and 4x4 mountain logistics network. Secure, verified, and custom-quoted transport solutions.">
-  <meta name="keywords" content="Secure Drop GB, Gilgit travel company, Skardu corporate transport, Hunza luxury fleet, KIU student shuttle, custom travel quotes GB">
-  <meta name="author" content="Prime Solutions">
+  <meta name="description" content="Gilgit-Baltistan's leading corporate travel, student transport, and 4x4 mountain logistics network. Powered by Prime Solutions, founded by Muhammad Nazim.">
+  <meta name="keywords" content="Secure Drop GB, Gilgit travel company, Skardu corporate transport, Hunza luxury fleet, KIU student shuttle, Prime Solutions, Muhammad Nazim">
+  <meta name="author" content="Muhammad Nazim - Prime Solutions">
   <meta name="theme-color" content="#0284c7">
 
   <!-- Open Graph -->
@@ -34,7 +34,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+<body class="min-h-screen flex flex-col items-center justify-between p-4 font-sans">
 
   <!-- PWA Install Banner -->
   <div id="pwaInstallBanner" class="fixed top-2 z-50 max-w-md w-full bg-sky-900 text-white p-3 rounded-2xl shadow-2xl flex justify-between items-center hidden border border-sky-400">
@@ -49,7 +49,7 @@
   </div>
 
   <!-- LOGIN CONTAINER -->
-  <div id="loginScreen" class="bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-sky-200 w-full max-w-md hidden">
+  <div id="loginScreen" class="bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-sky-200 w-full max-w-md hidden my-auto">
     <div class="text-center mb-6">
       <div class="inline-block p-3.5 bg-sky-600 text-white rounded-2xl shadow-lg mb-3">
         <i class="fa-solid fa-globe text-2xl"></i>
@@ -88,7 +88,7 @@
 
 
   <!-- MAIN APP CONTAINER -->
-  <div id="appScreen" class="w-full max-w-2xl space-y-5 hidden pb-24">
+  <div id="appScreen" class="w-full max-w-2xl space-y-5 hidden pb-24 my-auto">
     
     <!-- Header -->
     <header class="p-4 flex justify-between items-center bg-white/95 backdrop-blur-md border border-sky-200 shadow-lg rounded-2xl">
@@ -110,8 +110,8 @@
     <!-- USER BOOKING SECTION -->
     <div id="userSection" class="space-y-5">
       
-      <!-- Enterprise Hero Banner -->
-      <div class="relative h-44 w-full rounded-3xl overflow-hidden shadow-xl border border-sky-200">
+      <!-- Enterprise Hero Banner with Unsplash Image -->
+      <div class="relative h-48 w-full rounded-3xl overflow-hidden shadow-xl border border-sky-200">
         <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Mountain Logistics" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-sky-950/90 via-sky-950/40 to-transparent flex items-end p-5">
           <div>
@@ -186,7 +186,6 @@
             </select>
           </div>
 
-          <!-- User Custom Budget Input -->
           <div>
             <label class="block text-xs font-bold text-sky-900 mb-1">Your Proposed Budget / Amount (PKR)</label>
             <input type="number" id="customFareInput" placeholder="Enter your fair budget e.g. 8000" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold text-sky-950">
@@ -197,6 +196,40 @@
             <i class="fa-brands fa-whatsapp text-lg"></i> Submit Request & Discuss via WhatsApp
           </button>
         </form>
+      </div>
+
+      <!-- Fleet Showcase Section (Free Visuals) -->
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wider"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Our Elite Mountain Fleet</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="relative rounded-2xl overflow-hidden h-28 border border-sky-200 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover brightness-9용">
+            <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 to-transparent flex items-end p-2">
+              <span class="text-[10px] font-bold text-white">4x4 Mountain Jeeps</span>
+            </div>
+          </div>
+          <div class="relative rounded-2xl overflow-hidden h-28 border border-sky-200 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 to-transparent flex items-end p-2">
+              <span class="text-[10px] font-bold text-white">Student Vans & Shuttles</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company About Us & FAQs Accordion -->
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3 text-xs text-sky-950">
+        <h3 class="font-black text-sky-950 uppercase tracking-wider"><i class="fa-solid fa-circle-info text-sky-600 mr-1"></i> About & Frequently Asked Questions</h3>
+        <div class="space-y-2 text-[11px]">
+          <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
+            <p class="font-bold text-sky-900">Q: How does student monthly pass work?</p>
+            <p class="text-sky-700 mt-0.5">Students can select the monthly pass category, input their institution route, propose a budget, and discuss directly with admin for verified pickup scheduling.</p>
+          </div>
+          <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
+            <p class="font-bold text-sky-900">Q: Are custom transport quotes free?</p>
+            <p class="text-sky-700 mt-0.5">Yes! All quote requests and budget discussions are 100% free of charge before final confirmation.</p>
+          </div>
+        </div>
       </div>
 
       <!-- User Receipt Modal -->
@@ -279,6 +312,12 @@
 
   </div>
 
+  <!-- Footer with Prime Solutions & Muhammad Nazim Link -->
+  <footer class="w-full max-w-2xl text-center py-6 mt-8 border-t border-sky-300/60 text-xs text-sky-900 space-y-1">
+    <p class="font-bold">Secure Drop Travel GB © 2026. All Rights Reserved.</p>
+    <p class="text-[11px]">Powered by <a href="https://github.com" target="_blank" class="font-black text-sky-950 underline hover:text-sky-700">Prime Solutions</a> | Founder, CEO & Lead Web Developer: <strong class="text-sky-950">Muhammad Nazim</strong></p>
+  </footer>
+
   <!-- Floating WhatsApp Help (+923119933029) -->
   <a href="https://wa.me/923119933029?text=Hello%20Secure%20Drop%20GB,%20I%20want%20to%20discuss%20a%20custom%20transport%20quote" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
     <i class="fa-brands fa-whatsapp text-2xl"></i>
@@ -313,7 +352,7 @@
 
     if ('serviceWorker' in navigator) {
       const swCode = `
-        const CACHE_NAME = 'securedrop-v2';
+        const CACHE_NAME = 'securedrop-v3';
         self.addEventListener('install', (e) => {
           e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
         });
@@ -576,6 +615,7 @@
 
     function renderAdminBookings(list) {
       const adminList = document.getElementById('adminBookingsList');
+      adminList.html = "";
       adminList.innerHTML = "";
       document.getElementById('totalBookingsCount').innerText = `${list.length} Records`;
 
