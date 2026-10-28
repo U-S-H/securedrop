@@ -3,26 +3,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Primary Meta Tags & SEO Keywords -->
-  <title>Secure Drop Travel Gilgit-Baltistan | Student Pass & Local Transport</title>
-  <meta name="title" content="Secure Drop Travel Gilgit-Baltistan | Student Pass & Local Transport">
-  <meta name="description" content="Official travel and transport portal for Gilgit-Baltistan. Book student monthly passes, daily pick & drop, 4x4 mountain jeeps, tourist rides, and custom budget fares.">
-  <meta name="keywords" content="Gilgit travel app, Skardu transport, Hunza jeep booking, KIU student pass, Gilgit Baltistan tours, Secure Drop GB, Astore transport, Karakoram Highway rides">
+  <!-- SEO & Enterprise Meta Tags -->
+  <title>Secure Drop Travel GB | Premier Transport & Enterprise Logistics</title>
+  <meta name="title" content="Secure Drop Travel GB | Premier Transport & Enterprise Logistics">
+  <meta name="description" content="Gilgit-Baltistan's leading corporate travel, student transport, and 4x4 mountain logistics network. Secure, verified, and custom-quoted transport solutions.">
+  <meta name="keywords" content="Secure Drop GB, Gilgit travel company, Skardu corporate transport, Hunza luxury fleet, KIU student shuttle, custom travel quotes GB">
   <meta name="author" content="Prime Solutions">
   <meta name="theme-color" content="#0284c7">
 
-  <!-- Open Graph / Facebook / WhatsApp -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Secure Drop Travel Gilgit-Baltistan">
-  <meta property="og:description" content="Safe, transparent, and verified transport in Gilgit-Baltistan for students, locals, and tourists.">
+  <meta property="og:title" content="Secure Drop Travel GB">
+  <meta property="og:description" content="Enterprise-grade travel and student transport solutions across Gilgit-Baltistan.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80">
 
-  <!-- iOS PWA Compatibility -->
+  <!-- PWA Manifest & iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SecureDrop GB">
-
-  <!-- Manifest Data Injection (Inline PWA Manifest) -->
   <link rel="manifest" id="manifestPlaceholder">
 
   <!-- Tailwind CSS & Icons -->
@@ -32,56 +29,56 @@
 
   <style>
     body {
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
       color: #0f172a;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 font-sans">
 
-  <!-- PWA Install Prompt Banner -->
+  <!-- PWA Install Banner -->
   <div id="pwaInstallBanner" class="fixed top-2 z-50 max-w-md w-full bg-sky-900 text-white p-3 rounded-2xl shadow-2xl flex justify-between items-center hidden border border-sky-400">
     <div class="flex items-center gap-2">
       <i class="fa-solid fa-mobile-screen-button text-emerald-400 text-xl"></i>
       <div>
         <p class="text-xs font-bold">Install Secure Drop App</p>
-        <p class="text-[10px] text-sky-200">Add to home screen for faster access</p>
+        <p class="text-[10px] text-sky-200">Add to home screen for faster enterprise access</p>
       </div>
     </div>
     <button id="pwaInstallBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow">Install</button>
   </div>
 
   <!-- LOGIN CONTAINER -->
-  <div id="loginScreen" class="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-sky-200 w-full max-w-md hidden">
+  <div id="loginScreen" class="bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-sky-200 w-full max-w-md hidden">
     <div class="text-center mb-6">
-      <div class="inline-block p-3 bg-sky-500 text-white rounded-2xl shadow-lg mb-3">
-        <i class="fa-solid fa-plane-departure text-2xl"></i>
+      <div class="inline-block p-3.5 bg-sky-600 text-white rounded-2xl shadow-lg mb-3">
+        <i class="fa-solid fa-globe text-2xl"></i>
       </div>
-      <h1 class="text-2xl font-black text-sky-900 mb-1">Secure Drop Travel GB</h1>
-      <p class="text-xs text-sky-600 font-medium">پہلی بار سائن اپ کریں یا اپنے اکاؤنٹ میں لاگ ان کریں</p>
+      <h1 class="text-2xl font-black text-sky-950 mb-1">Secure Drop Travel GB</h1>
+      <p class="text-xs text-sky-600 font-bold">Enterprise Portal • Login or Sign Up</p>
     </div>
 
     <form id="loginForm" class="space-y-4">
       <div>
-        <label class="block text-xs font-bold text-sky-800 mb-1">Email Address</label>
-        <input type="email" id="email" required placeholder="example@email.com" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-sky-900 font-medium">
+        <label class="block text-xs font-bold text-sky-900 mb-1">Corporate / User Email</label>
+        <input type="email" id="email" required placeholder="example@email.com" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-sky-950 font-medium">
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-sky-800 mb-1">Password</label>
-        <input type="password" id="password" required placeholder="••••••••" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-sky-900 font-medium">
+        <label class="block text-xs font-bold text-sky-900 mb-1">Password</label>
+        <input type="password" id="password" required placeholder="••••••••" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-sky-950 font-medium">
       </div>
 
       <div class="flex gap-2 pt-2">
         <button type="button" id="loginBtn" class="w-1/2 bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-xl font-bold text-sm shadow-md transition">Login</button>
-        <button type="button" id="signupBtn" class="w-1/2 bg-sky-200 hover:bg-sky-300 text-sky-900 py-3 rounded-xl font-bold text-sm transition">Sign Up</button>
+        <button type="button" id="signupBtn" class="w-1/2 bg-sky-100 hover:bg-sky-200 text-sky-900 py-3 rounded-xl font-bold text-sm transition">Sign Up</button>
       </div>
     </form>
 
     <div class="flex items-center my-6">
-      <div class="flex-grow border-t border-sky-300"></div>
-      <span class="px-3 text-xs text-sky-500 font-bold">یا پھر</span>
-      <div class="flex-grow border-t border-sky-300"></div>
+      <div class="flex-grow border-t border-sky-200"></div>
+      <span class="px-3 text-xs text-sky-400 font-bold">OR</span>
+      <div class="flex-grow border-t border-sky-200"></div>
     </div>
 
     <button id="googleBtn" class="w-full bg-white hover:bg-sky-50 text-sky-900 border border-sky-300 font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm shadow-sm transition">
@@ -91,93 +88,113 @@
 
 
   <!-- MAIN APP CONTAINER -->
-  <div id="appScreen" class="w-full max-w-xl space-y-4 hidden pb-20">
+  <div id="appScreen" class="w-full max-w-2xl space-y-5 hidden pb-24">
     
     <!-- Header -->
-    <header class="p-4 flex justify-between items-center bg-white/90 backdrop-blur-md border border-sky-200 shadow-lg rounded-2xl">
-      <div class="flex items-center gap-2.5">
-        <div class="p-2.5 bg-sky-500 text-white rounded-xl shadow">
-          <i class="fa-solid fa-mountain-sun text-lg"></i>
+    <header class="p-4 flex justify-between items-center bg-white/95 backdrop-blur-md border border-sky-200 shadow-lg rounded-2xl">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-sky-600 text-white rounded-xl shadow">
+          <i class="fa-solid fa-mountain-city text-lg"></i>
         </div>
         <div>
-          <h1 class="text-base font-black text-sky-900 leading-tight">Secure Drop GB</h1>
-          <p class="text-[10px] text-sky-600 font-bold">Student Pass & Travel Portal</p>
+          <h1 class="text-base font-black text-sky-950 leading-tight">Secure Drop GB</h1>
+          <p class="text-[10px] text-sky-600 font-bold tracking-wider uppercase">Enterprise Transport Network</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <span id="userRoleBadge" class="bg-sky-100 text-sky-700 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase">User</span>
+        <span id="userRoleBadge" class="bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase">User</span>
         <button onclick="logout()" class="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1.5 rounded-xl text-xs font-bold transition">Logout</button>
       </div>
     </header>
 
     <!-- USER BOOKING SECTION -->
-    <div id="userSection" class="space-y-4">
+    <div id="userSection" class="space-y-5">
       
-      <!-- Sky Banner Card -->
-      <div class="relative h-36 w-full rounded-2xl overflow-hidden shadow-lg border border-sky-200">
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Sky Blue Nature" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 via-sky-900/30 to-transparent flex items-end p-4">
+      <!-- Enterprise Hero Banner -->
+      <div class="relative h-44 w-full rounded-3xl overflow-hidden shadow-xl border border-sky-200">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Mountain Logistics" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-sky-950/90 via-sky-950/40 to-transparent flex items-end p-5">
           <div>
-            <h2 class="text-white font-black text-base drop-shadow">Student Monthly & Custom Fare</h2>
-            <p class="text-xs text-sky-200 font-medium">Set your own budget or request free quotes from admin</p>
+            <span class="bg-emerald-500 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase">Verified Network</span>
+            <h2 class="text-white font-black text-lg drop-shadow mt-1">Gilgit-Baltistan's Elite Transport Hub</h2>
+            <p class="text-xs text-sky-200 font-medium">Custom Student Passes, Corporate Shuttles & Free Quote Negotiations</p>
           </div>
         </div>
       </div>
 
+      <!-- Company Key Metrics / Stats -->
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
+          <i class="fa-solid fa-shield-halved text-sky-600 text-sm mb-1"></i>
+          <h4 class="font-black text-sky-950 text-xs">100% Safe</h4>
+          <p class="text-[9px] text-sky-600 font-medium">Verified Drivers</p>
+        </div>
+        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
+          <i class="fa-solid fa-comments-dollar text-sky-600 text-sm mb-1"></i>
+          <h4 class="font-black text-sky-950 text-xs">Custom Quote</h4>
+          <p class="text-[9px] text-sky-600 font-medium">User / Admin Agreed</p>
+        </div>
+        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
+          <i class="fa-solid fa-headset text-sky-600 text-sm mb-1"></i>
+          <h4 class="font-black text-sky-950 text-xs">24/7 Support</h4>
+          <p class="text-[9px] text-sky-600 font-medium">GB Emergency Dispatch</p>
+        </div>
+      </div>
+
       <!-- Booking Form Card -->
-      <div class="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-sky-200 space-y-4">
-        <h2 class="text-base font-black text-sky-900 text-center uppercase tracking-wider">Book Ride / Student Monthly Pass</h2>
+      <div class="bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-sky-200 space-y-4">
+        <div class="border-b border-sky-100 pb-2 flex justify-between items-center">
+          <h2 class="text-sm font-black text-sky-950 uppercase tracking-wider">Book Ride / Request Custom Quote</h2>
+          <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Zero Fixed Rates</span>
+        </div>
         
         <form id="bookingForm" class="space-y-3.5">
           <div>
-            <label class="block text-xs font-bold text-sky-800 mb-1">Service Category</label>
-            <select id="serviceCategory" onchange="toggleCustomFareInput()" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
-              <option value="tourist">Tourist / General Ride</option>
-              <option value="student_monthly">Student Monthly Pick & Drop Pass</option>
-              <option value="custom_quote">Request Free Admin Quote (Custom Budget)</option>
+            <label class="block text-xs font-bold text-sky-900 mb-1">Service & Transport Category</label>
+            <select id="serviceCategory" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-semibold text-sky-950">
+              <option value="student_pass">Student Monthly Pick & Drop Pass</option>
+              <option value="corporate_shuttle">Corporate & Institute Shuttle Service</option>
+              <option value="tourist_jeep">Tourist 4x4 Mountain Jeep Expedition</option>
+              <option value="custom_freight">Custom Route & Freight Transport</option>
             </select>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-sky-800 mb-1">Pickup Point / Institution</label>
-              <input type="text" id="pickup" oninput="updateEstimateDetails()" placeholder="e.g. KIU / Home / College" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+              <label class="block text-xs font-bold text-sky-900 mb-1">Pickup Location / Institution</label>
+              <input type="text" id="pickup" oninput="updateEstimateDetails()" placeholder="e.g. KIU University / Home" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-950">
             </div>
             <div>
-              <label class="block text-xs font-bold text-sky-800 mb-1">Drop Destination</label>
-              <input type="text" id="drop" oninput="updateEstimateDetails()" placeholder="e.g. Campus / City / Hunza" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
+              <label class="block text-xs font-bold text-sky-900 mb-1">Drop Destination</label>
+              <input type="text" id="drop" oninput="updateEstimateDetails()" placeholder="e.g. Hunza / Skardu / Campus" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-950">
             </div>
           </div>
 
-          <!-- Dynamic Distance & Duration Estimator Widget -->
-          <div id="routeEstimateWidget" class="bg-sky-50 p-2.5 rounded-xl border border-sky-200 flex justify-between items-center text-[11px] text-sky-800 font-bold hidden">
-            <span><i class="fa-solid fa-route text-sky-600 mr-1"></i> Est. Distance: <strong id="estKm" class="text-sky-900">-- km</strong></span>
-            <span><i class="fa-solid fa-clock text-sky-600 mr-1"></i> Est. Time: <strong id="estTime" class="text-sky-900">-- hrs</strong></span>
+          <!-- Dynamic Distance Estimator -->
+          <div id="routeEstimateWidget" class="bg-sky-50 p-2.5 rounded-xl border border-sky-200 flex justify-between items-center text-[11px] text-sky-900 font-bold hidden">
+            <span><i class="fa-solid fa-route text-sky-600 mr-1"></i> Estimated Distance: <strong id="estKm" class="text-sky-950">-- km</strong></span>
+            <span><i class="fa-solid fa-clock text-sky-600 mr-1"></i> Est. Travel Time: <strong id="estTime" class="text-sky-950">-- hrs</strong></span>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-sky-800 mb-1">Vehicle Type</label>
-            <select id="vehicle" onchange="calculateFare()" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
-              <option value="6000">Corolla / Sedan (City / School) - PKR 6,000</option>
-              <option value="15000" selected>4x4 Prado / TZ Jeep (Off-road) - PKR 15,000</option>
-              <option value="22000">HiAce Van / Coaster (Students Group) - PKR 22,000</option>
-              <option value="10000">Student Monthly Van Pass - PKR 10,000/mo</option>
+            <label class="block text-xs font-bold text-sky-900 mb-1">Preferred Vehicle Class</label>
+            <select id="vehicle" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-semibold text-sky-950">
+              <option value="Sedan / Corolla">Sedan / Corolla (Comfort Highway Travel)</option>
+              <option value="4x4 Prado / Jeep" selected>4x4 Prado / Mountain Jeep (Off-road Specialist)</option>
+              <option value="HiAce / Coaster">HiAce Van / Coaster (Group & Student Shuttle)</option>
+              <option value="Suzuki Bolan">Suzuki Bolan / Local Van (Monthly Student Pass)</option>
             </select>
           </div>
 
-          <!-- Custom User Amount / Quote Input -->
-          <div id="customFareBox" class="hidden">
-            <label class="block text-xs font-bold text-sky-800 mb-1">Apna Pasandida Budget / Amount Likhein (PKR)</label>
-            <input type="number" id="customFareInput" placeholder="e.g. 8000" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium text-sky-900">
-          </div>
-
-          <div class="bg-sky-100 p-3.5 rounded-xl flex justify-between items-center border border-sky-300">
-            <span class="text-xs font-bold text-sky-800" id="fareLabelText">Estimated Fare:</span>
-            <span id="fareDisplay" class="text-sky-900 font-black text-sm">PKR 15,000</span>
+          <!-- User Custom Budget Input -->
+          <div>
+            <label class="block text-xs font-bold text-sky-900 mb-1">Your Proposed Budget / Amount (PKR)</label>
+            <input type="number" id="customFareInput" placeholder="Enter your fair budget e.g. 8000" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold text-sky-950">
+            <p class="text-[10px] text-sky-600 mt-1 font-medium">*Admin will review your proposed budget, discuss, and approve or request adjustments.</p>
           </div>
 
           <button type="button" onclick="confirmAndWhatsAppBooking()" class="w-full bg-sky-600 hover:bg-sky-700 text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2">
-            <i class="fa-brands fa-whatsapp text-lg"></i> Book via WhatsApp & Save
+            <i class="fa-brands fa-whatsapp text-lg"></i> Submit Request & Discuss via WhatsApp
           </button>
         </form>
       </div>
@@ -186,30 +203,30 @@
       <div id="receiptModal" class="bg-white p-5 rounded-3xl shadow-2xl border border-sky-300 hidden space-y-3">
         <div class="text-center border-b border-sky-200 pb-2">
           <i class="fa-solid fa-circle-check text-emerald-500 text-2xl mb-1"></i>
-          <h3 class="font-black text-sky-900 text-sm uppercase">Booking Confirmation Ticket</h3>
-          <p class="text-[10px] text-sky-600">Secure Drop Travel GB</p>
+          <h3 class="font-black text-sky-950 text-sm uppercase">Booking & Quote Submitted</h3>
+          <p class="text-[10px] text-sky-600">Secure Drop Travel GB - Enterprise Logistics</p>
         </div>
-        <div id="receiptContent" class="text-xs text-sky-900 space-y-1"></div>
+        <div id="receiptContent" class="text-xs text-sky-950 space-y-1"></div>
         <div class="flex gap-2 pt-2">
-          <button onclick="window.print()" class="w-1/2 bg-sky-100 text-sky-800 py-2 rounded-xl font-bold text-xs">Print Receipt</button>
+          <button onclick="window.print()" class="w-1/2 bg-sky-100 text-sky-900 py-2 rounded-xl font-bold text-xs">Print Ticket</button>
           <button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="w-1/2 bg-sky-600 text-white py-2 rounded-xl font-bold text-xs">Close</button>
         </div>
       </div>
 
       <!-- User Feedback Section -->
-      <div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-sky-200 space-y-2">
-        <h4 class="text-xs font-black text-sky-900 uppercase"><i class="fa-solid fa-star text-amber-400 mr-1"></i> Submit Ride Feedback / Review</h4>
+      <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-sky-200 space-y-2">
+        <h4 class="text-xs font-black text-sky-950 uppercase"><i class="fa-solid fa-star text-amber-400 mr-1"></i> Corporate Client Feedback</h4>
         <div class="flex gap-2">
-          <input type="text" id="feedbackInput" placeholder="Share your experience..." class="flex-1 bg-sky-50 border border-sky-300 rounded-xl p-2 text-xs text-sky-900">
+          <input type="text" id="feedbackInput" placeholder="Write your review or experience..." class="flex-1 bg-sky-50 border border-sky-300 rounded-xl p-2 text-xs text-sky-950">
           <button onclick="submitFeedback()" class="bg-sky-600 text-white px-3 py-2 rounded-xl text-xs font-bold">Submit</button>
         </div>
       </div>
 
       <!-- User's Booking History -->
-      <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200">
-        <h3 class="text-xs font-black text-sky-900 uppercase tracking-wider mb-3"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> Your Booking & Quote History</h3>
-        <div id="bookingHistory" class="space-y-2 text-xs text-sky-900 max-h-40 overflow-y-auto">
-          <p class="text-sky-500 text-center py-2 font-medium">Loading your bookings...</p>
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wider mb-3"><i class="fa-solid fa-clock-rotate-left mr-1 text-sky-600"></i> Your Submitted Quotes & Bookings</h3>
+        <div id="bookingHistory" class="space-y-2 text-xs text-sky-950 max-h-40 overflow-y-auto">
+          <p class="text-sky-500 text-center py-2 font-medium">Loading your records...</p>
         </div>
       </div>
     </div>
@@ -218,13 +235,13 @@
     <!-- ADMIN SECTION (Protected by PIN 5426) -->
     <div id="adminSection" class="space-y-4 hidden">
       <div class="grid grid-cols-3 gap-2 text-center text-xs">
-        <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
-          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Revenue</p>
-          <h4 id="adminRevenueDisplay" class="font-black text-sky-900 text-sm mt-0.5">PKR 0</h4>
+        <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
+          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Bookings/Quotes</p>
+          <h4 id="adminTotalRides" class="font-black text-sky-950 text-sm mt-0.5">0</h4>
         </div>
-        <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
-          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Bookings</p>
-          <h4 id="adminTotalRides" class="font-black text-sky-900 text-sm mt-0.5">0</h4>
+        <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
+          <p class="text-[10px] text-sky-600 font-bold uppercase">Agreed Revenue</p>
+          <h4 id="adminRevenueDisplay" class="font-black text-sky-950 text-sm mt-0.5">PKR 0</h4>
         </div>
         <button onclick="exportBookingsToExcel()" class="bg-sky-600 hover:bg-sky-700 text-white p-3 rounded-2xl shadow transition flex flex-col items-center justify-center">
           <i class="fa-solid fa-file-excel text-xs mb-0.5"></i>
@@ -232,17 +249,17 @@
         </button>
       </div>
 
-      <div class="bg-white/90 p-3 rounded-2xl shadow border border-sky-200">
-        <input type="text" id="adminSearchInput" oninput="filterAdminBookings()" placeholder="Search bookings by email, route, or category..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-xs text-sky-900 font-medium">
+      <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
+        <input type="text" id="adminSearchInput" oninput="filterAdminBookings()" placeholder="Search by email, route, or status..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-xs text-sky-950 font-medium">
       </div>
 
-      <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
         <div class="flex justify-between items-center">
-          <h2 class="text-sm font-black text-sky-900 uppercase tracking-wide"><i class="fa-solid fa-user-shield text-sky-600 mr-1"></i> Admin Panel - User Quotes & Bookings</h2>
-          <span id="totalBookingsCount" class="bg-sky-200 text-sky-800 px-2.5 py-1 rounded-lg text-[11px] font-black">0 Bookings</span>
+          <h2 class="text-sm font-black text-sky-950 uppercase tracking-wide"><i class="fa-solid fa-user-shield text-sky-600 mr-1"></i> Enterprise Admin Command Center</h2>
+          <span id="totalBookingsCount" class="bg-sky-200 text-sky-900 px-2.5 py-1 rounded-lg text-[11px] font-black">0 Records</span>
         </div>
         <div id="adminBookingsList" class="space-y-2.5 max-h-96 overflow-y-auto text-xs">
-          <p class="text-sky-500 text-center py-4 font-medium">Loading all users data...</p>
+          <p class="text-sky-500 text-center py-4 font-medium">Loading enterprise data...</p>
         </div>
       </div>
     </div>
@@ -262,20 +279,19 @@
 
   </div>
 
-  <!-- Floating WhatsApp Help -->
-  <a href="https://wa.me/923100000000?text=Hello%20Secure%20Drop%20GB,%20I%20need%20a%20custom%20quote" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
+  <!-- Floating WhatsApp Help (+923119933029) -->
+  <a href="https://wa.me/923119933029?text=Hello%20Secure%20Drop%20GB,%20I%20want%20to%20discuss%20a%20custom%20transport%20quote" target="_blank" class="fixed bottom-5 right-5 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center">
     <i class="fa-brands fa-whatsapp text-2xl"></i>
   </a>
 
   <!-- PWA Service Worker & App Logic -->
   <script type="module">
-    // PWA Manifest Dynamic Injector
     const manifestData = {
       "name": "Secure Drop Travel Gilgit-Baltistan",
       "short_name": "SecureDrop GB",
       "start_url": "./index.html",
       "display": "standalone",
-      "background_color": "#e0f2fe",
+      "background_color": "#f0f9ff",
       "theme_color": "#0284c7",
       "icons": [
         {
@@ -295,10 +311,9 @@
     const manifestURL = URL.createObjectURL(blob);
     document.getElementById('manifestPlaceholder').setAttribute('href', manifestURL);
 
-    // Register Inline Service Worker for Offline PWA Capabilities
     if ('serviceWorker' in navigator) {
       const swCode = `
-        const CACHE_NAME = 'securedrop-v1';
+        const CACHE_NAME = 'securedrop-v2';
         self.addEventListener('install', (e) => {
           e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
         });
@@ -311,7 +326,6 @@
       navigator.serviceWorker.register(swUrl).catch(() => {});
     }
 
-    // PWA Installation Event Prompt
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -357,7 +371,7 @@
     const googleProvider = new GoogleAuthProvider();
 
     const ADMIN_EMAIL = "admin@securedropgb.com"; 
-    const ADMIN_PIN = "542622";
+    const ADMIN_PIN = "5426";
 
     let currentUser = null;
     let allBookingsCache = [];
@@ -387,7 +401,7 @@
         if (user.email === ADMIN_EMAIL || user.email.includes("admin")) {
           let enteredPin = prompt("Admin Access Detected! Please enter Admin PIN (5426):");
           if (enteredPin === ADMIN_PIN) {
-            document.getElementById('userRoleBadge').innerText = "Admin Panel";
+            document.getElementById('userRoleBadge').innerText = "Admin Command";
             document.getElementById('adminSection').classList.remove('hidden');
             document.getElementById('userSection').classList.add('hidden');
             loadAllBookingsForAdmin();
@@ -415,23 +429,6 @@
       signOut(auth);
     }
 
-    window.toggleCustomFareInput = function() {
-      const category = document.getElementById('serviceCategory').value;
-      const customBox = document.getElementById('customFareBox');
-      const fareLabel = document.getElementById('fareLabelText');
-      const fareDisplay = document.getElementById('fareDisplay');
-
-      if (category === 'custom_quote') {
-        customBox.classList.remove('hidden');
-        fareLabel.innerText = "Custom Quote Requested:";
-        fareDisplay.innerText = "Free Admin Quote";
-      } else {
-        customBox.classList.add('hidden');
-        fareLabel.innerText = "Estimated Fare:";
-        calculateFare();
-      }
-    }
-
     window.updateEstimateDetails = function() {
       const p = document.getElementById('pickup').value.trim();
       const d = document.getElementById('drop').value.trim();
@@ -439,37 +436,26 @@
       
       if(p && d) {
         widget.classList.remove('hidden');
-        document.getElementById('estKm').innerText = `${Math.floor(Math.random() * 80) + 20} km`;
-        document.getElementById('estTime').innerText = `${(Math.random() * 3 + 1).toFixed(1)} hrs`;
+        document.getElementById('estKm').innerText = `${Math.floor(Math.random() * 80) + 25} km`;
+        document.getElementById('estTime').innerText = `${(Math.random() * 3 + 1.2).toFixed(1)} hrs`;
       } else {
         widget.classList.add('hidden');
       }
-    }
-
-    window.calculateFare = function() {
-      const category = document.getElementById('serviceCategory').value;
-      if (category === 'custom_quote') return;
-      const fare = document.getElementById('vehicle').value;
-      document.getElementById('fareDisplay').innerText = `PKR ${Number(fare).toLocaleString()}`;
     }
 
     window.confirmAndWhatsAppBooking = function() {
       const category = document.getElementById('serviceCategory').value;
       const pickup = document.getElementById('pickup').value.trim();
       const drop = document.getElementById('drop').value.trim();
-      const vehicleSelect = document.getElementById('vehicle');
-      const vehicleText = vehicleSelect.options[vehicleSelect.selectedIndex].text;
-      
-      let finalFare = vehicleSelect.value;
-      if (category === 'custom_quote') {
-        const customInput = document.getElementById('customFareInput').value.trim();
-        finalFare = customInput ? customInput : "Free Quote Requested";
-      }
+      const vehicleText = document.getElementById('vehicle').value;
+      const userBudget = document.getElementById('customFareInput').value.trim();
 
       if (!pickup || !drop) {
         alert("Baraye meherbani Pickup aur Drop locations dono enter karein.");
         return;
       }
+
+      const finalBudget = userBudget ? `PKR ${Number(userBudget).toLocaleString()}` : "Pending Admin Quote Discussion";
 
       const bookingData = {
         userId: currentUser.uid,
@@ -478,8 +464,8 @@
         pickup: pickup,
         drop: drop,
         vehicle: vehicleText,
-        fare: finalFare,
-        status: "Pending",
+        fare: finalBudget,
+        status: "Pending Quote Approval",
         timestamp: new Date().toISOString()
       };
 
@@ -490,17 +476,17 @@
         const receiptModal = document.getElementById('receiptModal');
         const receiptContent = document.getElementById('receiptContent');
         receiptContent.innerHTML = `
-          <p><strong>Passenger:</strong> ${currentUser.email}</p>
+          <p><strong>Client:</strong> ${currentUser.email}</p>
           <p><strong>Route:</strong> ${pickup} ➔ ${drop}</p>
           <p><strong>Vehicle:</strong> ${vehicleText}</p>
-          <p><strong>Fare/Budget:</strong> ${isNaN(finalFare) ? finalFare : 'PKR ' + Number(finalFare).toLocaleString()}</p>
-          <p><strong>Status:</strong> Pending Approval</p>
+          <p><strong>Proposed Budget:</strong> ${finalBudget}</p>
+          <p><strong>Status:</strong> Under Admin Review</p>
           <p class="text-[9px] text-sky-500 mt-1">${new Date().toLocaleString()}</p>
         `;
         receiptModal.classList.remove('hidden');
 
-        const agencyWhatsAppNumber = "923100000000";
-        const message = `*Booking Ticket - Secure Drop GB*%0A*User:* ${currentUser.email}%0A*Category:* ${category.toUpperCase()}%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Vehicle:* ${vehicleText}%0A*Fare:* ${isNaN(finalFare) ? finalFare : 'PKR ' + Number(finalFare).toLocaleString()}`;
+        const agencyWhatsAppNumber = "923119933029";
+        const message = `*Enterprise Quote Request - Secure Drop GB*%0A*Client:* ${currentUser.email}%0A*Category:* ${category}%0A*Pickup:* ${pickup}%0A*Drop:* ${drop}%0A*Vehicle:* ${vehicleText}%0A*Proposed Budget:* ${finalBudget}`;
         window.open(`https://wa.me/${agencyWhatsAppNumber}?text=${message}`, '_blank');
       });
     }
@@ -513,7 +499,7 @@
         feedback: fb,
         timestamp: new Date().toISOString()
       }).then(() => {
-        alert("Shukriya! Aapka feedback save ho gaya hai.");
+        alert("Shukriya! Aapka corporate feedback submit ho gaya hai.");
         document.getElementById('feedbackInput').value = "";
       });
     }
@@ -531,26 +517,25 @@
             if (b.userId === userId) {
               hasBookings = true;
               const date = new Date(b.timestamp).toLocaleDateString();
-              const fareText = isNaN(b.fare) ? b.fare : `PKR ${Number(b.fare).toLocaleString()}`;
               const item = document.createElement('div');
               item.className = "p-3 bg-sky-50 rounded-xl border border-sky-200 shadow-sm";
               item.innerHTML = `
-                <div class="flex justify-between font-black text-sky-900">
+                <div class="flex justify-between font-black text-sky-950">
                   <span>${b.category.toUpperCase()}</span>
-                  <span class="text-sky-700">${fareText}</span>
+                  <span class="text-sky-700">${b.fare}</span>
                 </div>
-                <div class="text-[11px] text-sky-700 font-medium">${b.pickup} ➔ ${b.drop}</div>
-                <div class="flex justify-between text-[9px] text-sky-500 font-bold mt-1">
+                <div class="text-[11px] text-sky-800 font-medium">${b.pickup} ➔ ${b.drop}</div>
+                <div class="flex justify-between text-[9px] text-sky-600 font-bold mt-1">
                   <span>${date}</span>
-                  <span class="text-emerald-600 font-black">${b.status || 'Pending'}</span>
+                  <span class="text-amber-600 font-black">${b.status || 'Pending Quote Approval'}</span>
                 </div>
               `;
               historyContainer.appendChild(item);
             }
           });
-          if (!hasBookings) historyContainer.innerHTML = `<p class="text-sky-500 text-center py-2 font-medium">No bookings yet.</p>`;
+          if (!hasBookings) historyContainer.innerHTML = `<p class="text-sky-500 text-center py-2 font-medium">No records found.</p>`;
         } else {
-          historyContainer.innerHTML = `<p class="text-sky-500 text-center py-2 font-medium">No bookings yet.</p>`;
+          historyContainer.innerHTML = `<p class="text-sky-500 text-center py-2 font-medium">No records found.</p>`;
         }
       });
     }
@@ -561,58 +546,61 @@
         if (snapshot.exists()) {
           const data = snapshot.val();
           allBookingsCache = [];
-          let totalRevenue = 0;
+          let totalAgreedRevenue = 0;
 
           Object.keys(data).reverse().forEach((key) => {
             const b = data[key];
             b.dbKey = key;
             allBookingsCache.push(b);
-            if(!isNaN(b.fare)) totalRevenue += Number(b.fare || 0);
+            const numericVal = Number(b.fare.replace(/[^0-9]/g, ''));
+            if(b.status === 'Approved & Agreed' && !isNaN(numericVal)) {
+              totalAgreedRevenue += numericVal;
+            }
           });
 
           document.getElementById('adminTotalRides').innerText = allBookingsCache.length;
-          document.getElementById('adminRevenueDisplay').innerText = `PKR ${totalRevenue.toLocaleString()}`;
+          document.getElementById('adminRevenueDisplay').innerText = `PKR ${totalAgreedRevenue.toLocaleString()}`;
           renderAdminBookings(allBookingsCache);
         } else {
-          document.getElementById('adminBookingsList').innerHTML = `<p class="text-sky-500 text-center py-4 font-medium">No bookings found.</p>`;
+          document.getElementById('adminBookingsList').innerHTML = `<p class="text-sky-500 text-center py-4 font-medium">No enterprise requests found.</p>`;
           document.getElementById('adminRevenueDisplay').innerText = `PKR 0`;
         }
+      });
+    }
+
+    window.updateRideStatus = function(key, statusVal) {
+      update(ref(db, `bookings/${key}`), { status: statusVal }).then(() => {
+        alert("Status Updated Successfully!");
       });
     }
 
     function renderAdminBookings(list) {
       const adminList = document.getElementById('adminBookingsList');
       adminList.innerHTML = "";
-      document.getElementById('totalBookingsCount').innerText = `${list.length} Bookings`;
+      document.getElementById('totalBookingsCount').innerText = `${list.length} Records`;
 
       list.forEach((b) => {
         const date = new Date(b.timestamp).toLocaleString();
-        const fareText = isNaN(b.fare) ? b.fare : `PKR ${Number(b.fare).toLocaleString()}`;
         const card = document.createElement('div');
         card.className = "p-3.5 bg-sky-50 rounded-2xl border border-sky-200 shadow-sm space-y-1.5";
         card.innerHTML = `
           <div class="flex justify-between items-center">
-            <span class="text-sky-900 font-black">${b.userEmail}</span>
-            <span class="bg-sky-200 text-sky-800 px-2 py-0.5 rounded text-[10px] font-black">${b.category.toUpperCase()}</span>
+            <span class="text-sky-950 font-black">${b.userEmail}</span>
+            <span class="bg-sky-200 text-sky-900 px-2 py-0.5 rounded text-[10px] font-black">${b.category.toUpperCase()}</span>
           </div>
-          <div class="text-sky-800 font-medium"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div>
-          <div class="text-sky-600 text-[11px] font-medium"><strong>Vehicle:</strong> ${b.vehicle}</div>
+          <div class="text-sky-900 font-medium"><strong>Route:</strong> ${b.pickup} ➔ ${b.drop}</div>
+          <div class="text-sky-700 text-[11px] font-medium"><strong>Vehicle:</strong> ${b.vehicle} | <strong>Budget:</strong> ${b.fare}</div>
           <div class="flex justify-between items-center pt-1.5 border-t border-sky-200 text-[11px]">
-            <span class="text-sky-950 font-black">${fareText}</span>
-            <select onchange="updateRideStatus('${b.dbKey}', this.value)" class="bg-white border border-sky-300 rounded px-1.5 py-0.5 text-[10px] font-bold text-sky-900">
-              <option ${b.status==='Pending'?'selected':''}>Pending</option>
-              <option ${b.status==='Approved'?'selected':''}>Approved</option>
+            <span class="text-sky-600 font-bold">${date}</span>
+            <select onchange="updateRideStatus('${b.dbKey}', this.value)" class="bg-white border border-sky-300 rounded px-2 py-1 text-[10px] font-bold text-sky-950">
+              <option ${b.status==='Pending Quote Approval'?'selected':''}>Pending Quote Approval</option>
+              <option ${b.status==='Approved & Agreed'?'selected':''}>Approved & Agreed</option>
+              <option ${b.status==='Rejected'?'selected':''}>Rejected</option>
               <option ${b.status==='Completed'?'selected':''}>Completed</option>
             </select>
           </div>
         `;
         adminList.appendChild(card);
-      });
-    }
-
-    window.updateRideStatus = function(key, statusVal) {
-      update(ref(db, `bookings/${key}`), { status: statusVal }).then(() => {
-        alert("Status Updated!");
       });
     }
 
@@ -622,21 +610,21 @@
         (b.userEmail && b.userEmail.toLowerCase().includes(q)) ||
         (b.pickup && b.pickup.toLowerCase().includes(q)) ||
         (b.drop && b.drop.toLowerCase().includes(q)) ||
-        (b.category && b.category.toLowerCase().includes(q))
+        (b.status && b.status.toLowerCase().includes(q))
       );
       renderAdminBookings(filtered);
     }
 
     window.exportBookingsToExcel = function() {
-      if(allBookingsCache.length === 0) return alert("Export karne ke liye koi booking data nahi hai.");
+      if(allBookingsCache.length === 0) return alert("Export karne ke liye koi data nahi hai.");
       const worksheet = XLSX.utils.json_to_sheet(allBookingsCache);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "GB_Bookings");
-      XLSX.writeFile(workbook, "SecureDropGB_AdvancedBookings.xlsx");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "GB_Enterprise_Data");
+      XLSX.writeFile(workbook, "SecureDropGB_Enterprise_Records.xlsx");
     }
 
     window.triggerSOS = function() {
-      if(confirm("Emergency SOS Alert trigger karein?")) alert("SOS Alert Sent! Rescue team notified.");
+      if(confirm("Emergency SOS Alert trigger karein?")) alert("SOS Alert Sent! Rescue team & admin notified.");
     }
 
     window.shareLocation = function() {
