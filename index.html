@@ -3,10 +3,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO & Enterprise Meta Tags -->
+  <!-- Enterprise SEO & Meta Tags -->
   <title>Secure Drop Travel GB | Premier Transport & Enterprise Logistics</title>
   <meta name="title" content="Secure Drop Travel GB | Premier Transport & Enterprise Logistics">
-  <meta name="description" content="Gilgit-Baltistan's leading corporate travel, student transport, and 4x4 mountain logistics network. Powered by Prime Solutions, founded by Muhammad Nazim.">
+  <meta name="description" content="Gilgit-Baltistan's leading corporate travel, student monthly transport, and 4x4 mountain logistics network. Powered by Prime Solutions, founded by Muhammad Nazim.">
   <meta name="keywords" content="Secure Drop GB, Gilgit travel company, Skardu corporate transport, Hunza luxury fleet, KIU student shuttle, Prime Solutions, Muhammad Nazim">
   <meta name="author" content="Muhammad Nazim - Prime Solutions">
   <meta name="theme-color" content="#0284c7">
@@ -32,12 +32,33 @@
       background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
       color: #0f172a;
     }
+    @keyframes pulseSlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .animate-pulse-slow {
+      animation: pulseSlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between p-4 font-sans">
 
+  <!-- SPLASH / LOADING SCREEN -->
+  <div id="splashScreen" class="fixed inset-0 z-50 bg-sky-950 flex flex-col items-center justify-center text-white space-y-4 transition-opacity duration-700">
+    <div class="p-4 bg-sky-600 rounded-3xl shadow-2xl animate-bounce">
+      <i class="fa-solid fa-mountain-sun text-4xl text-white"></i>
+    </div>
+    <div class="text-center space-y-1">
+      <h1 class="text-xl font-black tracking-widest uppercase">Secure Drop GB</h1>
+      <p class="text-xs text-sky-300 animate-pulse-slow">Initializing Enterprise Logistics & Security...</p>
+    </div>
+    <div class="w-32 h-1.5 bg-sky-800 rounded-full overflow-hidden">
+      <div class="bg-emerald-400 h-full animate-[ping_1.5s_infinite]"></div>
+    </div>
+  </div>
+
   <!-- PWA Install Banner -->
-  <div id="pwaInstallBanner" class="fixed top-2 z-50 max-w-md w-full bg-sky-900 text-white p-3 rounded-2xl shadow-2xl flex justify-between items-center hidden border border-sky-400">
+  <div id="pwaInstallBanner" class="fixed top-2 z-40 max-w-md w-full bg-sky-900 text-white p-3 rounded-2xl shadow-2xl flex justify-between items-center hidden border border-sky-400">
     <div class="flex items-center gap-2">
       <i class="fa-solid fa-mobile-screen-button text-emerald-400 text-xl"></i>
       <div>
@@ -102,6 +123,7 @@
         </div>
       </div>
       <div class="flex items-center gap-2">
+        <a href="http://web-hub-code.github.io/primesolutions/" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg text-[10px] font-black transition">Prime Solutions</a>
         <span id="userRoleBadge" class="bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase">User</span>
         <button onclick="logout()" class="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1.5 rounded-xl text-xs font-bold transition">Logout</button>
       </div>
@@ -110,49 +132,57 @@
     <!-- USER BOOKING SECTION -->
     <div id="userSection" class="space-y-5">
       
-      <!-- Enterprise Hero Banner with Unsplash Image -->
-      <div class="relative h-48 w-full rounded-3xl overflow-hidden shadow-xl border border-sky-200">
-        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Mountain Logistics" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-sky-950/90 via-sky-950/40 to-transparent flex items-end p-5">
+      <!-- Live Admin Broadcast Alert Banner -->
+      <div id="broadcastBanner" class="bg-amber-500/15 border border-amber-500/40 p-3.5 rounded-2xl flex items-start gap-3 shadow-sm hidden">
+        <i class="fa-solid fa-bullhorn text-amber-600 mt-0.5 text-base"></i>
+        <div>
+          <h4 class="text-xs font-black text-amber-900 uppercase">Admin Emergency Broadcast / Road Update</h4>
+          <p id="broadcastTextDisplay" class="text-[11px] text-amber-950 font-medium mt-0.5"></p>
+        </div>
+      </div>
+
+      <!-- Enterprise Hero Banner -->
+      <div class="relative h-56 w-full rounded-3xl overflow-hidden shadow-xl border border-sky-200">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Mountain Logistics" class="w-full h-full object-cover transform hover:scale-105 transition duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-sky-950/90 via-sky-950/40 to-transparent flex items-end p-6">
           <div>
-            <span class="bg-emerald-500 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase">Verified Network</span>
-            <h2 class="text-white font-black text-lg drop-shadow mt-1">Gilgit-Baltistan's Elite Transport Hub</h2>
-            <p class="text-xs text-sky-200 font-medium">Custom Student Passes, Corporate Shuttles & Free Quote Negotiations</p>
+            <span class="bg-emerald-500 text-white px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">Verified Standards</span>
+            <h2 class="text-white font-black text-xl drop-shadow mt-1">Gilgit-Baltistan's Premier Travel & Logistics</h2>
+            <p class="text-xs text-sky-200 font-medium mt-1">Student Passes, Corporate Shuttles, QR Passes & Live Direct Admin Chat.</p>
           </div>
         </div>
       </div>
 
-      <!-- Company Key Metrics / Stats -->
-      <div class="grid grid-cols-3 gap-3 text-center">
-        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
-          <i class="fa-solid fa-shield-halved text-sky-600 text-sm mb-1"></i>
-          <h4 class="font-black text-sky-950 text-xs">100% Safe</h4>
-          <p class="text-[9px] text-sky-600 font-medium">Verified Drivers</p>
+      <!-- Live Payment Info Display -->
+      <div class="bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-sky-200 space-y-1.5 text-xs text-sky-950">
+        <h4 class="font-black text-sky-950 uppercase flex items-center gap-1.5"><i class="fa-solid fa-wallet text-emerald-600"></i> Active Official Payment Channels</h4>
+        <div id="clientPaymentDisplay" class="text-[11px] text-sky-800 font-medium bg-sky-50 p-2.5 rounded-xl border border-sky-100">
+          Loading payment details...
         </div>
-        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
-          <i class="fa-solid fa-comments-dollar text-sky-600 text-sm mb-1"></i>
-          <h4 class="font-black text-sky-950 text-xs">Custom Quote</h4>
-          <p class="text-[9px] text-sky-600 font-medium">User / Admin Agreed</p>
+      </div>
+
+      <!-- User Profile Editor Card -->
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-user-pen text-sky-600"></i> User Profile & Contact Setup</h3>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <input type="text" id="profileName" placeholder="Full Name (e.g. Ali Khan)" class="bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-sky-950 font-medium">
+          <input type="text" id="profilePhone" placeholder="Phone (e.g. 0300-1234567)" class="bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-sky-950 font-medium">
         </div>
-        <div class="bg-white/90 p-3 rounded-2xl shadow-sm border border-sky-200">
-          <i class="fa-solid fa-headset text-sky-600 text-sm mb-1"></i>
-          <h4 class="font-black text-sky-950 text-xs">24/7 Support</h4>
-          <p class="text-[9px] text-sky-600 font-medium">GB Emergency Dispatch</p>
-        </div>
+        <button onclick="saveUserProfile()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-xs w-full transition">Save Profile Details</button>
       </div>
 
       <!-- Booking Form Card -->
       <div class="bg-white/95 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-sky-200 space-y-4">
         <div class="border-b border-sky-100 pb-2 flex justify-between items-center">
-          <h2 class="text-sm font-black text-sky-950 uppercase tracking-wider">Book Ride / Request Custom Quote</h2>
-          <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Zero Fixed Rates</span>
+          <h2 class="text-sm font-black text-sky-950 uppercase tracking-wider">Book Ride / Monthly Student Pass</h2>
+          <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">Custom Budget</span>
         </div>
         
         <form id="bookingForm" class="space-y-3.5">
           <div>
             <label class="block text-xs font-bold text-sky-900 mb-1">Service & Transport Category</label>
             <select id="serviceCategory" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-semibold text-sky-950">
-              <option value="student_pass">Student Monthly Pick & Drop Pass</option>
+              <option value="student_pass">Student Monthly Pick & Drop Pass (QR Ticket)</option>
               <option value="corporate_shuttle">Corporate & Institute Shuttle Service</option>
               <option value="tourist_jeep">Tourist 4x4 Mountain Jeep Expedition</option>
               <option value="custom_freight">Custom Route & Freight Transport</option>
@@ -189,7 +219,6 @@
           <div>
             <label class="block text-xs font-bold text-sky-900 mb-1">Your Proposed Budget / Amount (PKR)</label>
             <input type="number" id="customFareInput" placeholder="Enter your fair budget e.g. 8000" class="w-full bg-sky-50 border border-sky-300 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold text-sky-950">
-            <p class="text-[10px] text-sky-600 mt-1 font-medium">*Admin will review your proposed budget, discuss, and approve or request adjustments.</p>
           </div>
 
           <button type="button" onclick="confirmAndWhatsAppBooking()" class="w-full bg-sky-600 hover:bg-sky-700 text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-lg flex items-center justify-center gap-2">
@@ -198,50 +227,32 @@
         </form>
       </div>
 
-      <!-- Fleet Showcase Section (Free Visuals) -->
+      <!-- In-App Direct Chat with Admin -->
       <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
-        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wider"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Our Elite Mountain Fleet</h3>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="relative rounded-2xl overflow-hidden h-28 border border-sky-200 shadow-sm">
-            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover brightness-9용">
-            <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 to-transparent flex items-end p-2">
-              <span class="text-[10px] font-bold text-white">4x4 Mountain Jeeps</span>
-            </div>
-          </div>
-          <div class="relative rounded-2xl overflow-hidden h-28 border border-sky-200 shadow-sm">
-            <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-sky-950/80 to-transparent flex items-end p-2">
-              <span class="text-[10px] font-bold text-white">Student Vans & Shuttles</span>
-            </div>
-          </div>
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-comments text-sky-600"></i> Direct Live Chat with Admin</h3>
+        <div id="chatBoxContainer" class="bg-sky-50 p-3 rounded-2xl border border-sky-200 h-40 overflow-y-auto space-y-2 text-xs">
+          <p class="text-sky-500 text-center py-2">Loading chat messages...</p>
+        </div>
+        <div class="flex gap-2">
+          <input type="text" id="chatInputMessage" placeholder="Type message to admin..." class="flex-1 bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-xs text-sky-950 font-medium">
+          <button onclick="sendChatMessage()" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Send</button>
         </div>
       </div>
 
-      <!-- Company About Us & FAQs Accordion -->
-      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3 text-xs text-sky-950">
-        <h3 class="font-black text-sky-950 uppercase tracking-wider"><i class="fa-solid fa-circle-info text-sky-600 mr-1"></i> About & Frequently Asked Questions</h3>
-        <div class="space-y-2 text-[11px]">
-          <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
-            <p class="font-bold text-sky-900">Q: How does student monthly pass work?</p>
-            <p class="text-sky-700 mt-0.5">Students can select the monthly pass category, input their institution route, propose a budget, and discuss directly with admin for verified pickup scheduling.</p>
-          </div>
-          <div class="p-2.5 bg-sky-50 rounded-xl border border-sky-100">
-            <p class="font-bold text-sky-900">Q: Are custom transport quotes free?</p>
-            <p class="text-sky-700 mt-0.5">Yes! All quote requests and budget discussions are 100% free of charge before final confirmation.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- User Receipt Modal -->
-      <div id="receiptModal" class="bg-white p-5 rounded-3xl shadow-2xl border border-sky-300 hidden space-y-3">
-        <div class="text-center border-b border-sky-200 pb-2">
+      <!-- User Receipt & QR Code Modal -->
+      <div id="receiptModal" class="bg-white p-5 rounded-3xl shadow-2xl border border-sky-300 hidden space-y-3 text-center">
+        <div class="border-b border-sky-200 pb-2">
           <i class="fa-solid fa-circle-check text-emerald-500 text-2xl mb-1"></i>
-          <h3 class="font-black text-sky-950 text-sm uppercase">Booking & Quote Submitted</h3>
-          <p class="text-[10px] text-sky-600">Secure Drop Travel GB - Enterprise Logistics</p>
+          <h3 class="font-black text-sky-950 text-sm uppercase">Digital Pass / Ticket Generated</h3>
+          <p class="text-[10px] text-sky-600">Secure Drop Travel GB - QR Pass</p>
         </div>
-        <div id="receiptContent" class="text-xs text-sky-950 space-y-1"></div>
+        <div id="receiptContent" class="text-xs text-sky-950 space-y-1 text-left"></div>
+        <div class="p-3 bg-sky-50 rounded-xl border border-sky-200 inline-block">
+          <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=SecureDropGB-Verified-Ticket" alt="QR Code" class="mx-auto">
+          <p class="text-[9px] text-sky-600 font-bold mt-1">Show this QR during boarding</p>
+        </div>
         <div class="flex gap-2 pt-2">
-          <button onclick="window.print()" class="w-1/2 bg-sky-100 text-sky-900 py-2 rounded-xl font-bold text-xs">Print Ticket</button>
+          <button onclick="window.print()" class="w-1/2 bg-sky-100 text-sky-900 py-2 rounded-xl font-bold text-xs">Print Pass</button>
           <button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="w-1/2 bg-sky-600 text-white py-2 rounded-xl font-bold text-xs">Close</button>
         </div>
       </div>
@@ -267,9 +278,32 @@
 
     <!-- ADMIN SECTION (Protected by PIN 5426) -->
     <div id="adminSection" class="space-y-4 hidden">
+      
+      <!-- Admin Broadcast Control -->
+      <div class="bg-white/95 p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide flex items-center gap-1.5"><i class="fa-solid fa-bullhorn text-amber-600"></i> Admin Emergency Broadcast Manager</h3>
+        <p class="text-[10px] text-sky-600">Broadcast road alerts or updates to all users across the app in real-time.</p>
+        <div class="space-y-2 text-xs">
+          <input type="text" id="adminBroadcastInput" placeholder="Enter road/weather alert message..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-sky-950 font-medium">
+          <div class="flex gap-2">
+            <button onclick="updateAdminBroadcast()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-black px-3 py-2 rounded-xl text-xs transition">Publish Broadcast</button>
+            <button onclick="clearAdminBroadcast()" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-2 rounded-xl text-xs transition">Clear Broadcast</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Payment Settings Manager -->
+      <div class="bg-white/95 p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> Admin Payment Accounts Manager</h3>
+        <div class="space-y-2 text-xs">
+          <input type="text" id="adminPaymentInput" placeholder="e.g. JazzCash: 0311-9933029 | Bank IBAN: PK00SCDB..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-sky-950 font-medium">
+          <button onclick="updateAdminPaymentInfo()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs w-full">Save & Update Payment Details</button>
+        </div>
+      </div>
+
       <div class="grid grid-cols-3 gap-2 text-center text-xs">
         <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
-          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Bookings/Quotes</p>
+          <p class="text-[10px] text-sky-600 font-bold uppercase">Total Bookings</p>
           <h4 id="adminTotalRides" class="font-black text-sky-950 text-sm mt-0.5">0</h4>
         </div>
         <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
@@ -284,6 +318,28 @@
 
       <div class="bg-white/95 p-3 rounded-2xl shadow border border-sky-200">
         <input type="text" id="adminSearchInput" oninput="filterAdminBookings()" placeholder="Search by email, route, or status..." class="w-full bg-sky-50 border border-sky-300 rounded-xl p-2.5 text-xs text-sky-950 font-medium">
+      </div>
+
+      <!-- Registered Users List Section -->
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide flex items-center justify-between">
+          <span><i class="fa-solid fa-users text-sky-600 mr-1"></i> Registered Users Directory</span>
+          <span id="totalUsersCount" class="bg-sky-200 text-sky-900 px-2 py-0.5 rounded text-[10px] font-black">0 Users</span>
+        </h3>
+        <div id="adminUsersList" class="space-y-2 max-h-40 overflow-y-auto text-xs">
+          <p class="text-sky-500 text-center py-2">Loading users...</p>
+        </div>
+      </div>
+
+      <!-- Admin Live Chat Review Box & Clear Option -->
+      <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-black text-sky-950 uppercase tracking-wide"><i class="fa-solid fa-comments text-sky-600 mr-1"></i> Live Chat Inbox (User Inquiries)</h3>
+          <button onclick="clearAllChats()" class="bg-red-100 text-red-700 hover:bg-red-200 font-bold px-2.5 py-1 rounded-lg text-[10px]">Clear All Chats</button>
+        </div>
+        <div id="adminChatInbox" class="bg-sky-50 p-3 rounded-2xl border border-sky-200 h-40 overflow-y-auto space-y-2 text-xs">
+          <p class="text-sky-500 text-center py-2">Loading live chats...</p>
+        </div>
       </div>
 
       <div class="bg-white/95 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-sky-200 space-y-3">
@@ -313,9 +369,9 @@
   </div>
 
   <!-- Footer with Prime Solutions & Muhammad Nazim Link -->
-  <footer class="w-full max-w-2xl text-center py-6 mt-8 border-t border-sky-300/60 text-xs text-sky-900 space-y-1">
+  <footer class="w-full max-w-2xl text-center py-6 mt-8 border-t border-sky-300/60 text-xs text-sky-900 space-y-1.5">
     <p class="font-bold">Secure Drop Travel GB © 2026. All Rights Reserved.</p>
-    <p class="text-[11px]">Powered by <a href="https://github.com" target="_blank" class="font-black text-sky-950 underline hover:text-sky-700">Prime Solutions</a> | Founder, CEO & Lead Web Developer: <strong class="text-sky-950">Muhammad Nazim</strong></p>
+    <p class="text-[11px]">Powered by <a href="http://web-hub-code.github.io/primesolutions/" target="_blank" class="font-black text-sky-950 underline hover:text-sky-700">Prime Solutions</a> | Founder, CEO & Lead Web Developer: <strong class="text-sky-950">Muhammad Nazim</strong></p>
   </footer>
 
   <!-- Floating WhatsApp Help (+923119933029) -->
@@ -325,6 +381,15 @@
 
   <!-- PWA Service Worker & App Logic -->
   <script type="module">
+    // Splash screen timeout simulation
+    setTimeout(() => {
+      const splash = document.getElementById('splashScreen');
+      if(splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 700);
+      }
+    }, 1500);
+
     const manifestData = {
       "name": "Secure Drop Travel Gilgit-Baltistan",
       "short_name": "SecureDrop GB",
@@ -352,7 +417,7 @@
 
     if ('serviceWorker' in navigator) {
       const swCode = `
-        const CACHE_NAME = 'securedrop-v3';
+        const CACHE_NAME = 'securedrop-v7';
         self.addEventListener('install', (e) => {
           e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
         });
@@ -392,7 +457,7 @@
       onAuthStateChanged, 
       signOut 
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, set, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
@@ -437,6 +502,34 @@
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('appScreen').classList.remove('hidden');
 
+        // Listen for Payment Info
+        onValue(ref(db, 'paymentInfo'), (snapshot) => {
+          const info = snapshot.exists() ? snapshot.val() : "JazzCash / EasyPaisa: 0311-9933029 | Bank IBAN: Contact Admin";
+          document.getElementById('clientPaymentDisplay').innerText = info;
+        });
+
+        // Listen for Broadcast Alerts
+        onValue(ref(db, 'broadcastAlert'), (snapshot) => {
+          const banner = document.getElementById('broadcastBanner');
+          if (snapshot.exists() && snapshot.val()) {
+            document.getElementById('broadcastTextDisplay').innerText = snapshot.val();
+            banner.classList.remove('hidden');
+          } else {
+            banner.classList.add('hidden');
+          }
+        });
+
+        // Load User Profile Data
+        onValue(ref(db, `users/${user.uid}`), (snapshot) => {
+          if(snapshot.exists()) {
+            const pData = snapshot.val();
+            if(pData.name) document.getElementById('profileName').value = pData.name;
+            if(pData.phone) document.getElementById('profilePhone').value = pData.phone;
+          }
+        });
+
+        loadChatMessages(user.uid);
+
         if (user.email === ADMIN_EMAIL || user.email.includes("admin")) {
           let enteredPin = prompt("Admin Access Detected! Please enter Admin PIN (5426):");
           if (enteredPin === ADMIN_PIN) {
@@ -444,6 +537,8 @@
             document.getElementById('adminSection').classList.remove('hidden');
             document.getElementById('userSection').classList.add('hidden');
             loadAllBookingsForAdmin();
+            loadAdminChatInbox();
+            loadAdminUsersDirectory();
           } else {
             alert("Galat PIN! User mode par redirect kiya ja raha hai.");
             setupUserMode(user);
@@ -466,6 +561,21 @@
 
     window.logout = function() {
       signOut(auth);
+    }
+
+    window.saveUserProfile = function() {
+      const name = document.getElementById('profileName').value.trim();
+      const phone = document.getElementById('profilePhone').value.trim();
+      if(!name || !phone) return alert("Baraye meherbani Name aur Phone dono enter karein.");
+
+      set(ref(db, `users/${currentUser.uid}`), {
+        email: currentUser.email,
+        name: name,
+        phone: phone,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        alert("Profile details successfully updated!");
+      });
     }
 
     window.updateEstimateDetails = function() {
@@ -530,6 +640,108 @@
       });
     }
 
+    // In-App Chat Functions
+    window.sendChatMessage = function() {
+      const msg = document.getElementById('chatInputMessage').value.trim();
+      if(!msg) return;
+
+      push(ref(db, `chats/${currentUser.uid}`), {
+        sender: currentUser.email,
+        message: msg,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        document.getElementById('chatInputMessage').value = "";
+      });
+    }
+
+    function loadChatMessages(uid) {
+      onValue(ref(db, `chats/${uid}`), (snapshot) => {
+        const box = document.getElementById('chatBoxContainer');
+        box.innerHTML = "";
+        if(snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((k) => {
+            const c = data[k];
+            const div = document.createElement('div');
+            div.className = "p-2 bg-white rounded-xl border border-sky-100 shadow-sm";
+            div.innerHTML = `<p class="font-bold text-sky-950">${c.sender}:</p><p class="text-sky-800">${c.message}</p>`;
+            box.appendChild(div);
+          });
+          box.scrollTop = box.scrollHeight;
+        } else {
+          box.innerHTML = `<p class="text-sky-500 text-center py-2">No messages yet. Start conversation with admin!</p>`;
+        }
+      });
+    }
+
+    function loadAdminChatInbox() {
+      onValue(ref(db, 'chats/'), (snapshot) => {
+        const inbox = document.getElementById('adminChatInbox');
+        inbox.innerHTML = "";
+        if(snapshot.exists()) {
+          const allChats = snapshot.val();
+          Object.keys(allChats).forEach((uid) => {
+            const userMsgs = allChats[uid];
+            Object.keys(userMsgs).forEach((k) => {
+              const c = userMsgs[k];
+              const div = document.createElement('div');
+              div.className = "p-2.5 bg-white rounded-xl border border-sky-200 shadow-sm";
+              div.innerHTML = `<p class="font-black text-sky-950 text-[10px]">User: ${c.sender}</p><p class="text-sky-900 font-medium">${c.message}</p>`;
+              inbox.appendChild(div);
+            });
+          });
+        } else {
+          inbox.innerHTML = `<p class="text-sky-500 text-center py-2">No incoming live chats.</p>`;
+        }
+      });
+    }
+
+    window.clearAllChats = function() {
+      if(confirm("Kya aap saari live chats clear karna chahte hain?")) {
+        set(ref(db, 'chats/'), null).then(() => alert("All chats cleared successfully!"));
+      }
+    }
+
+    // Admin Broadcast Functions
+    window.updateAdminBroadcast = function() {
+      const alertMsg = document.getElementById('adminBroadcastInput').value.trim();
+      if(alertMsg) {
+        set(ref(db, 'broadcastAlert'), alertMsg).then(() => {
+          alert("Broadcast alert published successfully!");
+          document.getElementById('adminBroadcastInput').value = "";
+        });
+      }
+    }
+
+    window.clearAdminBroadcast = function() {
+      set(ref(db, 'broadcastAlert'), null).then(() => {
+        alert("Broadcast alert cleared!");
+      });
+    }
+
+    // Admin Users Directory
+    function loadAdminUsersDirectory() {
+      onValue(ref(db, 'users/'), (snapshot) => {
+        const dir = document.getElementById('adminUsersList');
+        dir.innerHTML = "";
+        if(snapshot.exists()) {
+          const users = snapshot.val();
+          const keys = Object.keys(users);
+          document.getElementById('totalUsersCount').innerText = `${keys.length} Users`;
+          keys.forEach((uid) => {
+            const u = users[uid];
+            const div = document.createElement('div');
+            div.className = "p-2.5 bg-white rounded-xl border border-sky-200 flex justify-between items-center";
+            div.innerHTML = `<div><p class="font-black text-sky-950">${u.name || 'No Name'} (${u.email})</p><p class="text-[10px] text-sky-600">Phone: ${u.phone || 'N/A'}</p></div>`;
+            dir.appendChild(div);
+          });
+        } else {
+          dir.innerHTML = `<p class="text-sky-500 text-center py-2">No registered users found.</p>`;
+          document.getElementById('totalUsersCount').innerText = `0 Users`;
+        }
+      });
+    }
+
     window.submitFeedback = function() {
       const fb = document.getElementById('feedbackInput').value.trim();
       if(!fb) return alert("Feedback input karein.");
@@ -541,6 +753,16 @@
         alert("Shukriya! Aapka corporate feedback submit ho gaya hai.");
         document.getElementById('feedbackInput').value = "";
       });
+    }
+
+    window.updateAdminPaymentInfo = function() {
+      const info = document.getElementById('adminPaymentInput').value.trim();
+      if(info) {
+        set(ref(db, 'paymentInfo'), info).then(() => {
+          alert("Payment details successfully updated for all users!");
+          document.getElementById('adminPaymentInput').value = "";
+        });
+      }
     }
 
     function loadUserBookings(userId) {
@@ -615,7 +837,6 @@
 
     function renderAdminBookings(list) {
       const adminList = document.getElementById('adminBookingsList');
-      adminList.html = "";
       adminList.innerHTML = "";
       document.getElementById('totalBookingsCount').innerText = `${list.length} Records`;
 
