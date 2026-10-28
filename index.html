@@ -4,17 +4,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <title>Secure Drop Gilgit | 100% Free Ride & Cargo Transport Network</title>
-    <meta name="description" content="Secure Drop Gilgit - Free ride-sharing, fare bidding, and cargo delivery in Gilgit city with zero commission.">
+    <meta name="description" content="Secure Drop Gilgit is Gilgit city's premier free ride-sharing, inDrive style bidding, and cargo delivery network with zero commission.">
     <meta name="theme-color" content="#0284c7">
 
-    <!-- Tailwind CSS & Icons -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' }
     </script>
+    <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Leaflet OpenStreetMap -->
+    <!-- Leaflet OpenStreetMap CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -32,14 +32,30 @@
         .sky-card { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); }
         .dark .sky-card { background: rgba(30, 41, 59, 0.96); backdrop-filter: blur(10px); }
         #leafletMapContainer { height: 100%; width: 100%; z-index: 10; }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-toast-in { animation: slideInLeft 0.5s ease-out forwards; }
     </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-24 min-h-screen relative transition-colors duration-300">
+<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans pb-36 min-h-screen relative transition-colors duration-300">
+
+    <!-- PUSH NOTIFICATION TOAST POPUP -->
+    <div id="appPushNotificationToast" class="fixed top-4 right-4 z-50 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-sky-500/50 hidden animate-toast-in max-w-sm flex items-center space-x-3 backdrop-blur-md">
+        <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-bell text-lg"></i>
+        </div>
+        <div>
+            <h5 id="pushToastTitle" class="font-black text-xs text-sky-300">Secure Drop Gilgit</h5>
+            <p id="pushToastDesc" class="text-[11px] text-slate-200 mt-0.5">New update received on network.</p>
+        </div>
+    </div>
 
     <!-- Header Bar -->
     <header class="sticky top-0 z-30 sky-glass border-b border-sky-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
-            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 dark:bg-slate-800 text-sky-900 dark:text-sky-300 rounded-xl font-black text-sm">
+            <button onclick="toggleSidebarMenu()" class="p-2 bg-sky-100 dark:bg-slate-800 text-sky-900 dark:text-sky-300 rounded-xl font-black text-sm shadow-sm">
                 <i class="fa-solid fa-bars"></i>
             </button>
             <div>
@@ -53,10 +69,17 @@
         </div>
 
         <div class="flex items-center space-x-2">
-            <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black">
+            <!-- Language Selector -->
+            <select id="appLangSelector" onchange="changeAppLanguage(this.value)" class="bg-sky-100 dark:bg-slate-800 text-sky-900 dark:text-sky-300 text-[10px] font-black p-1.5 rounded-xl border border-sky-200 dark:border-slate-700">
+                <option value="en">English</option>
+                <option value="ur">اردو</option>
+                <option value="sh">Shina</option>
+                <option value="bl">Balti</option>
+            </select>
+            <button onclick="toggleDarkMode()" class="bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-amber-400 p-2 rounded-xl text-xs font-black shadow-sm">
                 <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
             </button>
-            <button onclick="handleLogoutSystem()" class="bg-rose-500 text-white p-2 rounded-xl text-xs font-black">
+            <button onclick="handleLogoutSystem()" class="bg-rose-500 text-white p-2 rounded-xl text-xs font-black shadow-sm" title="Logout">
                 <i class="fa-solid fa-power-off"></i>
             </button>
         </div>
@@ -65,98 +88,141 @@
     <!-- Main Workspace -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
 
-        <!-- Dynamic Active Users Count -->
-        <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md">
+        <!-- DYNAMIC ACTIVE USERS BANNER -->
+        <div class="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl flex justify-between items-center text-xs shadow-md border border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
-                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">54</span> Free Gilgit Captains Online</span>
+                <span class="font-extrabold text-[11px]"><span id="dynamicActiveUserCount" class="text-emerald-400 font-black">54</span> <span data-i18n="activeCaptains">Free Gilgit Captains Online</span></span>
             </div>
-            <span class="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Zero Commission</span>
+            <span class="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">0% Commission</span>
         </div>
 
         <!-- Role Selector Switch -->
-        <div id="appRoleSwitchContainer" class="bg-sky-200/80 dark:bg-slate-800 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 dark:border-slate-700">
-            <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-xl bg-sky-600 text-white shadow flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-user"></i><span>Passenger</span>
+        <div id="appRoleSwitchContainer" class="bg-sky-200/80 dark:bg-slate-800 p-1 rounded-2xl flex text-[11px] font-extrabold border border-sky-300 dark:border-slate-700 shadow-inner">
+            <button id="btnPassengerView" onclick="switchAppRole('passenger')" class="flex-1 py-2 rounded-xl bg-sky-600 text-white shadow transition flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-user"></i><span data-i18n="navPassenger">Passenger</span>
             </button>
-            <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-box-open"></i><span>Cargo</span>
+            <button id="btnParcelView" onclick="switchAppRole('parcel')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-box-open"></i><span data-i18n="navCargo">Cargo</span>
             </button>
-            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1 hidden">
-                <i class="fa-solid fa-van-shuttle"></i><span>Captain</span>
+            <button id="btnWalletView" onclick="switchAppRole('wallet')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-wallet"></i><span data-i18n="navWallet">Wallet</span>
             </button>
-            <button id="btnControlPanelView" onclick="switchAppRole('control')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 flex items-center justify-center space-x-1 hidden">
-                <i class="fa-solid fa-shield-halved"></i><span>Admin</span>
+            <button id="btnDriverView" onclick="switchAppRole('driver')" class="flex-1 py-2 rounded-xl text-sky-800 dark:text-slate-300 hover:text-sky-950 transition flex items-center justify-center space-x-1 hidden">
+                <i class="fa-solid fa-van-shuttle"></i><span data-i18n="navCaptain">Captain</span>
             </button>
         </div>
 
         <!-- PASSENGER SECTION -->
-        <div id="passengerSection" class="space-y-5">
+        <div id="passengerSection" class="space-y-5 transition-all duration-300">
             <!-- Map Container -->
             <div class="relative rounded-3xl overflow-hidden shadow-lg border border-sky-200 dark:border-slate-800 h-48 bg-slate-900">
                 <div id="leafletMapContainer"></div>
+                <div class="absolute top-3 right-3 z-20 flex space-x-2">
+                    <button onclick="triggerEmergencySOS()" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow-xl flex items-center space-x-1 border border-rose-400 animate-pulse">
+                        <i class="fa-solid fa-triangle-exclamation"></i><span>SOS</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Booking Form -->
+            <!-- Ride Request Widget with Multi-Stop & Schedule Options -->
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
-                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-route text-sky-600 mr-1"></i> Book Free Ride in Gilgit City</h3>
-                <div class="space-y-2 text-xs">
-                    <input type="text" id="customPickupInput" placeholder="Pickup Area (e.g. Jutial)..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
-                    <input type="text" id="customDropInput" placeholder="Drop Area (e.g. Konodas)..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
-                    <input type="number" id="passengerProposedFare" value="400" placeholder="Fare in PKR" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-black">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-route text-sky-600 mr-1"></i> <span data-i18n="bookRideTitle">Book Free Ride in Gilgit City</span></h3>
+                    <span class="text-[9px] bg-emerald-100 dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 font-extrabold px-2 py-0.5 rounded-full">0% Commission</span>
                 </div>
-                <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 text-white font-black py-3 rounded-xl text-xs shadow-md">
-                    Broadcast Ride Request
+
+                <div class="space-y-2 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1" data-i18n="pickupLabel">Pickup Area (Gilgit)</label>
+                        <input type="text" id="customPickupInput" placeholder="e.g. Jutial..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1" data-i18n="waypointLabel">Intermediate Stop / Multi-Stop (Optional)</label>
+                        <input type="text" id="customWaypointInput" placeholder="e.g. Stop at Danyor Bridge..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1" data-i18n="dropLabel">Drop Area (Gilgit)</label>
+                        <input type="text" id="customDropInput" placeholder="e.g. Konodas..." class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <div>
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1" data-i18n="fareLabel">Proposed Fare (PKR)</label>
+                            <input type="number" id="passengerProposedFare" value="400" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-black text-slate-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1" data-i18n="scheduleLabel">Schedule Time (Optional)</label>
+                            <input type="datetime-local" id="passengerScheduleTime" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-bold text-slate-900 dark:text-white text-[10px]">
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="publishCustomInDriveRide()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-black py-3 rounded-xl text-xs shadow-md transition">
+                    <span data-i18n="broadcastBtn">Broadcast Ride Request (Free)</span>
                 </button>
             </div>
         </div>
 
         <!-- CARGO SECTION -->
-        <div id="parcelSection" class="space-y-5 hidden">
+        <div id="parcelSection" class="space-y-5 hidden transition-all duration-300">
             <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
-                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-box-open text-amber-500 mr-1"></i> Cargo & Delivery Booking</h3>
-                <input type="text" id="parcelItemName" placeholder="Item Description (e.g. Electronics Box)" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
-                <input type="text" id="parcelReceiver" placeholder="Receiver Name & Phone" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold">
-                <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Free Cargo</button>
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-box-open text-amber-500 mr-1"></i> Gilgit Free Cargo & Courier Booking</h3>
+                <div class="space-y-2">
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Package Name / Description</label>
+                        <input type="text" id="parcelItemName" placeholder="e.g. Electronic Box / Documents" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-600 dark:text-slate-300 mb-1">Receiver Name & Phone</label>
+                        <input type="text" id="parcelReceiver" placeholder="Kamran Ali (+92 3XX XXXXXXX)" class="w-full p-2.5 bg-white dark:bg-slate-800 border border-sky-200 dark:border-slate-700 rounded-xl font-semibold text-slate-900 dark:text-white">
+                    </div>
+                </div>
+                <button onclick="dispatchCargoCourierPackage()" class="w-full bg-amber-500 text-slate-950 font-black py-3 rounded-xl shadow">Dispatch Free Cargo Tracking</button>
+            </div>
+        </div>
+
+        <!-- WALLET & REWARDS SECTION -->
+        <div id="walletSection" class="space-y-5 hidden transition-all duration-300">
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-wallet text-amber-500 mr-1"></i> In-App Loyalty Wallet</h3>
+                    <span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded-full">Rewards Active</span>
+                </div>
+                <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 p-4 rounded-2xl text-center space-y-1 shadow-md">
+                    <p class="text-[10px] font-black uppercase tracking-wider">Available Loyalty Coins</p>
+                    <p class="text-3xl font-black" id="walletLoyaltyCoinsDisplay">250 Coins</p>
+                    <p class="text-[9px] font-semibold">Redeem coins for free ride discounts in Gilgit city!</p>
+                </div>
+                <button onclick="redeemLoyaltyCoins()" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl text-xs shadow">Redeem 50 Coins for PKR 100 Discount</button>
             </div>
         </div>
 
         <!-- DRIVER SECTION -->
-        <div id="driverSection" class="space-y-5 hidden">
-            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm text-xs">
-                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Live Ride Requests Feed</h3>
-                <div id="driverLiveBiddingFeed" class="space-y-2">
-                    <p class="text-slate-400 text-center py-2">Listening for incoming Gilgit passenger requests...</p>
+        <div id="driverSection" class="space-y-5 hidden transition-all duration-300">
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white">Captain Analytics & Live Feed</h3>
+                    <span class="text-[9px] bg-emerald-500 text-white font-black px-2 py-0.5 rounded-full uppercase">0% Commission</span>
+                </div>
+                <div class="bg-slate-900 text-white p-3 rounded-2xl text-center space-y-1">
+                    <p class="text-[10px] text-emerald-400 uppercase font-bold">Total Net Earnings (Keep 100%)</p>
+                    <p class="text-2xl font-black text-emerald-300" id="driverTodayEarnings">PKR 1,200</p>
                 </div>
             </div>
-        </div>
 
-        <!-- ADMIN SECTION -->
-        <div id="controlSection" class="space-y-5 hidden">
-            <div class="bg-slate-900 text-white p-5 rounded-3xl space-y-4 shadow-xl border border-slate-800 text-xs">
-                <h3 class="font-black text-base text-white"><i class="fa-solid fa-shield-halved text-amber-400 mr-1"></i> Gilgit Admin Portal</h3>
-                <div id="adminMasterRidesFeed" class="space-y-2">
-                    <p class="text-slate-400 text-center py-2">Loading system records...</p>
+            <div class="sky-card p-4 rounded-3xl border border-sky-200 dark:border-slate-800 space-y-3 shadow-sm">
+                <h3 class="text-xs font-black uppercase text-slate-900 dark:text-white"><i class="fa-solid fa-car text-sky-600 mr-1"></i> Gilgit Ride Requests Feed</h3>
+                <div id="driverLiveBiddingFeed" class="space-y-2 text-xs">
+                    <p class="text-slate-400 text-center py-2">Listening for incoming Gilgit passenger requests...</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Bottom Nav -->
-    <nav class="fixed bottom-0 left-0 right-0 z-30 sky-glass border-t border-sky-200 dark:border-slate-800 px-4 py-2.5 flex justify-around items-center shadow-2xl">
-        <button onclick="switchAppRole('passenger')" class="flex flex-col items-center text-sky-600 dark:text-sky-400 font-black text-[10px]">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span>Ride</span>
-        </button>
-        <button onclick="switchAppRole('parcel')" class="flex flex-col items-center text-slate-500 dark:text-slate-400 font-bold text-[10px]">
-            <i class="fa-solid fa-box-open text-lg"></i>
-            <span>Cargo</span>
-        </button>
-    </nav>
-
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
     <script>
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyAfFNeNiZD-pV4-Xwrom6z5-yQ6b5Bk5kQ",
             authDomain: "talkzone-3dd4a.firebaseapp.com",
@@ -174,6 +240,75 @@
         const auth = firebase.auth();
         const rtdb = firebase.database();
         let leafletMap = null;
+        let loyaltyCoins = 250;
+
+        // MULTI-LANGUAGE DICTIONARY (English, Urdu, Shina, Balti)
+        const i18nDict = {
+            en: {
+                activeCaptains: "Free Gilgit Captains Online",
+                navPassenger: "Passenger",
+                navCargo: "Cargo",
+                navWallet: "Wallet",
+                navCaptain: "Captain",
+                bookRideTitle: "Book Free Ride in Gilgit City",
+                pickupLabel: "Pickup Area (Gilgit)",
+                waypointLabel: "Intermediate Stop / Multi-Stop (Optional)",
+                dropLabel: "Drop Area (Gilgit)",
+                fareLabel: "Proposed Fare (PKR)",
+                scheduleLabel: "Schedule Time (Optional)",
+                broadcastBtn: "Broadcast Ride Request (Free)"
+            },
+            ur: {
+                activeCaptains: "مفت گلگت کیپٹن آن لائن",
+                navPassenger: "مسافر",
+                navCargo: "کارگو",
+                navWallet: "والٹ",
+                navCaptain: "کیپٹن",
+                bookRideTitle: "گلگت شہر میں مفت رائیڈ بک کریں",
+                pickupLabel: "پک اپ ایریا (گلگت)",
+                waypointLabel: "راستے کا اسٹاپ (اختیاری)",
+                dropLabel: "ڈراپ ایریا (گلگت)",
+                fareLabel: "تجویز کردہ کرایہ (روپے)",
+                scheduleLabel: "شیڈول وقت (اختیاری)",
+                broadcastBtn: "رائیڈ کی درخواست بھیجیں (مفت)"
+            },
+            sh: {
+                activeCaptains: "Gilgit Captain Online (Shina)",
+                navPassenger: "Passenger",
+                navCargo: "Cargo",
+                navWallet: "Wallet",
+                navCaptain: "Captain",
+                bookRideTitle: "Gilgit Free Ride Book Kuru",
+                pickupLabel: "Pickup Area",
+                waypointLabel: "Stop",
+                dropLabel: "Drop Area",
+                fareLabel: "Fare (PKR)",
+                scheduleLabel: "Schedule Time",
+                broadcastBtn: "Broadcast Ride"
+            },
+            bl: {
+                activeCaptains: "Gilgit Captain Online (Balti)",
+                navPassenger: "Passenger",
+                navCargo: "Cargo",
+                navWallet: "Wallet",
+                navCaptain: "Captain",
+                bookRideTitle: "Gilgit Free Ride Book Skuru",
+                pickupLabel: "Pickup Area",
+                waypointLabel: "Stop",
+                dropLabel: "Drop Area",
+                fareLabel: "Fare (PKR)",
+                scheduleLabel: "Schedule Time",
+                broadcastBtn: "Broadcast Ride"
+            }
+        };
+
+        function changeAppLanguage(lang) {
+            const dict = i18nDict[lang] || i18nDict['en'];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+        }
 
         window.addEventListener('load', () => {
             initLeafletMap();
@@ -185,22 +320,20 @@
         }
 
         function switchAppRole(role) {
-            document.getElementById('passengerSection').classList.add('hidden');
-            document.getElementById('parcelSection').classList.add('hidden');
-            document.getElementById('driverSection').classList.add('hidden');
-            document.getElementById('controlSection').classList.add('hidden');
-
+            ['passengerSection', 'parcelSection', 'walletSection', 'driverSection'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
             if (role === 'passenger') document.getElementById('passengerSection').classList.remove('hidden');
             if (role === 'parcel') document.getElementById('parcelSection').classList.remove('hidden');
+            if (role === 'wallet') document.getElementById('walletSection').classList.remove('hidden');
             if (role === 'driver') document.getElementById('driverSection').classList.remove('hidden');
-            if (role === 'control') document.getElementById('controlSection').classList.remove('hidden');
         }
 
         function initLeafletMap() {
             if (document.getElementById('leafletMapContainer') && !leafletMap) {
                 leafletMap = L.map('leafletMapContainer').setView([35.9208, 74.3087], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
-                L.marker([35.9208, 74.3087]).addTo(leafletMap).bindPopup('<b>Gilgit HQ</b>');
+                L.marker([35.9208, 74.3087]).addTo(leafletMap).bindPopup('<b>Secure Drop Gilgit City HQ</b>').openPopup();
             }
         }
 
@@ -208,21 +341,61 @@
             const pickup = document.getElementById('customPickupInput').value;
             const drop = document.getElementById('customDropInput').value;
             const fare = document.getElementById('passengerProposedFare').value;
+            const waypoint = document.getElementById('customWaypointInput').value;
+            const scheduleTime = document.getElementById('passengerScheduleTime').value;
 
             if (!pickup || !drop) {
-                alert("Please fill pickup and drop points.");
+                alert("Please enter pickup and drop locations.");
                 return;
             }
 
             rtdb.ref('rides').push({
                 pickup: pickup,
+                waypoint: waypoint || "None",
                 drop: drop,
                 fare: fare,
+                scheduleTime: scheduleTime || "Immediate",
                 status: "Pending",
                 timestamp: Date.now()
             }).then(() => {
-                alert("Ride broadcasted successfully!");
+                alert("Ride broadcasted successfully across Gilgit network!");
             });
+        }
+
+        function dispatchCargoCourierPackage() {
+            const itemName = document.getElementById('parcelItemName').value;
+            const receiver = document.getElementById('parcelReceiver').value;
+            if (!itemName) {
+                alert("Please fill item details.");
+                return;
+            }
+            rtdb.ref('cargo_parcels').push({
+                itemName: itemName,
+                receiver: receiver,
+                status: "Dispatched",
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Cargo dispatched successfully!");
+            });
+        }
+
+        function redeemLoyaltyCoins() {
+            if (loyaltyCoins >= 50) {
+                loyaltyCoins -= 50;
+                document.getElementById('walletLoyaltyCoinsDisplay').textContent = `${loyaltyCoins} Coins`;
+                alert("Successfully redeemed 50 coins for PKR 100 discount on your next ride!");
+            } else {
+                alert("Not enough loyalty coins!");
+            }
+        }
+
+        function triggerEmergencySOS() {
+            if (confirm("EMERGENCY SOS: Broadcast distress signal with GPS location to Gilgit Admin & Rescue 1122?")) {
+                rtdb.ref('emergency_sos').push({
+                    location: "Gilgit City Coordinates",
+                    timestamp: Date.now()
+                }).then(() => alert("SOS Distress signal broadcasted successfully!"));
+            }
         }
 
         function listenToDriverBiddingFeed() {
@@ -235,7 +408,6 @@
                     feed.innerHTML = `<p class="text-slate-400 text-center py-2">No active ride requests.</p>`;
                     return;
                 }
-
                 Object.keys(data).forEach(key => {
                     const r = data[key];
                     if (r.status === "Pending") {
@@ -245,28 +417,10 @@
                                     <p class="font-black text-slate-900 dark:text-white">${r.pickup} ➔ ${r.drop}</p>
                                     <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">PKR ${r.fare}</span>
                                 </div>
+                                <p class="text-[10px] text-slate-500">Stop: ${r.waypoint} | Schedule: ${r.scheduleTime}</p>
                             </div>`;
                     }
                 });
-            });
-        }
-
-        function dispatchCargoCourierPackage() {
-            const itemName = document.getElementById('parcelItemName').value;
-            const receiver = document.getElementById('parcelReceiver').value;
-
-            if (!itemName) {
-                alert("Please enter item name.");
-                return;
-            }
-
-            rtdb.ref('cargo_parcels').push({
-                itemName: itemName,
-                receiver: receiver,
-                status: "Dispatched",
-                timestamp: Date.now()
-            }).then(() => {
-                alert("Cargo dispatched successfully!");
             });
         }
 
@@ -275,5 +429,4 @@
         }
     </script>
 </body>
-              </html>
-              
+</html>
